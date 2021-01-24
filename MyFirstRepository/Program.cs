@@ -9,6 +9,7 @@ namespace MyFirstRepository
             Console.WriteLine("Hello World!");
             Console.WriteLine("Hello Junior Mind!");
             Console.WriteLine("Hello new branch made on github!");
+            Console.ReadLine();
         }
     }
 }
