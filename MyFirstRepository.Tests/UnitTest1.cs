@@ -12,5 +12,6 @@ namespace MyFirstRepository.Tests
             int rez = Program.Factorial(n);
             Assert.Equal(0, rez);
         }
+                
     }
 }
