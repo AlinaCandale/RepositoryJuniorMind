@@ -12,7 +12,13 @@ namespace MyFirstRepository
 
         static public int Factorial(int n)
         {
-            return 0;
+            int rez = 1;
+            while (n >= 1)
+            {
+                rez *= n;
+                n = n - 1;
+            }
+            return rez;
         }
     }
 }
