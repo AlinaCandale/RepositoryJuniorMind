@@ -2,12 +2,17 @@
 
 namespace MyFirstRepository
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("Hello World!");
-            Console.WriteLine("Hello Junior Mind!");
+            int n = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine(Factorial(n));
+        }
+
+        static public int Factorial(int n)
+        {
+            return -1;
         }
     }
 }

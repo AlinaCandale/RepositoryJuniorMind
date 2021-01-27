@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFirstRepository", "MyFirstRepository.csproj", "{158B99D1-438C-4835-8082-9291B6583453}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFirstRepository", "MyFirstRepository.csproj", "{158B99D1-438C-4835-8082-9291B6583453}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFirstRepository.Tests", "..\MyFirstRepository.Tests\MyFirstRepository.Tests.csproj", "{1C4CA3F0-4AA6-4B8F-8482-A7AF6B469817}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{158B99D1-438C-4835-8082-9291B6583453}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{158B99D1-438C-4835-8082-9291B6583453}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{158B99D1-438C-4835-8082-9291B6583453}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C4CA3F0-4AA6-4B8F-8482-A7AF6B469817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C4CA3F0-4AA6-4B8F-8482-A7AF6B469817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C4CA3F0-4AA6-4B8F-8482-A7AF6B469817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C4CA3F0-4AA6-4B8F-8482-A7AF6B469817}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
