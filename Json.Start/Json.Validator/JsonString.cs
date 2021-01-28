@@ -6,17 +6,25 @@ namespace Json
     {
         public static bool IsJsonString(string input)
         {
-            return IsNullOrWhiteSpace(input) && IsDoubleQuoted(input);
+            return IsNullOrWhiteSpace(input)
+                && IsDoubleQuoted(input);
         }
 
         static bool IsDoubleQuoted(string input)
         {
-            return input.StartsWith('"') && input.EndsWith('"');
+            return input.StartsWith('"')
+                && input.EndsWith('"')
+                && input.Length > 1;
         }
 
         static bool IsNullOrWhiteSpace(string input)
         {
-            return !string.IsNullOrWhiteSpace(input);
+            if (input == "\"\"")
+            {
+                return true;
+            }
+
+            return !string.IsNullOrEmpty(input);
         }
     }
 }
