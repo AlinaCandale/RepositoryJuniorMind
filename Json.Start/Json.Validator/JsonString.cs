@@ -7,7 +7,8 @@ namespace Json
         public static bool IsJsonString(string input)
         {
             return IsNullOrWhiteSpace(input)
-                && IsDoubleQuoted(input);
+                && IsDoubleQuoted(input)
+                && IsControlCharacter(input);
         }
 
         static bool IsDoubleQuoted(string input)
@@ -25,6 +26,19 @@ namespace Json
             }
 
             return !string.IsNullOrEmpty(input);
+        }
+
+        static bool IsControlCharacter(string input)
+        {
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (char.IsControl(input, i))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
