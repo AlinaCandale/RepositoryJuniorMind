@@ -8,7 +8,8 @@ namespace Json
         {
             return IsNullOrWhiteSpace(input)
                 && IsDoubleQuoted(input)
-                && IsControlCharacter(input);
+                && IsControlCharacter(input)
+                && IncludesOnlyRecognizedCharacters(input);
         }
 
         static bool IsDoubleQuoted(string input)
@@ -20,11 +21,6 @@ namespace Json
 
         static bool IsNullOrWhiteSpace(string input)
         {
-            if (input == "\"\"")
-            {
-                return true;
-            }
-
             return !string.IsNullOrEmpty(input);
         }
 
@@ -39,6 +35,33 @@ namespace Json
             }
 
             return true;
+        }
+
+        static bool IncludesOnlyRecognizedCharacters(string input)
+        {
+            for (int i = 0; i < input.Length - 1; i++)
+            {
+                if (input[i] == '\\')
+                {
+                    return CheckIfCharIsContainByValues(input[i + 1]);
+                }
+            }
+
+            return true;
+        }
+
+        static bool CheckIfCharIsContainByValues(char character)
+        {
+            char[] values = { '"', '\\', '/', 'f', 'b', 'n', 'r', 't' };
+            for (int j = 0; j < values.Length; j++)
+            {
+                if (character == values[j])
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
