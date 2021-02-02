@@ -40,6 +40,7 @@ namespace Json
         static bool IncludesOnlyRecognizedCharacters(string input)
         {
             const int four = 4;
+            const int two = 2;
 
             for (int i = 0; i < input.Length - 1; i++)
             {
@@ -47,10 +48,7 @@ namespace Json
                 {
                     if (input[i + 1] == 'u' && input.Length - 1 - i >= four)
                     {
-                        return CheckIfCharIsHexadecimal(input[i + 1 + 1])
-                            && CheckIfCharIsHexadecimal(input[i + 1 + 1 + 1])
-                            && CheckIfCharIsHexadecimal(input[i + four])
-                            && CheckIfCharIsHexadecimal(input[i + four + 1]);
+                        return CheckIfCharIsHexadecimal(input, i + two);
                     }
 
                     return CheckIfCharIsContainByValues(input[i + 1]);
@@ -79,9 +77,19 @@ namespace Json
             return false;
         }
 
-        static bool CheckIfCharIsHexadecimal(char character)
+        static bool CheckIfCharIsHexadecimal(string input, int index)
         {
-            return Uri.IsHexDigit(character);
+            const int four = 4;
+            int count = 0;
+            for (int i = index; i < (index + four); i++)
+            {
+                if (Uri.IsHexDigit(input[i]))
+                {
+                    count++;
+                }
+            }
+
+            return count == four;
         }
     }
 }
