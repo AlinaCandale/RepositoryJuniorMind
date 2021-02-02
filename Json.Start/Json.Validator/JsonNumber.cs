@@ -6,6 +6,12 @@ namespace Json
     {
         public static bool IsJsonNumber(string input)
         {
+            return IsNullOrWhiteSpace(input)
+                && ContainLetters(input);
+        }
+
+        static bool ContainLetters(string input)
+        {
             for (int i = 0; i < input.Length; i++)
             {
                 if (char.IsLetter(input[i]))
@@ -15,6 +21,11 @@ namespace Json
             }
 
             return true;
+        }
+
+        static bool IsNullOrWhiteSpace(string input)
+        {
+            return !string.IsNullOrEmpty(input);
         }
     }
 }
