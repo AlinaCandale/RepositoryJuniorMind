@@ -45,6 +45,11 @@ namespace Json
                 {
                     return CheckIfCharIsContainByValues(input[i + 1]);
                 }
+
+                if (input[input.Length - 1 - 1] == '\\')
+                {
+                    return false;
+                }
             }
 
             return true;
