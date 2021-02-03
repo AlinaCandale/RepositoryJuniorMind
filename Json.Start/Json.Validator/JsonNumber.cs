@@ -19,6 +19,16 @@ namespace Json
                 return false;
             }
 
+            if (!CheckIfExponentIsComplete(input, 'e'))
+            {
+                return false;
+            }
+
+            if (!CheckIfExponentIsComplete(input, 'E'))
+            {
+                return false;
+            }
+
             for (int i = 0; i < input.Length; i++)
             {
                 if (input[i] != 'e' && input[i] != 'E' && char.IsLetter(input[i]))
@@ -63,6 +73,22 @@ namespace Json
 
             int freq = input.Split(value).Length - 1;
             return freq == 1 && input.IndexOf(value) != input.Length - 1;
+        }
+
+        static bool CheckIfExponentIsComplete(string input, char value)
+        {
+            const int two = 2;
+            int pozition = input.IndexOf(value);
+            if (pozition == input.Length - 1)
+            {
+                return false;
+            }
+            else if (input[pozition + 1] == '+' || input[pozition + 1] == '-')
+            {
+                return input.Length - 1 - pozition >= two;
+            }
+
+            return true;
         }
     }
 }
