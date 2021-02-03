@@ -7,7 +7,8 @@ namespace Json
         public static bool IsJsonNumber(string input)
         {
             return IsNullOrWhiteSpace(input)
-                && ContainLetters(input);
+                && ContainLetters(input)
+                && StartWithZero(input);
         }
 
         static bool ContainLetters(string input)
@@ -26,6 +27,20 @@ namespace Json
         static bool IsNullOrWhiteSpace(string input)
         {
             return !string.IsNullOrEmpty(input);
+        }
+
+        static bool StartWithZero(string input)
+        {
+            if (input.Length <= 1)
+            {
+                return true;
+            }
+            else if (input.Length > 1)
+            {
+                return input[0] != '0';
+            }
+
+            return true;
         }
     }
 }
