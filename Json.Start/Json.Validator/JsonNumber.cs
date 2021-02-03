@@ -9,7 +9,7 @@ namespace Json
             return IsNullOrWhiteSpace(input)
                 && ContainLetters(input)
                 && StartWithZero(input)
-                && EndWithADot(input);
+                && ContainDot(input);
         }
 
         static bool ContainLetters(string input)
@@ -49,9 +49,15 @@ namespace Json
             return true;
         }
 
-        static bool EndWithADot(string input)
+        static bool ContainDot(string input)
         {
-            return !input.Contains('.') || input.IndexOf('.') != (input.Length - 1);
+            if (!input.Contains('.'))
+            {
+                return true;
+            }
+
+            int freq = input.Split('.').Length - 1;
+            return freq == 1 && input.IndexOf('.') != input.Length - 1;
         }
     }
 }
