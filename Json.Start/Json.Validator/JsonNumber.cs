@@ -37,6 +37,11 @@ namespace Json
             }
             else if (input.Length > 1)
             {
+                if (input[1] == '.')
+                {
+                    return true;
+                }
+
                 return input[0] != '0';
             }
 
