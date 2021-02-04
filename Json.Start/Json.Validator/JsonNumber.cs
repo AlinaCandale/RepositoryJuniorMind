@@ -7,14 +7,14 @@ namespace Json
         public static bool IsJsonNumber(string input)
         {
             return IsNullOrWhiteSpace(input)
-                && CheckIfJsonContainLetterDotAndZero(input);
+                && CheckIfJsonContainValidLetterDotAndZero(input);
         }
 
-        static bool CheckIfJsonContainLetterDotAndZero(string input)
+        static bool CheckIfJsonContainValidLetterDotAndZero(string input)
         {
             return DoesNotContainLettersExceptExponent(input)
                 && StartWithZero(input)
-                && ContainCertainValue(input, '.')
+                && ContainCertainValueOnAValidPozition(input, '.')
                 && CheckIfExponentIsAfterTheFraction(input);
         }
 
@@ -51,20 +51,15 @@ namespace Json
             return !(input.Length > 1 && input[1] != '.') || input[0] != '0';
         }
 
-        static bool ContainCertainValue(string input, char value)
+        static bool ContainCertainValueOnAValidPozition(string input, char value)
         {
-            if (!input.Contains(value))
-            {
-                return true;
-            }
-
             int freq = input.Split(value).Length - 1;
-            return freq == 1 && input.IndexOf(value) != input.Length - 1;
+            return freq <= 1 && input.IndexOf(value) != input.Length - 1;
         }
 
         static bool CheckIfExponentIsComplete(string input, char value)
         {
-            if (!ContainCertainValue(input, 'e'))
+            if (!ContainCertainValueOnAValidPozition(input, 'e'))
             {
                 return false;
             }
