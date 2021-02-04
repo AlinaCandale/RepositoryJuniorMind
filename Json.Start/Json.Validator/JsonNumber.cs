@@ -7,18 +7,19 @@ namespace Json
         public static bool IsJsonNumber(string input)
         {
             return IsNullOrWhiteSpace(input)
-                && ContainLetters(input)
+                && CheckIfJsonContainLetterDotAndZero(input);
+        }
+
+        static bool CheckIfJsonContainLetterDotAndZero(string input)
+        {
+            return ContainLetters(input)
                 && StartWithZero(input)
-                && ContainCertainValue(input, '.');
+                && ContainCertainValue(input, '.')
+                && CheckIfExponentIsAfterTheFraction(input);
         }
 
         static bool ContainLetters(string input)
         {
-            if (!ContainCertainValue(input, 'e'))
-            {
-                return false;
-            }
-
             if (!CheckIfExponentIsComplete(input, 'e'))
             {
                 return false;
@@ -77,7 +78,12 @@ namespace Json
 
         static bool CheckIfExponentIsComplete(string input, char value)
         {
-            const int two = 2;
+            if (!ContainCertainValue(input, 'e'))
+            {
+                return false;
+            }
+
+            const int mindistance = 2;
             int pozition = input.IndexOf(value);
             if (pozition == input.Length - 1)
             {
@@ -85,10 +91,20 @@ namespace Json
             }
             else if (input[pozition + 1] == '+' || input[pozition + 1] == '-')
             {
-                return input.Length - 1 - pozition >= two;
+                return input.Length - 1 - pozition >= mindistance;
             }
 
             return true;
+        }
+
+        static bool CheckIfExponentIsAfterTheFraction(string input)
+        {
+            if (!input.Contains('e') || !input.Contains('.'))
+            {
+                return true;
+            }
+
+            return input.IndexOf('e') > input.IndexOf('.');
         }
     }
 }
