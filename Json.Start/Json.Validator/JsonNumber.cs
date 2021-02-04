@@ -12,13 +12,13 @@ namespace Json
 
         static bool CheckIfJsonContainValidLetterDotAndZero(string input)
         {
-            return DoesNotContainLettersExceptExponent(input)
+            return ContainValidCharcters(input)
                 && CheckIfZeroIsValid(input)
                 && ContainCertainValueOnAValidPozition(input, '.')
                 && CheckIfExponentIsAfterTheFraction(input);
         }
 
-        static bool DoesNotContainLettersExceptExponent(string input)
+        static bool ContainValidCharcters(string input)
         {
             if (!CheckIfExponentIsComplete(input, 'e'))
             {
@@ -30,9 +30,10 @@ namespace Json
                 return false;
             }
 
+            const string validCharacter = "eE0123456789+-.";
             for (int i = 0; i < input.Length; i++)
             {
-                if (input[i] != 'e' && input[i] != 'E' && char.IsLetter(input[i]))
+                if (!validCharacter.Contains(input[i]))
                 {
                     return false;
                 }
