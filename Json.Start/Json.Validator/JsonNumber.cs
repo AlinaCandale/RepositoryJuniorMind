@@ -7,29 +7,31 @@ namespace Json
         public static bool IsJsonNumber(string input)
         {
             return IsNullOrWhiteSpace(input)
-                && CheckIfJsonContainValidLetterDotAndZero(input);
+                && CheckIfJsonContainValidLetterDotAndZero(input)
+                && CheckIfExponentIsValid(input);
         }
 
         static bool CheckIfJsonContainValidLetterDotAndZero(string input)
         {
-            return ContainValidCharcters(input)
-                && CheckIfZeroIsValid(input)
-                && ContainCertainValueOnAValidPozition(input, '.')
+            return ContainValidCharacters(input)
+                && CheckLeadingZeroFormat(input)
+                && ContainCertainValueOnAValidPozition(input, '.');
+        }
+
+        static bool CheckIfExponentIsValid(string input)
+        {
+            return CheckIfExponentIsComplete(input, 'e')
+                && CheckIfExponentIsComplete(input, 'E')
                 && CheckIfExponentIsAfterTheFraction(input);
         }
 
-        static bool ContainValidCharcters(string input)
+        static bool IsNullOrWhiteSpace(string input)
         {
-            if (!CheckIfExponentIsComplete(input, 'e'))
-            {
-                return false;
-            }
+            return !string.IsNullOrEmpty(input);
+        }
 
-            if (!CheckIfExponentIsComplete(input, 'E'))
-            {
-                return false;
-            }
-
+        static bool ContainValidCharacters(string input)
+        {
             const string validCharacter = "eE0123456789+-.";
             for (int i = 0; i < input.Length; i++)
             {
@@ -42,12 +44,7 @@ namespace Json
             return true;
         }
 
-        static bool IsNullOrWhiteSpace(string input)
-        {
-            return !string.IsNullOrEmpty(input);
-        }
-
-        static bool CheckIfZeroIsValid(string input)
+        static bool CheckLeadingZeroFormat(string input)
         {
             return input.Length <= 1 || input[0] != '0' || input[1] == '.';
         }
