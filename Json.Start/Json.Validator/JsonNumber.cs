@@ -12,13 +12,13 @@ namespace Json
 
         static bool CheckIfJsonContainLetterDotAndZero(string input)
         {
-            return ContainLetters(input)
+            return DoesNotContainLettersExceptExponent(input)
                 && StartWithZero(input)
                 && ContainCertainValue(input, '.')
                 && CheckIfExponentIsAfterTheFraction(input);
         }
 
-        static bool ContainLetters(string input)
+        static bool DoesNotContainLettersExceptExponent(string input)
         {
             if (!CheckIfExponentIsComplete(input, 'e'))
             {
@@ -85,12 +85,7 @@ namespace Json
 
         static bool CheckIfExponentIsAfterTheFraction(string input)
         {
-            if (!input.Contains('e') || !input.Contains('.'))
-            {
-                return true;
-            }
-
-            return input.IndexOf('e') > input.IndexOf('.');
+            return !(input.Contains('e') && input.Contains('.')) || input.IndexOf('e') > input.IndexOf('.');
         }
     }
 }
