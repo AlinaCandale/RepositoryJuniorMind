@@ -13,7 +13,7 @@ namespace Json
         static bool CheckIfJsonContainValidLetterDotAndZero(string input)
         {
             return DoesNotContainLettersExceptExponent(input)
-                && StartWithZero(input)
+                && CheckIfZeroIsValid(input)
                 && ContainCertainValueOnAValidPozition(input, '.')
                 && CheckIfExponentIsAfterTheFraction(input);
         }
@@ -46,9 +46,9 @@ namespace Json
             return !string.IsNullOrEmpty(input);
         }
 
-        static bool StartWithZero(string input)
+        static bool CheckIfZeroIsValid(string input)
         {
-            return !(input.Length > 1 && input[1] != '.') || input[0] != '0';
+            return input.Length <= 1 || input[0] != '0' || input[1] == '.';
         }
 
         static bool ContainCertainValueOnAValidPozition(string input, char value)
