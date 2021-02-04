@@ -48,21 +48,7 @@ namespace Json
 
         static bool StartWithZero(string input)
         {
-            if (input.Length <= 1)
-            {
-                return true;
-            }
-            else if (input.Length > 1)
-            {
-                if (input[1] == '.')
-                {
-                    return true;
-                }
-
-                return input[0] != '0';
-            }
-
-            return true;
+            return !(input.Length > 1 && input[1] != '.') || input[0] != '0';
         }
 
         static bool ContainCertainValue(string input, char value)
