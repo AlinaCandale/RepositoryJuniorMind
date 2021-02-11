@@ -6,29 +6,24 @@ namespace Football
 {
     public class Ranking
     {
-        FootballTeam[] List = { };
+        FootballTeam[] list = { };
 
         public void AddTeam(FootballTeam team)
         {
-            FootballTeam[] NewList = new FootballTeam[List.Length + 1];
-            for (int i = 0; i < List.Length; i++)
-            {
-                NewList[i] = List[i];
-            }
-            NewList[NewList.Length - 1] = team;
-            List = NewList;
+            Array.Resize(ref list, list.Length + 1);
+            list[list.Length - 1] = team;
         }
 
         public int CheckPozition(string team)
         {
-            if (List.Length == 0)
+            if (list.Length == 0)
             {
                 return -1;
             }
 
-            for (int i = 0; i < List.Length; i++)
+            for (int i = 0; i < list.Length; i++)
             {
-                if (List[i].GetTeamName() == team)
+                if (list[i].GetTeamName() == team)
                 {
                     return i + 1;
                 }
@@ -39,12 +34,12 @@ namespace Football
 
         public string CHeckTeamAtASpecifiedPozition(int pozition)
         {
-            if (List.Length == 0 || pozition > List.Length && pozition != 0)
+            if (list.Length == 0 || pozition > list.Length && pozition != 0)
             {
                 return "";
             }
             
-            return List[pozition - 1].GetTeamName();
+            return list[pozition - 1].GetTeamName();
             
         }
 
@@ -54,13 +49,13 @@ namespace Football
             while (x == 0)
             {
                 x = 1;
-                for (int i = 0; i < List.Length - 1; i++)
+                for (int i = 0; i < list.Length - 1; i++)
                 {
-                    for (int j = i + 1; j < List.Length; j++)
+                    for (int j = i + 1; j < list.Length; j++)
                     {
-                        if (List[j].GetTeamNumber() > List[j - 1].GetTeamNumber())
+                        if (list[j].GetTeamNumber() > list[j - 1].GetTeamNumber())
                         {
-                            Swap(List, j, j - 1);
+                            Swap(list, j, j - 1);
                             x = 0;
                         }
                     }
@@ -69,23 +64,14 @@ namespace Football
             }
         }
 
-        static void Swap(FootballTeam[] List, int firstIndex, int secondIndex)
-        {
-            (int minIndex, int maxIndex) = GetMinMaxIndex(firstIndex, secondIndex);
-
-            FootballTeam temp = List[minIndex];
-            List[minIndex] = List[maxIndex];
-            List[maxIndex] = temp;
-        }
-
-        static (int minIndex, int maxIndex) GetMinMaxIndex(int firstIndex, int secondIndex)
+        void Swap(FootballTeam[] List, int firstIndex, int secondIndex)
         {
             if (firstIndex < secondIndex)
             {
-                return (secondIndex, firstIndex);
+                FootballTeam temp = List[firstIndex];
+                List[firstIndex] = List[secondIndex];
+                List[secondIndex] = temp;
             }
-
-            return (firstIndex, secondIndex);
         }
     }
 }
