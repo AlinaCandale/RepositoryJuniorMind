@@ -27,7 +27,7 @@ namespace Football.Facts
             teamList.AddTeam(first);
             teamList.AddTeam(second);
 
-            Assert.Equal(2, teamList.GetTeamPosition(second));
+            Assert.Equal(2, teamList.GetTeamPosition(first));
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Football.Facts
             teamList.AddTeam(first);
             teamList.AddTeam(second);
 
-            Assert.Equal(1, teamList.GetTeamPosition(first));
+            Assert.Equal(1, teamList.GetTeamPosition(second));
         }
 
         [Fact]
@@ -59,8 +59,6 @@ namespace Football.Facts
             teamList.AddTeam(third);
             teamList.AddTeam(fourth);
             teamList.AddTeam(fifth);
-
-            teamList.TeamsRanking();
 
             Assert.Equal(1, teamList.GetTeamPosition(second));
             Assert.Equal(2, teamList.GetTeamPosition(first));
