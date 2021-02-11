@@ -14,15 +14,9 @@ namespace Football
             this.points = points;
         }
 
-        public string GetTeamName()
-        {
-            return teamName;
-        }
-
         public int GetTeamNumber()
         {
             return points;
         }
-
     }
 }

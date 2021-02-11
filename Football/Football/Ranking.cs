@@ -14,7 +14,7 @@ namespace Football
             list[list.Length - 1] = team;
         }
 
-        public int CheckPozition(string team)
+        public int GetTeamPosition(FootballTeam team)
         {
             if (list.Length == 0)
             {
@@ -23,7 +23,7 @@ namespace Football
 
             for (int i = 0; i < list.Length; i++)
             {
-                if (list[i].GetTeamName() == team)
+                if (list[i] == team)
                 {
                     return i + 1;
                 }
@@ -32,14 +32,14 @@ namespace Football
             return -1;
         }
 
-        public string CHeckTeamAtASpecifiedPozition(int pozition)
+        public FootballTeam GetTeamAtPosition(int pozition)
         {
             if (list.Length == 0 || pozition > list.Length && pozition != 0)
             {
-                return "";
+                return null;
             }
             
-            return list[pozition - 1].GetTeamName();
+            return list[pozition - 1];
             
         }
 

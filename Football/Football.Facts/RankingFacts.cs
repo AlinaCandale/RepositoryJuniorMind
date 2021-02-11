@@ -17,7 +17,7 @@ namespace Football.Facts
             Ranking teamList = new Ranking();
             teamList.AddTeam(first);
 
-            Assert.Equal("Steaua", teamList.CHeckTeamAtASpecifiedPozition(1));
+            Assert.Equal(first, teamList.GetTeamAtPosition(1));
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace Football.Facts
             teamList.AddTeam(first);
             teamList.AddTeam(second);
 
-            Assert.Equal(2, teamList.CheckPozition("UCluj"));
+            Assert.Equal(2, teamList.GetTeamPosition(second));
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace Football.Facts
             teamList.AddTeam(first);
             teamList.AddTeam(second);
 
-            Assert.Equal(-1, teamList.CheckPozition("Chiajna"));
+            Assert.Equal(-1, teamList.GetTeamPosition(third));
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Football.Facts
             teamList.AddTeam(first);
             teamList.AddTeam(second);
 
-            Assert.Equal(1, teamList.CheckPozition("Steaua"));
+            Assert.Equal(1, teamList.GetTeamPosition(first));
         }
 
         [Fact]
@@ -62,11 +62,11 @@ namespace Football.Facts
 
             teamList.TeamsRanking();
 
-            Assert.Equal(1, teamList.CheckPozition("UCluj"));
-            Assert.Equal(2, teamList.CheckPozition("Steaua"));
-            Assert.Equal(3, teamList.CheckPozition("Otelul"));
-            Assert.Equal(4, teamList.CheckPozition("Astra"));
-            Assert.Equal(5, teamList.CheckPozition("Chiajna"));
+            Assert.Equal(1, teamList.GetTeamPosition(second));
+            Assert.Equal(2, teamList.GetTeamPosition(first));
+            Assert.Equal(3, teamList.GetTeamPosition(fifth));
+            Assert.Equal(4, teamList.GetTeamPosition(fourth));
+            Assert.Equal(5, teamList.GetTeamPosition(third));
 
         }
     }
