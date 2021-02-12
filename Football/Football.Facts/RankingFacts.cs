@@ -67,5 +67,25 @@ namespace Football.Facts
             Assert.Equal(5, teamList.GetTeamPosition(third));
 
         }
+
+        [Fact]
+        public void CheckIfRankingIsSortedAfterAGame()
+        {
+            Ranking teamList = new Ranking();
+            teamList.AddTeam(first);
+            teamList.AddTeam(second);
+            teamList.AddTeam(third);
+            teamList.AddTeam(fourth);
+            teamList.AddTeam(fifth);
+
+            teamList.AddPointsAfterAGame("Otelul", 7);
+            teamList.AddPointsAfterAGame("Chiajna", 2);
+
+            Assert.Equal(1, teamList.GetTeamPosition(fifth));
+            Assert.Equal(2, teamList.GetTeamPosition(second));
+            Assert.Equal(3, teamList.GetTeamPosition(first));
+            Assert.Equal(4, teamList.GetTeamPosition(third));
+            Assert.Equal(5, teamList.GetTeamPosition(fourth));
+        } 
     }
 }

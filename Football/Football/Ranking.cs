@@ -65,5 +65,17 @@ namespace Football
                 }
             }
         }
+
+        public void AddPointsAfterAGame(string team, int points)
+        {
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (list[i].GetTeamName().Contains(team))
+                {
+                    list[i].AddPoints(points);
+                }
+            }
+            SortTeamsByPoints();
+        }
     }
 }

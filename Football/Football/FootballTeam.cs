@@ -6,7 +6,7 @@ namespace Football
     public class FootballTeam
     {
         readonly string teamName;
-        readonly int points;
+        int points;
 
         public FootballTeam(string teamName, int points)
         {
@@ -17,6 +17,16 @@ namespace Football
         public bool CompareTeamsPoints(FootballTeam secondTeam)
         {
             return this.points < secondTeam.points;
+        }
+
+        public void AddPoints(int points)
+        {
+            this.points += points;
+        }
+
+        public string GetTeamName()
+        {
+            return teamName;
         }
     }
 }
