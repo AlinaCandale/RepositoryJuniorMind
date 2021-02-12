@@ -50,7 +50,7 @@ namespace Football
             {
                 for (int i = 0; i <= list.Length - 2; i++)
                 {
-                    if (list[i].GetTeamNumber() < list[i + 1].GetTeamNumber())
+                    if (list[i].CompareTeamsPoints(list[i + 1]))
                     {
                         FootballTeam temp = list[i];
                         list[i] = list[i + 1];

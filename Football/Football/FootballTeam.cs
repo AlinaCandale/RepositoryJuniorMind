@@ -14,9 +14,14 @@ namespace Football
             this.points = points;
         }
 
-        public int GetTeamNumber()
+        public bool CompareTeamsPoints(FootballTeam secondTeam)
         {
-            return points;
+            if (this.points > secondTeam.points)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
