@@ -16,12 +16,7 @@ namespace Football
 
         public bool CompareTeamsPoints(FootballTeam secondTeam)
         {
-            if (this.points > secondTeam.points)
-            {
-                return false;
-            }
-
-            return true;
+            return this.points < secondTeam.points;
         }
     }
 }

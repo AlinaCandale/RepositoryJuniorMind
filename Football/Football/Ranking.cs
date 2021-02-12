@@ -33,14 +33,14 @@ namespace Football
             return -1;
         }
 
-        public FootballTeam GetTeamAtPosition(int pozition)
+        public FootballTeam GetTeamAtPosition(int position)
         {
-            if (list.Length == 0 || pozition > list.Length && pozition != 0)
+            if (list.Length == 0 || position > list.Length && position != 0)
             {
                 return null;
             }
             
-            return list[pozition - 1];
+            return list[position - 1];
             
         }
 
@@ -48,6 +48,7 @@ namespace Football
         {
             for (int j = 0; j <= list.Length - 2; j++)
             {
+
                 for (int i = 0; i <= list.Length - 2; i++)
                 {
                     if (list[i].CompareTeamsPoints(list[i + 1]))
