@@ -6,12 +6,14 @@ namespace JsonSecondPart.Facts
     public class RangeFacts
     {
         [Fact]
-        public void Test1()
+        public void CheckIfMatchIsCorrect()
         {
             Range letter = new Range('a', 'f');
-            string textToTest = "abc";
+            string textToTest1 = "abc";
+            string textToTest2 = "1bc";
 
-            Assert.True(letter.Match(textToTest));
+            Assert.True(letter.Match(textToTest1));
+            Assert.False(letter.Match(textToTest2));
         }
     }
 }
