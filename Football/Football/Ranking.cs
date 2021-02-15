@@ -41,7 +41,6 @@ namespace Football
             }
             
             return list[position - 1];
-            
         }
 
         void SortTeamsByPoints()
