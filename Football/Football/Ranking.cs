@@ -66,7 +66,6 @@ namespace Football
             }
         }
 
-
         public void AddPointsAfterAGame(FootballTeam homeTeam, FootballTeam guestTeam, int homeTeamGoals, int guestTeamGoals)
         {
             if (homeTeamGoals == guestTeamGoals)
@@ -77,11 +76,9 @@ namespace Football
             else if (homeTeamGoals > guestTeamGoals)
             {
                 homeTeam.AddPoints(3);
-                guestTeam.AddPoints(0);
             }
             else
             {
-                homeTeam.AddPoints(0);
                 guestTeam.AddPoints(3);
             }
             SortTeamsByPoints();
