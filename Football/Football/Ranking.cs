@@ -66,14 +66,23 @@ namespace Football
             }
         }
 
-        public void AddPointsAfterAGame(string team, int points)
+
+        public void AddPointsAfterAGame(FootballTeam homeTeam, FootballTeam guestTeam, int homeTeamGoals, int guestTeamGoals)
         {
-            for (int i = 0; i < list.Length; i++)
+            if (homeTeamGoals == guestTeamGoals)
             {
-                if (list[i].GetTeamName().Contains(team))
-                {
-                    list[i].AddPoints(points);
-                }
+                homeTeam.AddPoints(1);
+                guestTeam.AddPoints(1);
+            }
+            else if (homeTeamGoals > guestTeamGoals)
+            {
+                homeTeam.AddPoints(3);
+                guestTeam.AddPoints(0);
+            }
+            else
+            {
+                homeTeam.AddPoints(0);
+                guestTeam.AddPoints(3);
             }
             SortTeamsByPoints();
         }
