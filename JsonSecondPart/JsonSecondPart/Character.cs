@@ -5,7 +5,7 @@ using Xunit;
 
 namespace JsonSecondPart
 {
-    public class Character
+    public class Character : IPattern
     {
         readonly char pattern;
 
@@ -14,7 +14,7 @@ namespace JsonSecondPart
             this.pattern = pattern;
         }
 
-        public bool MatchChar(string text)
+        public bool Match(string text)
         {
             if (string.IsNullOrEmpty(text))
                 return false;
