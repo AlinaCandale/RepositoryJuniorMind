@@ -14,16 +14,19 @@ namespace JsonSecondPart
             this.patterns = patterns;
         }
 
-        public bool Match(string text)
+        public IMatch Match(string text)
         {
-            foreach (var item in patterns)
+            Match first = new Match(text);
+
+            foreach (var item in patterns )
             {
-                if (item.Match(text))
+               if (item.Match(text).Success())
                 {
-                    return true;
+                    first.SetSucces(true);
                 }
             }
-            return false;
+            
+            return first;
         }
     }
 }

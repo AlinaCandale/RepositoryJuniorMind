@@ -12,8 +12,8 @@ namespace JsonSecondPart.Facts
             string textToTest1 = "abc";
             string textToTest2 = "1bc";
 
-            Assert.True(letter.Match(textToTest1));
-            Assert.False(letter.Match(textToTest2));
+            Assert.True(letter.Match(textToTest1).Success());
+            Assert.False(letter.Match(textToTest2).Success());
         }
     }
 }

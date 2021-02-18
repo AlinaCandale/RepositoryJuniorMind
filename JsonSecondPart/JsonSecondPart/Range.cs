@@ -14,14 +14,21 @@ namespace JsonSecondPart
             this.end = end;
         }
 
-        public bool Match(string text)
+        public IMatch Match(string text)
         {
+            Match first = new Match(text);
+
             if (string.IsNullOrEmpty(text))
             {
-                return false;
+                return first;
+            }
+            
+            if(text[0] >= start && text[0] <= end)
+            {
+                first.SetSucces(true);
             }
 
-            return text[0] >= start && text[0] <= end;
+            return first;
         }
     }
 }
