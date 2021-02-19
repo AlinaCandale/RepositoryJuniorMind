@@ -16,19 +16,9 @@ namespace JsonSecondPart
 
         public IMatch Match(string text)
         {
-            Match first = new Match(text);
-
-            if (string.IsNullOrEmpty(text))
-            {
-                return first;
-            }
-
-            if (text[0] == pattern)
-            {
-                first.SetSucces(true);
-            }
-
-            return first;
+            return !string.IsNullOrEmpty(text) && text[0] == pattern 
+                ? new SuccessMatch(text) 
+                : (IMatch)(new FailedMatch(text));
         }
     }
 }

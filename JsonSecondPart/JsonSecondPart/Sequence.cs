@@ -1,32 +1,33 @@
 ﻿//using System;
 //using System.Collections.Generic;
 //using System.Text;
-//using Xunit;
 
 //namespace JsonSecondPart
 //{
-//    public class Choice : IPattern
+//    public class Sequence : IPattern
 //    {
 //        IPattern[] patterns;
-        
-//        public Choice(params IPattern[] patterns)
+
+//        public Sequence(params IPattern[] patterns)
 //        {
 //            this.patterns = patterns;
 //        }
 
 //        public IMatch Match(string text)
 //        {
-//            SuccessMatch first = new SuccessMatch(text);
+//            Match first = new Match(text);
 
-//            foreach (var item in patterns )
+//            foreach (var item in patterns)
 //            {
-//               if (item.Match(text).Success())
+//                if (item.Match(text).Success())
 //                {
 //                    first.SetSucces(true);
+//                    first.RemainingText();
 //                }
 //            }
-            
+
 //            return first;
+
 //        }
 //    }
 //}
