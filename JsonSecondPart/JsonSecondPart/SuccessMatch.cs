@@ -7,7 +7,6 @@ namespace JsonSecondPart
     public class SuccessMatch : IMatch
     {
         string text;
-        string remainingtext;
 
         public SuccessMatch(string text)
         {
@@ -16,12 +15,7 @@ namespace JsonSecondPart
                 
         public string RemainingText()
         {
-            if (text != null && text.Length > 1)
-            {
-                remainingtext = text.Substring(1);
-            }
-
-            return remainingtext;
+            return text;
         }
     }
 }

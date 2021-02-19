@@ -17,7 +17,7 @@ namespace JsonSecondPart
         public IMatch Match(string text)
         {
             return !string.IsNullOrEmpty(text) && text[0] == pattern 
-                ? new SuccessMatch(text) 
+                ? new SuccessMatch(text.Substring(1)) 
                 : (IMatch)(new FailedMatch(text));
         }
     }

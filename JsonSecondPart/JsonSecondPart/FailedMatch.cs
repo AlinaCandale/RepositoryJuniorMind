@@ -7,7 +7,6 @@ namespace JsonSecondPart
     public class FailedMatch : IMatch
     {
         string text;
-        string errortext = "";
 
         public FailedMatch(string text)
         {
@@ -16,12 +15,7 @@ namespace JsonSecondPart
 
         public string RemainingText()
         {
-            if (text != null && text.Length > 1)
-            {
-                errortext += text[0];
-            }
-
-            return errortext;
+            return text;
         }
 
     }
