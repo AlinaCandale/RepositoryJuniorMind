@@ -1,32 +1,30 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Text;
-//using Xunit;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Xunit;
 
-//namespace JsonSecondPart
-//{
-//    public class Choice : IPattern
-//    {
-//        IPattern[] patterns;
-        
-//        public Choice(params IPattern[] patterns)
-//        {
-//            this.patterns = patterns;
-//        }
+namespace JsonSecondPart
+{
+    public class Choice : IPattern
+    {
+        IPattern[] patterns;
 
-//        public IMatch Match(string text)
-//        {
-//            SuccessMatch first = new SuccessMatch(text);
+        public Choice(params IPattern[] patterns)
+        {
+            this.patterns = patterns;
+        }
 
-//            foreach (var item in patterns )
-//            {
-//               if (item.Match(text).Success())
-//                {
-//                    first.SetSucces(true);
-//                }
-//            }
-            
-//            return first;
-//        }
-//    }
-//}
+        public IMatch Match(string text)
+        {
+            foreach (var item in patterns)
+            {
+                if (!string.IsNullOrEmpty(text) && item.Match(text).RemainingText() == text.Substring(1))
+                {
+                    return new SuccessMatch(text.Substring(1));
+                }
+            }
+
+            return (IMatch)(new FailedMatch(text));
+        }
+    }
+}
