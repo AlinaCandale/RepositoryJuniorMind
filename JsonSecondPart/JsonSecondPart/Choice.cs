@@ -24,7 +24,7 @@ namespace JsonSecondPart
                 }
             }
 
-            return (IMatch)(new FailedMatch(text));
+            return new FailedMatch(text);
         }
     }
 }
