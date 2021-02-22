@@ -17,5 +17,10 @@ namespace JsonSecondPart
         {
             return text;
         }
+
+        public bool Success()
+        {
+            return true;
+        }
     }
 }

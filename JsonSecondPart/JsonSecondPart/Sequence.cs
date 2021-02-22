@@ -15,18 +15,16 @@
 
 //        public IMatch Match(string text)
 //        {
-//            Match first = new Match(text);
-
 //            foreach (var item in patterns)
 //            {
-//                if (item.Match(text).Success())
+//                if (!string.IsNullOrEmpty(text) && item.Match(text).RemainingText() == text.Substring(1))
 //                {
-//                    first.SetSucces(true);
-//                    first.RemainingText();
+//                    text = text.Substring(1);
+//                    return new SuccessMatch(text.Substring(1));
 //                }
 //            }
 
-//            return first;
+//            return (IMatch)(new FailedMatch(text));
 
 //        }
 //    }
