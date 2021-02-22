@@ -7,6 +7,7 @@ namespace JsonSecondPart
     public interface IMatch
     {
         bool Success();
+
         string RemainingText();
     }
 }
