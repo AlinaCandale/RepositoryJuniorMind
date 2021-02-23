@@ -21,7 +21,7 @@ namespace JsonSecondPart
                 IMatch itemMatch = item.Match(text);
                 if (itemMatch.Success())
                 {
-                    return new SuccessMatch(itemMatch.RemainingText());
+                    return itemMatch;
                 }
             }
 
