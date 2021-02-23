@@ -15,20 +15,17 @@ namespace JsonSecondPart
 
         public IMatch Match(string text)
         {
-            string remainingText = text;
-
+            IMatch patternMatch = new SuccessMatch(text);
             foreach (var pattern in patterns)
             {
-                IMatch patternMatch = pattern.Match(remainingText);
+                patternMatch = pattern.Match(patternMatch.RemainingText());
                 if (!patternMatch.Success())
                 {
-                    return new FailedMatch(text);
+                    return patternMatch;
                 }
-
-                remainingText = patternMatch.RemainingText();
             }
 
-            return new SuccessMatch(remainingText);
+            return patternMatch;
         }
     }
 }
