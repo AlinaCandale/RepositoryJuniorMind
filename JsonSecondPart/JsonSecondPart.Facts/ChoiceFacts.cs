@@ -31,5 +31,15 @@ namespace JsonSecondPart.Facts
             Assert.Equal("", hex.Match("").RemainingText());
             Assert.Null(hex.Match(null).RemainingText());
         }
+
+        [Fact]
+        public void CheckIfSequanceWorks()
+        {
+            var ab = new Sequence(new Character('a'), new Character('b'));
+            var choice = new Choice(ab);
+
+            Assert.Equal("ax", choice.Match("ax").RemainingText()); // false / "ax"
+            Assert.Equal("cd", choice.Match("abcd").RemainingText()); // true / "cd"
+        }
     }
 }

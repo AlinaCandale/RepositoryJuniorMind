@@ -18,9 +18,10 @@ namespace JsonSecondPart
         {
             foreach (var item in patterns)
             {
-                if (item.Match(text).Success())
+                IMatch itemMatch = item.Match(text);
+                if (itemMatch.Success())
                 {
-                    return new SuccessMatch(text.Substring(1));
+                    return new SuccessMatch(itemMatch.RemainingText());
                 }
             }
 
