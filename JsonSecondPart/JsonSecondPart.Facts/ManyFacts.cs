@@ -25,5 +25,16 @@ namespace JsonSecondPart.Facts
             Assert.Equal("ab123", digits.Match("12345ab123").RemainingText()); // true 
             Assert.Equal("ab", digits.Match("ab").RemainingText()); // true  
         }
+
+        [Fact]
+        public void CheckIfRemainingTextIsCorrectIfManyConteinsText()
+        {
+            var text = new Many(new Text("re"));
+
+            Assert.Equal("abc", text.Match("reabc").RemainingText()); // true  
+            Assert.Equal("rbc", text.Match("rererbc").RemainingText()); // true 
+            Assert.Equal("bc", text.Match("bc").RemainingText()); // true 
+
+        }
     }
 }

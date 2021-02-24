@@ -19,7 +19,7 @@ namespace JsonSecondPart
 
             while (pattern.Match(remainingText).Success())
             {
-                remainingText = remainingText.Substring(1);
+                remainingText = pattern.Match(remainingText).RemainingText();
             }
             
             return new SuccessMatch(remainingText);
