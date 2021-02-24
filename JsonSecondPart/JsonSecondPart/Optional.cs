@@ -1,19 +1,21 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-//namespace JsonSecondPart
-//{
-//    public class Optional : IPattern
-//    {
-//        public Optional(IPattern pattern)
-//        {
-            
-//        }
+namespace JsonSecondPart
+{
+    public class Optional : IPattern
+    {
+        IPattern pattern;
 
-//        public IMatch Match(string text)
-//        {
-            
-//        }
-//    }
-//}
+        public Optional(IPattern pattern)
+        {
+            this.pattern = pattern;
+        }
+
+        public IMatch Match(string text)
+        {
+            return new SuccessMatch(pattern.Match(text).RemainingText());
+        }
+    }
+}
