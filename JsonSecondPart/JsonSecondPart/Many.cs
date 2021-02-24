@@ -15,14 +15,14 @@ namespace JsonSecondPart
 
         public IMatch Match(string text)
         {
-            string remainingText = text;
+            IMatch patternMatch = new SuccessMatch(text);
 
-            while (pattern.Match(remainingText).Success())
+            while (patternMatch.Success())
             {
-                remainingText = pattern.Match(remainingText).RemainingText();
+                patternMatch = pattern.Match(patternMatch.RemainingText());
             }
             
-            return new SuccessMatch(remainingText);
+            return new SuccessMatch(patternMatch.RemainingText());
         }
     }
 }

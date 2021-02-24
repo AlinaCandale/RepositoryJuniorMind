@@ -34,7 +34,7 @@ namespace JsonSecondPart.Facts
             Assert.Equal("abc", text.Match("reabc").RemainingText()); // true  
             Assert.Equal("rbc", text.Match("rererbc").RemainingText()); // true 
             Assert.Equal("bc", text.Match("bc").RemainingText()); // true 
-
+            Assert.True(text.Match("bc").Success());
         }
     }
 }
