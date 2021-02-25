@@ -5,33 +5,42 @@ namespace JsonSecondPart.Facts
 {
     public class OptionalFacts
     {
-    //    [Theory]
-    //    [InlineData("abc", "bc", true)]
-    //    [InlineData("aabc", "abc", true)]
-    //    [InlineData("bc", "bc", true)]
-    //    [InlineData("", "", true)]
-    //    [InlineData(null, null, true)]
+        [Theory]
+        [InlineData("abc", "bc")]
+        [InlineData("aabc", "abc")]
+        [InlineData("bc", "bc")]
+        [InlineData("", "")]
+        [InlineData(null, null)]
 
-    //    public void test2(string value, string expected, bool expected1)
-    //    {
-    //        var a = new Optional(new Character('a'));
-
-    //        IMatch result = a.Match(value);
-
-    //        Assert.Equal(expected, expected, (System.Collections.Generic.IEqualityComparer<char>)result);
-    //    }
-
-        [Fact]
-        public void test4()
+        public void OptionalConsumesTheMatchingText(string input, string expectedRemainingText)
         {
-            var a = new Optional(new Character('a'));
-
-            Assert.Equal("bc", a.Match("abc").RemainingText()); // true
-            Assert.Equal("abc", a.Match("aabc").RemainingText()); // true 
-            Assert.Equal("bc", a.Match("bc").RemainingText()); // true 
-            Assert.Equal("", a.Match("").RemainingText()); // true 
-            Assert.Equal(null, a.Match(null).RemainingText()); // true
+            var subject = new Optional(new Character('a'));
+            var result = subject.Match(input);
+            Assert.Equal(expectedRemainingText, result.RemainingText());
         }
+
+        [Theory]
+        [InlineData("abc", true)]
+        [InlineData("aabc", true)]
+        [InlineData("bc", true)]
+        [InlineData("", true)]
+        [InlineData(null, true)]
+        public void OptionalConsumesTheMatchingTextWithBoolResult(string input, bool expectedRemainingText)
+        {
+            var subject = new Optional(new Character('a'));
+            var result = subject.Match(input);
+            Assert.Equal(expectedRemainingText, result.Success());
+        }
+
+        //{
+        //    var a = new Optional(new Character('a'));
+
+        //    Assert.Equal("bc", a.Match("abc").RemainingText()); // true
+        //    Assert.Equal("abc", a.Match("aabc").RemainingText()); // true 
+        //    Assert.Equal("bc", a.Match("bc").RemainingText()); // true 
+        //    Assert.Equal("", a.Match("").RemainingText()); // true 
+        //    Assert.Equal(null, a.Match(null).RemainingText()); // true
+        //}
 
         [Fact]
         public void test3()
