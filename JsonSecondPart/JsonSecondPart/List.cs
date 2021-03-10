@@ -12,7 +12,9 @@ namespace JsonSecondPart
         {
             // aici folosește-te de clasele implementate deja
             // pentru a construi un pattern pe care să îl folosești în Match
-            this.pattern = new Many(new Choice(element, new Sequence(separator, element)));
+            //this.pattern = new Many(new Choice(element, new Sequence(separator, element)));
+            this.pattern = new Optional(new Sequence(element, new Many(new Sequence(separator,element))));
+
         }
 
         public IMatch Match(string text)

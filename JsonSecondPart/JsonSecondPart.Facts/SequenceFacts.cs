@@ -21,6 +21,7 @@ namespace JsonSecondPart.Facts
             Assert.True(abc.Match("abcd").Success()); // true / "d"
             Assert.False(abc.Match("def").Success()); // false / "def"
             Assert.False(abc.Match("abx").Success()); // false / "abx"
+            Assert.Equal("abx", abc.Match("abx").RemainingText()); // false / "abx"
             Assert.False(abc.Match("").Success()); // false / ""
             Assert.False(abc.Match(null).Success()); // false / null
 

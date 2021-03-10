@@ -30,6 +30,7 @@ namespace JsonSecondPart.Facts
             Assert.Equal("abc", a.Match("abc").RemainingText()); // true / "abc"
             Assert.Equal("", a.Match("").RemainingText()); // true  / ""
             Assert.Null(a.Match(null).RemainingText()); // true  / null
+            Assert.Equal("12345", a.Match("012345").RemainingText()); // true  / ""
 
             Assert.True(a.Match("1,2,3").Success()); // true / ""
             Assert.True(a.Match("1,2,3,").Success()); // true / ","

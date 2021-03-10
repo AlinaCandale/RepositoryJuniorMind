@@ -21,7 +21,7 @@ namespace JsonSecondPart
                 patternMatch = pattern.Match(patternMatch.RemainingText());
                 if (!patternMatch.Success())
                 {
-                    return patternMatch;
+                    return new FailedMatch(text);
                 }
             }
 
