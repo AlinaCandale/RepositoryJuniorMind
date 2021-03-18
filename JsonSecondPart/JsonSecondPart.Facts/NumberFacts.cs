@@ -5,20 +5,6 @@ namespace JsonSecondPart.Facts
 {
     public class NumberFacts
     {
-        //[Theory]
-        //[InlineData("1,2,3", "")]
-        //[InlineData("1,2,3,", ",")]
-        //[InlineData("1a", "a")]
-        //[InlineData("abc", "abc")]
-        //[InlineData("", "")]
-        //[InlineData(null, null)]
-
-        //public void ListConsumesTheMatchingText(string input, string expectedRemainingText)
-        //{
-        //    var a = new List(new Range('0', '9'), new Character(','));
-        //    var result = a.Match(input);
-        //    Assert.Equal(expectedRemainingText, result.RemainingText());
-
         [Fact]
         public void JsonNumberCanBe()
         {
@@ -36,12 +22,14 @@ namespace JsonSecondPart.Facts
             Assert.True(a.Match("12E3").Success()); // true 
             Assert.True(a.Match("12e+3").Success()); // true 
             Assert.True(a.Match("12E-3").Success()); // true
-            Assert.False(a.Match("12e+").Success()); // false 
-            Assert.False(a.Match("12E").Success()); // false
+            //Assert.False(a.Match("12e+").Success()); // false
+            Assert.Equal("e+", a.Match("12e+").RemainingText());
+            //Assert.False(a.Match("12E").Success()); // false
+            Assert.Equal("E", a.Match("12E").RemainingText()); 
             Assert.True(a.Match("12.2E3").Success()); // true
             Assert.True(a.Match("12e3.2").Success()); // true
-            Assert.False(a.Match("12e12E").Success()); // false 
-            Assert.True(a.Match("").Success()); // true  
+            //Assert.False(a.Match("12e12E").Success()); // false 
+            Assert.Equal("E", a.Match("12e12E").RemainingText());
         }
 
 
