@@ -6,12 +6,13 @@ namespace JsonSecondPart.Facts
     public class StringFacts
     {
         [Theory]
-        [InlineData("abc", "")]
+        [InlineData("!abc!", "")]
         [InlineData("0", "")]
         [InlineData("abc012", "")]
         [InlineData("\\", "")]
         [InlineData("\u26Be", "")]
-        [InlineData("a \r b", "")]
+        [InlineData("a \t b", "")]
+        [InlineData(" ", "")]
 
 
         public void StringConsumesTheMatchingText(string input, string expectedRemainingText)
