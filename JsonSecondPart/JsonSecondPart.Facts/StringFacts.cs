@@ -9,9 +9,9 @@ namespace JsonSecondPart.Facts
         [InlineData("!abc!", "")]
         [InlineData("0", "")]
         [InlineData("abc012", "")]
-        [InlineData("\\", "")]
         [InlineData("\u26Be", "")]
-        [InlineData("a \t b", "")]
+        //[InlineData("\\", "")]
+        //[InlineData("\t", "")]
         [InlineData(" ", "")]
 
 
