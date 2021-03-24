@@ -14,6 +14,18 @@ namespace JsonSecondPart
             this.patterns = patterns;
         }
 
+        public void Add(IPattern pattern)
+        {
+            IPattern[] patternsSum = new IPattern[patterns.Length + 1];
+            for (int i = 0; i < patterns.Length; i++)
+            {
+                patternsSum[i] = patterns[i];
+            }
+            patternsSum[patternsSum.Length - 1] = pattern;
+            patterns = patternsSum;
+        }
+
+
         public IMatch Match(string text)
         {
             foreach (var item in patterns)

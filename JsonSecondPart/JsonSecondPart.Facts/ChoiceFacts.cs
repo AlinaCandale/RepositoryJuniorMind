@@ -5,6 +5,40 @@ namespace JsonSecondPart.Facts
 {
     public class ChoiceFacts
     {
+        [Theory]
+        [InlineData("{\"abc\":1}", "")]
+        [InlineData("0", "")]
+        [InlineData("\"abc\"", "")]
+        [InlineData("true", "")]
+        [InlineData("[]", "")]
+        [InlineData("[12]", "")]
+
+        public void AddPattern(string input, string expectedRemainingText)
+        {
+            var number = new Number();
+            var _string = new String();
+
+            var value = new Choice(_string,
+                number,
+                new Text("true"),
+                new Text("false"),
+                new Text("null"));
+
+            var array = new Sequence(new Character('['),
+                 new Optional(new OneOrMore(value)),
+                new Character(']'));
+
+            var _object = new Sequence(new Character('{'),
+                 new Optional(new OneOrMore(new Sequence(_string, new Character(':'), value))),
+                new Character('}')); ;
+
+            value.Add(array);
+            value.Add(_object);
+
+            var result = value.Match(input);
+            Assert.Equal(expectedRemainingText, result.RemainingText());
+        }
+
         [Fact]
         public void CheckIfFirstCharInStringIsCorrect()
         {

@@ -14,7 +14,6 @@ namespace JsonSecondPart.Facts
         //[InlineData("\t", "")]
         [InlineData(" ", "")]
 
-
         public void StringConsumesTheMatchingText(string input, string expectedRemainingText)
         {
             var a = new String();
