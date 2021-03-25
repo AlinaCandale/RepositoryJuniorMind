@@ -6,7 +6,7 @@ namespace JsonSecondPart.Facts
     public class ChoiceFacts
     {
         [Theory]
-        [InlineData("{\"abc\":1}", "")]
+        [InlineData("{ \"abc\" :1}", "")]
         [InlineData("0", "")]
         [InlineData("\"abc\"", "")]
         [InlineData("true", "")]
@@ -29,8 +29,8 @@ namespace JsonSecondPart.Facts
                 new Character(']'));
 
             var _object = new Sequence(new Character('{'),
-                 new Optional(new OneOrMore(new Sequence(_string, new Character(':'), value))),
-                new Character('}')); ;
+                 new Optional(new OneOrMore(new Sequence(new Character('\u0020'), _string, new Character('\u0020'), new Character(':'), value))),
+                new Character('}')); 
 
             value.Add(array);
             value.Add(_object);
