@@ -16,13 +16,8 @@ namespace JsonSecondPart
 
         public void Add(IPattern pattern)
         {
-            IPattern[] patternsSum = new IPattern[patterns.Length + 1];
-            for (int i = 0; i < patterns.Length; i++)
-            {
-                patternsSum[i] = patterns[i];
-            }
-            patternsSum[patternsSum.Length - 1] = pattern;
-            patterns = patternsSum;
+            Array.Resize(ref patterns, patterns.Length + 1);
+            patterns[patterns.Length - 1] = pattern;
         }
 
 
