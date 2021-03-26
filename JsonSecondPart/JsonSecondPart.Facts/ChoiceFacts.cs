@@ -11,6 +11,7 @@ namespace JsonSecondPart.Facts
         [InlineData("\"abc\"", "")]
         [InlineData("true", "")]
         [InlineData("[]", "")]
+        [InlineData("{}", "")]
         [InlineData("[12]", "")]
 
         public void AddPattern(string input, string expectedRemainingText)
