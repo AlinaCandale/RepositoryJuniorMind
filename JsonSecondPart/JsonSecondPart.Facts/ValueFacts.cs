@@ -6,12 +6,12 @@ namespace JsonSecondPart.Facts
     public class ValueFacts
     {
         [Theory]
-        [InlineData(" { \"abc\" : 1 } ", "")]
-        [InlineData(" 0 ", "")]
+        [InlineData(" {\"a\": 1 } ", "")]
+        [InlineData("       0 ", "")]
         [InlineData(" \"abc\" ", "")]
         [InlineData(" true ", "")]
         [InlineData(" null ", "")]
-        [InlineData(" [ ] ", "")]
+        [InlineData(" [        ] ", "")]
         [InlineData(" { } ", "")]
         [InlineData(" [ 1 ] ", "")]
         [InlineData(" \"\u26Be\" ", "")]
