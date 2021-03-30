@@ -26,8 +26,14 @@ namespace JsonSecondPart
             var member = new Sequence(ws, @string, ws, new Character(':'), element);
             var members = new List(member, separator);
 
-            var @object = new Sequence(new Character('{'), new Choice(members, ws), new Character('}'));
-            var array = new Sequence(new Character('['), new Choice(elements, ws), new Character(']'));
+            //var @object = new Sequence(new Character('{'), new Choice(members, ws), new Character('}'));
+            //var array = new Sequence(new Character('['), new Choice(elements, ws), new Character(']'));
+
+            var @object = new Choice(new Sequence(new Character('{'), ws, new Character('}')),
+                new Sequence(new Character('{'), members, new Character('}')));
+
+            var array = new Choice(new Sequence(new Character('['), ws, new Character(']')),
+                new Sequence(new Character('['), elements, new Character(']')));
 
             value.Add(@object);
             value.Add(array);
