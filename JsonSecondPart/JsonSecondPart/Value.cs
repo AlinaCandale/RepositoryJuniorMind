@@ -22,12 +22,12 @@ namespace JsonSecondPart
                     new Text("null"));
 
             var element = new Sequence(ws, value, ws);
-            var elements = new Choice(ws, new List(element, separator));
+            var elements = new List(element, separator);
             var member = new Sequence(ws, @string, ws, new Character(':'), element);
-            var members = new Choice(ws, new List(member, separator));
+            var members = new List(member, separator);
 
-            var @object = new Sequence(new Character('{'), members, new Character('}'));
-            var array = new Sequence(new Character('['), elements, new Character(']'));
+            var @object = new Sequence(new Character('{'), new Choice(members, ws), new Character('}'));
+            var array = new Sequence(new Character('['), new Choice(elements, ws), new Character(']'));
 
             value.Add(@object);
             value.Add(array);
