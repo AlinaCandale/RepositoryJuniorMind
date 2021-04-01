@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "JsonSecondPart": {
+      "commandName": "Project",
+      "commandLineArgs": "D:\\JuniorMind2\\Repository\\JsonSecondPart\\TestFiles\\Test1.txt D:\\JuniorMind2\\Repository\\JsonSecondPart\\TestFiles\\Test2.txt D:\\JuniorMind2\\Repository\\JsonSecondPart\\TestFiles\\Test3.txt D:\\JuniorMind2\\Repository\\JsonSecondPart\\TestFiles\\Test4.txt D:\\JuniorMind2\\Repository\\JsonSecondPart\\TestFiles\\Test5.txt"
+    }
+  }
+}
