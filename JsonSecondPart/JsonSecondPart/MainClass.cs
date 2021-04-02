@@ -6,6 +6,10 @@ namespace JsonSecondPart
     {
         static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Please give as argument a path to a Json file");
+            }
             foreach (var item in args)
             {
                 string text = System.IO.File.ReadAllText(@item);
@@ -20,7 +24,6 @@ namespace JsonSecondPart
                     Console.WriteLine("You don't have a valid Json value");
                 }
             }
-
         }
     }
 
