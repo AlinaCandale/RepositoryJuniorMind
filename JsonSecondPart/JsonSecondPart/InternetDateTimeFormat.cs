@@ -11,23 +11,26 @@ namespace JsonSecondPart
         public InternetDateTimeFormat()
         {
             var digit = new Range('0', '9');
-            var date_fullyear = new Sequence(digit, digit, digit, digit);
-            var date_month = new Sequence(digit, digit);
-            var date_mday = new Sequence(digit, digit);
+            var colon = new Character(':');
+            var minusSign = new Character('-');
 
-            var time_hour = new Sequence(digit, digit);
-            var time_minute = new Sequence(digit, digit);
-            var time_second = new Sequence(digit, digit);
-            var time_secfrac = new Sequence(new Character('.'), digit, digit);
-            var time_numoffset = new Sequence(new Choice(new Character('+'), new Character('-')), time_hour, new Character(':'), time_minute);
-            var time_offset = new Choice(new Character('Z'), time_numoffset);
+            var dateFullyear = new Sequence(digit, digit, digit, digit);
+            var dateMonth = new Sequence(digit, digit);
+            var dateMday = new Sequence(digit, digit);
 
-            var partial_time = new Sequence(time_hour, new Character(':'), time_minute, new Character(':'), time_second, new Optional(time_secfrac));
-            var full_date = new Sequence(date_fullyear, new Character('-'), date_month, new Character('-'), date_mday);
-            var full_time = new Sequence(partial_time, time_offset);
+            var timeHour = new Sequence(digit, digit);
+            var timeMinute = new Sequence(digit, digit);
+            var timeSecond = new Sequence(digit, digit);
+            var timeSecfrac = new Sequence(new Character('.'), digit, digit);
+            var timeNumoffset = new Sequence(new Choice(new Character('+'), minusSign), timeHour, colon, timeMinute);
+            var timeOffset = new Choice(new Character('Z'), timeNumoffset);
 
-            var date_time = new Sequence(full_date, new Character('T'), full_time);
-            pattern = date_time;
+            var partialTime = new Sequence(timeHour, colon, timeMinute, colon, timeSecond, new Optional(timeSecfrac));
+            var fullDate = new Sequence(dateFullyear, minusSign, dateMonth, minusSign, dateMday);
+            var fullTime = new Sequence(partialTime, timeOffset);
+
+            var dateTime = new Sequence(fullDate, new Character('T'), fullTime);
+            pattern = dateTime;
 
         }
          
