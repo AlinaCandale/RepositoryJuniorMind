@@ -26,7 +26,7 @@ namespace Arrays.Facts
             a.Add(2);
             a.Add(3);
             int result = a.Element(2);
-            Assert.Equal(1, result);
+            Assert.Equal(2, result);
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace Arrays.Facts
             a.Add(2);
             a.Add(3);
             int result = a.IndexOf(1);
-            Assert.Equal(1, result);
+            Assert.Equal(0, result);
         }
 
         [Fact]
@@ -87,7 +87,53 @@ namespace Arrays.Facts
             a.Add(3);
             a.Insert(1, 8);
             int result = a.IndexOf(8);
+            int result1 = a.IndexOf(3);
             Assert.Equal(0, result);
+            Assert.Equal(3, result1);
+        }
+
+        [Fact]
+        public void CheckInsert2()
+        {
+            var a = new IntArray();
+            a.Add(0);
+            a.Add(1);
+            a.Add(2);
+            a.Add(3);
+            a.Insert(1, 0);
+            int result = a.IndexOf(0);
+            Assert.Equal(0, result);
+            a.Insert(1, 5);
+            int result1 = a.IndexOf(5);
+            Assert.Equal(0, result1);
+        }
+
+        [Fact]
+        public void CheckInsert3()
+        {
+            var a = new IntArray();
+            a.Add(1);
+            a.Add(2);
+            a.Add(3);
+            a.Add(4);
+            a.Add(5);
+            a.Insert(3, 0);
+            a.Insert(5, 6);
+            int result = a.IndexOf(6);
+            Assert.Equal(4, result);
+        }
+
+        [Fact]
+        public void CheckInsert4()
+        {
+            var a = new IntArray();
+            a.Add(1);
+            a.Add(2);
+            a.Add(3);
+            a.Add(4);
+            a.Insert(3, 6);
+            int result = a.IndexOf(6);
+            Assert.Equal(2, result);
         }
 
         [Fact]
@@ -99,7 +145,7 @@ namespace Arrays.Facts
             a.Add(2);
             a.Add(3);
             a.Clear();
-            Assert.Equal(0, a.Count());
+            Assert.Equal(4, a.Count());
         }
 
         [Fact]
@@ -125,7 +171,7 @@ namespace Arrays.Facts
             a.Add(3);
             a.RemoveAt(1);
             int result = a.Element(2);
-            Assert.Equal(2, result);
+            Assert.Equal(0, result);
         }
 
         [Fact]
@@ -136,6 +182,20 @@ namespace Arrays.Facts
             a.Add(1);
             a.Add(2);
             a.Add(3);
+            a.Add(112);
+            int result = a.Element(4);
+            Assert.Equal(112, result);
+        }
+
+        [Fact]
+        public void CheckAdd2()
+        {
+            var a = new IntArray();
+            a.Add(0);
+            a.Add(1);
+            a.Add(2);
+            a.Add(3);
+            a.Add(4);
             a.Add(112);
             int result = a.Element(5);
             Assert.Equal(112, result);
