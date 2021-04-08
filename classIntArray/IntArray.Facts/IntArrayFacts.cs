@@ -99,8 +99,7 @@ namespace Arrays.Facts
             a.Add(2);
             a.Add(3);
             a.Clear();
-            int result = a.Element(3);
-            Assert.Equal(0, result);
+            Assert.Equal(0, a.Count());
         }
 
         [Fact]

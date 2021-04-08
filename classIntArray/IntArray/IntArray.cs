@@ -54,7 +54,7 @@ namespace Arrays
 
         public void Clear()
         {
-            Array.Clear(arrayName, 0, arrayName.Length - 1);
+            arrayName = new int[0];
         }
 
         public void Remove(int element)
