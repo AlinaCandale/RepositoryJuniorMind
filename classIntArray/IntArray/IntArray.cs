@@ -5,6 +5,7 @@ namespace Arrays
 	public class IntArray
     {
         int[] arrayName;
+        int counter = 0;
 
         public IntArray()
         {
@@ -13,23 +14,16 @@ namespace Arrays
 
         public void Add(int element)
         {
-            int counter = 0;
-            for (int i = 0; i < arrayName.Length; i++)
+            if (counter < arrayName.Length)
             {
-                if (arrayName[i] == 0)
-                {
-                    arrayName[i] = element;
-                    break;
-                }
-                else
-                {
-                    counter++;
-                }
+                arrayName[counter] = element;
+                counter++;
             }
-            if (counter == arrayName.Length)
+            else
             {
                 Array.Resize(ref arrayName, arrayName.Length * 2);
                 arrayName[counter] = element;
+                counter++;
             }
         }
 
@@ -60,32 +54,24 @@ namespace Arrays
 
         public void Insert(int index, int element)
         {
-            int indexOfElementZero = IndexOf(0);
-            if (indexOfElementZero == -1)
+            if (counter < arrayName.Length)
+            {
+                for (int i = arrayName.Length - 1; i >= index; i--)
+                {
+                    arrayName[i] = arrayName[i - 1];
+                }
+                arrayName[index - 1] = element;
+            }
+            else
             {
                 Array.Resize(ref arrayName, arrayName.Length * 2);
-                for (int i = arrayName.Length / 2; i >= index; i--)
+                for (int i = arrayName.Length - 1; i >= index; i--)
                 {
                     arrayName[i] = arrayName[i - 1];
                 }
                 arrayName[index - 1] = element;
             }
-            else if (indexOfElementZero >= index)
-            {
-                for (int i = indexOfElementZero; i >= index; i--)
-                {
-                    arrayName[i] = arrayName[i - 1];
-                }
-                arrayName[index - 1] = element;
-            }
-            else if (indexOfElementZero <= index)
-            {
-                for (int i = indexOfElementZero; i < index - 1; i++)
-                {
-                    arrayName[i] = arrayName[i + 1];
-                }
-                arrayName[index - 1] = element;
-            }
+            counter++;
         }
 
         public void Clear()
@@ -96,12 +82,16 @@ namespace Arrays
         public void Remove(int element)
         {
             int index = Array.IndexOf(arrayName, element);
-            arrayName[index] = 0;
+            RemoveAt(index + 1);
         }
 
         public void RemoveAt(int index)
         {
-            arrayName[index] = 0;
+            for (int i = index - 1; i < arrayName.Length - 1; i++)
+            {
+                arrayName[i] = arrayName[i + 1];
+            }
+            counter--;
         }
     }
 }
