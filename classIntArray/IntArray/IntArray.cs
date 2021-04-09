@@ -17,14 +17,13 @@ namespace Arrays
             if (counter < arrayName.Length)
             {
                 arrayName[counter] = element;
-                counter++;
             }
             else
             {
                 Array.Resize(ref arrayName, arrayName.Length * 2);
                 arrayName[counter] = element;
-                counter++;
             }
+            counter++;
         }
 
         public int Count()
@@ -56,27 +55,29 @@ namespace Arrays
         {
             if (counter < arrayName.Length)
             {
-                for (int i = arrayName.Length - 1; i >= index; i--)
-                {
-                    arrayName[i] = arrayName[i - 1];
-                }
-                arrayName[index - 1] = element;
+                MoveElementsToRight(index, element);
             }
             else
             {
                 Array.Resize(ref arrayName, arrayName.Length * 2);
-                for (int i = arrayName.Length - 1; i >= index; i--)
-                {
-                    arrayName[i] = arrayName[i - 1];
-                }
-                arrayName[index - 1] = element;
+                MoveElementsToRight(index, element);
             }
             counter++;
+        }
+
+        public void MoveElementsToRight(int index, int element)
+        {
+            for (int i = arrayName.Length - 1; i >= index; i--)
+            {
+                arrayName[i] = arrayName[i - 1];
+            }
+            arrayName[index - 1] = element;
         }
 
         public void Clear()
         {
             arrayName = new int[4];
+            counter = 0;
         }
 
         public void Remove(int element)
