@@ -14,10 +14,7 @@ namespace Arrays
 
         public void Add(int element)
         {
-            if (counter >= arrayName.Length)
-            {
-                Array.Resize(ref arrayName, arrayName.Length * 2);
-            }
+            ResizeArray();
             arrayName[counter] = element;
             counter++;
         }
@@ -39,28 +36,41 @@ namespace Arrays
 
         public bool Contains(int element)
         {
-            return Array.Exists(arrayName, elementToFind => elementToFind == element);
+            if (counter > 0)
+            {
+                return Array.Exists(arrayName, elementToFind => elementToFind == element);
+            }
+            return false;
         }
 
         public int IndexOf(int element)
         {
-            return Array.IndexOf(arrayName, element);
+            if (counter > 0)
+            {
+                return Array.IndexOf(arrayName, element);
+            }
+            return -1;
         }
 
         public void Insert(int index, int element)
         {
-            if (counter >= arrayName.Length)
-            {
-                Array.Resize(ref arrayName, arrayName.Length * 2);
-            }
+            ResizeArray();
             MoveElementsToRight(index, element);
             arrayName[index - 1] = element;
             counter++;
         }
 
+        public void ResizeArray()
+        {
+            if (counter >= arrayName.Length)
+            {
+                Array.Resize(ref arrayName, arrayName.Length * 2);
+            }
+        }
+
         public void MoveElementsToRight(int index, int element)
         {
-            for (int i = arrayName.Length - 1; i >= index; i--)
+            for (int i = counter; i >= index; i--)
             {
                 arrayName[i] = arrayName[i - 1];
             }

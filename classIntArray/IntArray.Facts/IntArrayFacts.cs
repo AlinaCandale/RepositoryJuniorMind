@@ -30,6 +30,14 @@ namespace Arrays.Facts
         }
 
         [Fact]
+        public void CheckElement2()
+        {
+            var a = new IntArray();
+            int result = a.Element(2);
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
         public void CheckSetElement()
         {
             var a = new IntArray();
@@ -54,6 +62,14 @@ namespace Arrays.Facts
         }
 
         [Fact]
+        public void CheckContains2()
+        {
+            var a = new IntArray();
+            bool result = a.Contains(0);
+            Assert.False(result);
+        }
+
+        [Fact]
         public void CheckIndexOf()
         {
             var a = new IntArray();
@@ -74,6 +90,14 @@ namespace Arrays.Facts
             a.Add(2);
             a.Add(3);
             int result = a.IndexOf(11);
+            Assert.Equal(-1, result);
+        }
+
+        [Fact]
+        public void CheckIndexOf3()
+        {
+            var a = new IntArray();
+            int result = a.IndexOf(0);
             Assert.Equal(-1, result);
         }
 
@@ -202,7 +226,6 @@ namespace Arrays.Facts
             int result = a.Element(5);
             Assert.Equal(4, result);
         }
-
 
         [Fact]
         public void CheckAddInsertRemove()
