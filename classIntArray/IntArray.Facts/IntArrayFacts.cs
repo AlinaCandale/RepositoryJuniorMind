@@ -34,7 +34,7 @@ namespace Arrays.Facts
         {
             var a = new IntArray();
             int result = a.Element(2);
-            Assert.Equal(0, result);
+            Assert.Equal(-1, result);
         }
 
         [Fact]

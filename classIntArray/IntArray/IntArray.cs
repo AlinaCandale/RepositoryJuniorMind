@@ -26,12 +26,19 @@ namespace Arrays
 
         public int Element(int index)
         {
-            return arrayName[index - 1];
+            if (counter > 0)
+            {
+                return arrayName[index - 1];
+            }
+            return -1;
         }
 
         public void SetElement(int index, int element)
         {
-            arrayName[index - 1] = element;
+            if (index <= counter + 1)
+            {
+                arrayName[index - 1] = element;
+            }
         }
 
         public bool Contains(int element)
