@@ -14,21 +14,17 @@ namespace Arrays
 
         public void Add(int element)
         {
-            if (counter < arrayName.Length)
-            {
-                arrayName[counter] = element;
-            }
-            else
+            if (counter >= arrayName.Length)
             {
                 Array.Resize(ref arrayName, arrayName.Length * 2);
-                arrayName[counter] = element;
             }
+            arrayName[counter] = element;
             counter++;
         }
 
         public int Count()
         {
-            return arrayName.Length;
+            return counter;
         }
 
         public int Element(int index)
@@ -53,15 +49,12 @@ namespace Arrays
 
         public void Insert(int index, int element)
         {
-            if (counter < arrayName.Length)
-            {
-                MoveElementsToRight(index, element);
-            }
-            else
+            if (counter >= arrayName.Length)
             {
                 Array.Resize(ref arrayName, arrayName.Length * 2);
-                MoveElementsToRight(index, element);
             }
+            MoveElementsToRight(index, element);
+            arrayName[index - 1] = element;
             counter++;
         }
 
@@ -71,7 +64,6 @@ namespace Arrays
             {
                 arrayName[i] = arrayName[i - 1];
             }
-            arrayName[index - 1] = element;
         }
 
         public void Clear()

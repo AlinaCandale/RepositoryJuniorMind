@@ -144,8 +144,9 @@ namespace Arrays.Facts
             a.Add(1);
             a.Add(2);
             a.Add(3);
-            a.Clear();
             Assert.Equal(4, a.Count());
+            a.Clear();
+            Assert.Equal(0, a.Count());
         }
 
         [Fact]
