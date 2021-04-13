@@ -36,7 +36,7 @@ namespace Arrays
 
         public bool Contains(int element)
         {
-            return IndexOf(element) > -1 ? true : false;
+            return IndexOf(element) != -1;
         }
 
         public int IndexOf(int element)
