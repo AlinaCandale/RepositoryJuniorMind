@@ -36,14 +36,7 @@ namespace Arrays
 
         public bool Contains(int element)
         {
-            for (int i = 0; i < counter; i++)
-            {
-                if (intArray[i] == element)
-                {
-                    return true;
-                }
-            }
-            return false;  
+            return IndexOf(element) > -1 ? true : false;
         }
 
         public int IndexOf(int element)
@@ -94,7 +87,6 @@ namespace Arrays
                 intArray[i] = intArray[i + 1];
             }
             counter--;
-            Array.Clear(intArray, counter, 1);
         }
     }
 }

@@ -211,6 +211,8 @@ namespace Arrays.Facts
             a.RemoveAt(1);
             int result = a.Element(2);
             Assert.Equal(3, result);
+            int result1 = a.Element(3);
+            Assert.Equal(-1, result1);
         }
 
         [Fact]
