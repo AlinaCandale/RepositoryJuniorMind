@@ -2,7 +2,7 @@
 
 namespace Arrays
 {
-	public class IntArray
+    public class IntArray
     {
         int[] intArray;
         int counter = 0;
@@ -19,19 +19,22 @@ namespace Arrays
             counter++;
         }
 
-        public int Count()
+        public int Count
         {
-            return counter;
+            get
+            {
+                return counter;
+            }
+            private set
+            {
+                counter = value;
+            }
         }
 
-        public int Element(int index)
+        public int this[int index] //Element() + SetElement()
         {
-            return counter > 0 && index < counter ? intArray[index] : -1;
-        }
-
-        public void SetElement(int index, int element)
-        {
-            intArray[index] = element;
+            get => counter > 0 && index < counter ? intArray[index] : -1;
+            set => intArray[index] = value;
         }
 
         public bool Contains(int element)
