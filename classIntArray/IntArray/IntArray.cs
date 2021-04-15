@@ -13,17 +13,17 @@ namespace Arrays
 
         public int Count { get; private set; } = 0;
 
+        public virtual int this[int index] //Element() + SetElement()
+        {
+            get => Count > 0 && index < Count ? intArray[index] : -1;
+            set => intArray[index] = value;
+        }
+
         public virtual void Add(int element)
         {
             ResizeArray();
             intArray[Count] = element;
             Count++;
-        }
-
-        public int this[int index] //Element() + SetElement()
-        {
-            get => Count > 0 && index < Count ? intArray[index] : -1;
-            set => intArray[index] = value;
         }
 
         public bool Contains(int element)
@@ -36,7 +36,7 @@ namespace Arrays
             return Array.IndexOf(intArray, element, 0, Count);
         }
 
-        public void Insert(int index, int element)
+        public virtual void Insert(int index, int element)
         {
             ResizeArray();
             MoveElementsToRight(index, element);
