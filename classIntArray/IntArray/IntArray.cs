@@ -4,15 +4,16 @@ namespace Arrays
 {
     public class IntArray
     {
-        int[] intArray;
-        public int Count { get; private set; } = 0;
+        protected int[] intArray;
 
         public IntArray()
         {
             intArray = new int[4];
         }
 
-        public void Add(int element)
+        public int Count { get; private set; } = 0;
+
+        public virtual void Add(int element)
         {
             ResizeArray();
             intArray[Count] = element;
