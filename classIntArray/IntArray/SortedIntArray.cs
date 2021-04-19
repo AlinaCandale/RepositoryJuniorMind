@@ -22,7 +22,6 @@ namespace Arrays
 
         public override int this[int index]
         {
-            get => base[index];
             set
             {
                 base[index] = value;

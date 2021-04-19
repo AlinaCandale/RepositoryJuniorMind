@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace IntArray
 {
-    public class ObjectArray
+    public class ObjectArray : IEnumerable
     {
-        object[] objArray;
+        private object[] objArray;
 
         public ObjectArray()
         {
@@ -81,6 +82,46 @@ namespace IntArray
                 objArray[i] = objArray[i + 1];
             }
             Count--;
+        }
+
+        private class ObjectArrayEnumerator : IEnumerator
+        {
+            private int currentIndex = -1;
+            public object[] objArray;
+
+            public ObjectArrayEnumerator(object[] objectArray)
+            {
+               objArray = objectArray;
+            }
+
+            public bool MoveNext()
+            {
+                currentIndex++;
+                return currentIndex < objArray.Length;
+            }
+            public void Reset()
+            {
+                currentIndex = -1;
+            }
+            public object Current
+            {
+                get
+                {
+                    try
+                    {
+                        return objArray[currentIndex];
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                }
+            }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return new ObjectArrayEnumerator(objArray);
         }
     }
 }

@@ -185,5 +185,21 @@ namespace Arrays.Facts
             object result = a[4];
             Assert.Equal(112, result);
         }
+
+        [Fact]
+        public void TestForeach()
+        {
+            var a = new ObjectArray();
+            a.Add(0);
+            a.Add("mia");
+            a.Add(2.01);
+            a.Add(3);
+            a.Add(112);
+            a.Add(5);
+            foreach (var item in a)
+            {
+                Console.WriteLine(item);
+            }
+        }
     }
 }
