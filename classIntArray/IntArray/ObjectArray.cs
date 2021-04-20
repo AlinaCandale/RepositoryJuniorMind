@@ -87,17 +87,19 @@ namespace IntArray
         private class ObjectArrayEnumerator : IEnumerator
         {
             private int currentIndex = -1;
-            public object[] objArray;
+            public object[] myArray;
+            int count;
 
-            public ObjectArrayEnumerator(object[] objectArray)
+            public ObjectArrayEnumerator(ObjectArray objectArray, object[] myobjArray)
             {
-               objArray = objectArray;
+                myArray = myobjArray;
+                count = objectArray.Count;
             }
 
             public bool MoveNext()
             {
                 currentIndex++;
-                return currentIndex < objArray.Length;
+                return currentIndex < count;
             }
             public void Reset()
             {
@@ -109,7 +111,7 @@ namespace IntArray
                 {
                     try
                     {
-                        return objArray[currentIndex];
+                        return myArray[currentIndex];
                     }
                     catch (IndexOutOfRangeException)
                     {
@@ -117,11 +119,12 @@ namespace IntArray
                     }
                 }
             }
+
         }
 
         public IEnumerator GetEnumerator()
         {
-            return new ObjectArrayEnumerator(objArray);
+            return new ObjectArrayEnumerator(this, objArray);
         }
     }
 }
