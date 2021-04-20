@@ -7,7 +7,7 @@ namespace IntArray
 {
     public class ObjectArray : IEnumerable
     {
-        private object[] objArray;
+        protected object[] objArray;
 
         public ObjectArray()
         {
@@ -90,9 +90,9 @@ namespace IntArray
             public object[] myArray;
             int count;
 
-            public ObjectArrayEnumerator(ObjectArray objectArray, object[] myobjArray)
+            public ObjectArrayEnumerator(ObjectArray objectArray)
             {
-                myArray = myobjArray;
+                myArray = objectArray.objArray;
                 count = objectArray.Count;
             }
 
@@ -124,7 +124,7 @@ namespace IntArray
 
         public IEnumerator GetEnumerator()
         {
-            return new ObjectArrayEnumerator(this, objArray);
+            return new ObjectArrayEnumerator(this);
         }
     }
 }
