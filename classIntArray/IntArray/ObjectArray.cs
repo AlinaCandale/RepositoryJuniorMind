@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IntArray
 {
-    public class ObjectArray : IEnumerable
+    public class ObjectArray 
     {
         protected object[] objArray;
 
@@ -84,45 +84,14 @@ namespace IntArray
             Count--;
         }
 
-        private class ObjectArrayEnumerator : IEnumerator
+        public IEnumerable NrOfPositions()
         {
-            private int currentIndex = -1;
-            private ObjectArray x;
-
-            public ObjectArrayEnumerator(ObjectArray objectArray)
+            int nrOfPositions = 0;
+            foreach (var i in objArray)
             {
-                x = objectArray;
+                nrOfPositions++;
+                yield return nrOfPositions;
             }
-
-            public bool MoveNext()
-            {
-                currentIndex++;
-                return currentIndex < x.Count;
-            }
-            public void Reset()
-            {
-                currentIndex = -1;
-            }
-            public object Current
-            {
-                get
-                {
-                    try
-                    {
-                        return x.objArray[currentIndex];
-                    }
-                    catch (IndexOutOfRangeException)
-                    {
-                        throw new InvalidOperationException();
-                    }
-                }
-            }
-
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return new ObjectArrayEnumerator(this);
         }
     }
 }
