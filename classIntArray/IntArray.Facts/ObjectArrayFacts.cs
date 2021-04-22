@@ -196,8 +196,6 @@ namespace Arrays.Facts
             a.Add(3);
             a.Add(112);
             a.GetEnumerator();
-
-            
         }
     }
 }

@@ -86,15 +86,9 @@ namespace IntArray
 
         public IEnumerator GetEnumerator()
         {
-            int nrOfPositions = 0;
-            foreach (object o in objArray)
+            for (int i = 0; i < Count; i++)
             {
-                nrOfPositions++;
-                if (nrOfPositions >= Count)
-                {
-                    break;
-                }
-                yield return o;
+                yield return i;
             }
         }
     }
