@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IntArray
 {
-    public class ObjectArray 
+    public class ObjectArray : IEnumerable
     {
         protected object[] objArray;
 
@@ -84,13 +84,17 @@ namespace IntArray
             Count--;
         }
 
-        public IEnumerable NrOfPositions()
+        public IEnumerator GetEnumerator()
         {
             int nrOfPositions = 0;
-            foreach (var i in objArray)
+            foreach (object o in objArray)
             {
                 nrOfPositions++;
-                yield return nrOfPositions;
+                if (nrOfPositions >= Count)
+                {
+                    break;
+                }
+                yield return o;
             }
         }
     }

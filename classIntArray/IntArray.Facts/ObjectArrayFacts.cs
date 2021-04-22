@@ -195,10 +195,9 @@ namespace Arrays.Facts
             a.Add(2.01);
             a.Add(3);
             a.Add(112);
-            foreach (int i in a.NrOfPositions())
-            {
-                Console.WriteLine(i);
-            }
+            a.GetEnumerator();
+
+            
         }
     }
 }
