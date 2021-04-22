@@ -88,7 +88,7 @@ namespace IntArray
         {
             for (int i = 0; i < Count; i++)
             {
-                yield return i;
+                yield return objArray[i];
             }
         }
     }
