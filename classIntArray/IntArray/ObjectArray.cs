@@ -7,73 +7,71 @@ namespace IntArray
 {
     public class List<T> : IEnumerable
     {
-        protected List<int> myList;
+        protected T[] myArray;
 
-        public List(int Capacity)
+        public List()
         {
-            myList = new List<int>(Capacity);
+            myArray = new T[4];
         }
 
         public int Count { get; private set; } = 0;
-        public int Capacity { get; private set; } = 4;
 
-        public object this[int index] //Element() + SetElement()
+        public T this[int index] //Element() + SetElement()
         {
-            get => Count > 0 && index < Count ? myList[index] : -1;
-            set => myList[index] = value;
+            get => Count > 0 && index < Count ? myArray[index] : throw new ArgumentOutOfRangeException();
+            set => myArray[index] = (T)value;
         }
 
-        public void Add(object element)
+        public void Add(T element)
         {
             ResizeArray();
-            myList[Count] = element;
+            myArray[Count] = element;
             Count++;
         }
 
-        public bool Contains(object element)
+        public bool Contains(T element)
         {
-            return IndexOf(element, 0, Count) != -1;
+            return IndexOf(element) != -1;
         }
 
-        public int IndexOf(object element, int start, int end)
+        public int IndexOf(T element)
         {
-            return myList.IndexOf(element, 0, Count);
+            return Array.IndexOf(myArray, element, 0, Count);
         }
 
-        public void Insert(int index, object element)
+        public void Insert(int index, T element)
         {
             ResizeArray();
             MoveElementsToRight(index, element);
-            myList[index] = element;
+            myArray[index] = element;
             Count++;
         }
 
         private void ResizeArray()
         {
-            if (Count >= myList.Capacity)
+            if (Count >= myArray.Length)
             {
-                Capacity *= 2;
+                Array.Resize(ref myArray, myArray.Length * 2);
             }
         }
 
-        private void MoveElementsToRight(int index, object element)
+        private void MoveElementsToRight(int index, T element)
         {
             for (int i = Count; i >= index; i--)
             {
-                myList[i] = myList[i - 1];
+                myArray[i] = myArray[i - 1];
             }
         }
 
         public void Clear()
         {
-            myList = new List<int>(4);
+            myArray = new T[4];
             Count = 0;
-            Capacity = 4;
         }
 
-        public void Remove(object element)
+        public void Remove(T element)
         {
-            int index = IndexOf(element, 0 , Count);
+            int index = IndexOf(element);
             RemoveAt(index);
         }
 
@@ -81,7 +79,7 @@ namespace IntArray
         {
             for (int i = index; i < Count - 1; i++)
             {
-                myList[i] = myList[i + 1];
+                myArray[i] = myArray[i + 1];
             }
             Count--;
         }
@@ -90,7 +88,7 @@ namespace IntArray
         {
             for (int i = 0; i < Count; i++)
             {
-                yield return myList[i];
+                yield return myArray[i];
             }
         }
     }
