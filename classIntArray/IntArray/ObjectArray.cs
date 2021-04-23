@@ -5,53 +5,54 @@ using System.Text;
 
 namespace IntArray
 {
-    public class ObjectArray : IEnumerable
+    public class List<T> : IEnumerable
     {
-        protected object[] objArray;
+        protected List<int> myList;
 
-        public ObjectArray()
+        public List(int Capacity)
         {
-            objArray = new object[4];
+            myList = new List<int>(Capacity);
         }
 
         public int Count { get; private set; } = 0;
+        public int Capacity { get; private set; } = 4;
 
         public object this[int index] //Element() + SetElement()
         {
-            get => Count > 0 && index < Count ? objArray[index] : -1;
-            set => objArray[index] = value;
+            get => Count > 0 && index < Count ? myList[index] : -1;
+            set => myList[index] = value;
         }
 
         public void Add(object element)
         {
             ResizeArray();
-            objArray[Count] = element;
+            myList[Count] = element;
             Count++;
         }
 
         public bool Contains(object element)
         {
-            return IndexOf(element) != -1;
+            return IndexOf(element, 0, Count) != -1;
         }
 
-        public int IndexOf(object element)
+        public int IndexOf(object element, int start, int end)
         {
-            return Array.IndexOf(objArray, element, 0, Count);
+            return myList.IndexOf(element, 0, Count);
         }
 
         public void Insert(int index, object element)
         {
             ResizeArray();
             MoveElementsToRight(index, element);
-            objArray[index] = element;
+            myList[index] = element;
             Count++;
         }
 
         private void ResizeArray()
         {
-            if (Count >= objArray.Length)
+            if (Count >= myList.Capacity)
             {
-                Array.Resize(ref objArray, objArray.Length * 2);
+                Capacity *= 2;
             }
         }
 
@@ -59,19 +60,20 @@ namespace IntArray
         {
             for (int i = Count; i >= index; i--)
             {
-                objArray[i] = objArray[i - 1];
+                myList[i] = myList[i - 1];
             }
         }
 
         public void Clear()
         {
-            objArray = new object[4];
+            myList = new List<int>(4);
             Count = 0;
+            Capacity = 4;
         }
 
         public void Remove(object element)
         {
-            int index = IndexOf(element);
+            int index = IndexOf(element, 0 , Count);
             RemoveAt(index);
         }
 
@@ -79,7 +81,7 @@ namespace IntArray
         {
             for (int i = index; i < Count - 1; i++)
             {
-                objArray[i] = objArray[i + 1];
+                myList[i] = myList[i + 1];
             }
             Count--;
         }
@@ -88,7 +90,7 @@ namespace IntArray
         {
             for (int i = 0; i < Count; i++)
             {
-                yield return objArray[i];
+                yield return myList[i];
             }
         }
     }

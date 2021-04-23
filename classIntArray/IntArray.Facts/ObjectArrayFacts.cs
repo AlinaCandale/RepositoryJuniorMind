@@ -1,6 +1,7 @@
 using IntArray;
 using System;
 using Xunit;
+using System.Collections.Generic;
 
 namespace Arrays.Facts
 {
@@ -9,9 +10,9 @@ namespace Arrays.Facts
         [Fact]
         public void CheckCount()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
-            a.Add("m");
+            a.Add(8);
             a.Add(2);
             a.Add(3);
             int result = a.Count;
@@ -21,40 +22,32 @@ namespace Arrays.Facts
         [Fact]
         public void CheckElement()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
             a.Add(1);
-            a.Add("mia");
+            a.Add(10);
             a.Add(3);
             object result = a[2];
-            Assert.Equal("mia", result);
-        }
-
-        [Fact]
-        public void CheckElement2()
-        {
-            var a = new ObjectArray();
-            object result = a[2];
-            Assert.Equal(-1, result);
+            Assert.Equal(10, result);
         }
 
         [Fact]
         public void CheckSetElement()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
             a.Add(1);
-            a.Add("mia");
+            a.Add(6);
             a.Add(3);
             a[1] = 5;
             Assert.Equal(5, a[1]);
-            Assert.Equal("mia", a[2]);
+            Assert.Equal(6, a[2]);
         }
 
         [Fact]
         public void CheckContains()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
             a.Add(1);
             a.Add(2);
@@ -66,7 +59,7 @@ namespace Arrays.Facts
         [Fact]
         public void CheckContains2()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             bool result = a.Contains(0);
             Assert.False(result);
         }
@@ -74,31 +67,31 @@ namespace Arrays.Facts
         [Fact]
         public void CheckIndexOf()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
-            a.Add(1.1);
+            a.Add(1);
             a.Add(2);
             a.Add(3);
-            int result = a.IndexOf(1.1);
+            int result = a.IndexOf(1);
             Assert.Equal(1, result);
         }
 
         [Fact]
         public void CheckIndexOf2()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
             a.Add(1);
             a.Add(2);
             a.Add(3);
-            int result = a.IndexOf("mia");
+            int result = a.IndexOf(101);
             Assert.Equal(-1, result);
         }
 
         [Fact]
         public void CheckIndexOf3()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             int result = a.IndexOf(0);
             Assert.Equal(-1, result);
         }
@@ -106,14 +99,14 @@ namespace Arrays.Facts
         [Fact]
         public void CheckInsert()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
             a.Add(1);
             a.Add(2);
-            a.Add("mia");
+            a.Add(1001);
             a.Insert(1, 8);
             int result = a.IndexOf(8);
-            int result1 = a.IndexOf("mia");
+            int result1 = a.IndexOf(1001);
             Assert.Equal(1, result);
             Assert.Equal(4, result1);
         }
@@ -121,11 +114,11 @@ namespace Arrays.Facts
         [Fact]
         public void CheckClear()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
-            a.Add(1.235);
+            a.Add(1235);
             a.Add(2);
-            a.Add(3.14);
+            a.Add(314);
             Assert.Equal(4, a.Count);
             a.Clear();
             Assert.Equal(0, a.Count);
@@ -134,7 +127,7 @@ namespace Arrays.Facts
         [Fact]
         public void CheckRemove()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
             a.Add(1);
             a.Add(2);
@@ -147,20 +140,20 @@ namespace Arrays.Facts
         [Fact]
         public void CheckRemove2()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(1);
             a.Add(1);
             a.Add(2);
             a.Add(3);
-            a.Remove(3);
-            object result = a[3];
-            Assert.Equal(-1, result);
+            a.Remove(1);
+            object result = a[1];
+            Assert.Equal(2, result);
         }
 
         [Fact]
         public void CheckRemoveAt()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
             a.Add(1);
             a.Add(2);
@@ -168,17 +161,15 @@ namespace Arrays.Facts
             a.RemoveAt(1);
             object result = a[2];
             Assert.Equal(3, result);
-            object result1 = a[3];
-            Assert.Equal(-1, result1);
         }
 
         [Fact]
         public void CheckAdd()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
-            a.Add("mia");
-            a.Add(2.01);
+            a.Add(10);
+            a.Add(201);
             a.Add(3);
             a.Add(112);
             a.Add(5);
@@ -189,10 +180,10 @@ namespace Arrays.Facts
         [Fact]
         public void TestForeach()
         {
-            var a = new ObjectArray();
+            var a = new System.Collections.Generic.List<int>();
             a.Add(0);
-            a.Add("mia");
-            a.Add(2.01);
+            a.Add(10052);
+            a.Add(201);
             a.Add(3);
             a.Add(112);
             a.GetEnumerator();
