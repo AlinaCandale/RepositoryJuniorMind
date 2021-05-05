@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IntArray
 {
-    public class List<T> : IEnumerable
+    public class List<T> : IList<T>
     {
         protected T[] myArray;
 
@@ -15,8 +15,12 @@ namespace IntArray
         }
 
         public int Count { get; private set; } = 0;
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
 
-        public T this[int index] //Element() + SetElement()
+    public T this[int index] //Element() + SetElement()
         {
             get => Count > 0 && index < Count ? myArray[index] : throw new ArgumentOutOfRangeException();
             set => myArray[index] = (T)value;
@@ -69,10 +73,11 @@ namespace IntArray
             Count = 0;
         }
 
-        public void Remove(T element)
+        public bool Remove(T element)
         {
             int index = IndexOf(element);
             RemoveAt(index);
+            return IndexOf(element) >= 0;
         }
 
         public void RemoveAt(int index)
@@ -84,12 +89,32 @@ namespace IntArray
             Count--;
         }
 
-        public IEnumerator GetEnumerator()
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            if (array == null)
+                throw new ArgumentNullException("The array cannot be null.");
+            if (arrayIndex < 0)
+                throw new ArgumentOutOfRangeException("The starting array index cannot be negative.");
+            if (Count > array.Length - arrayIndex + 1)
+                throw new ArgumentException("The destination array has fewer elements than the collection.");
+
+            for (int i = 0; i < Count; i++)
+            {
+                array[i + arrayIndex] = myArray[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
                 yield return myArray[i];
             }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return ((IEnumerable<T>)myArray).GetEnumerator();
         }
     }
 }
