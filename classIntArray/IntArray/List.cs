@@ -20,7 +20,7 @@ namespace IntArray
             get { return false; }
         }
 
-    public T this[int index] //Element() + SetElement()
+        public T this[int index] //Element() + SetElement()
         {
             get => Count > 0 && index < Count ? myArray[index] : throw new ArgumentOutOfRangeException();
             set => myArray[index] = (T)value;
@@ -103,18 +103,18 @@ namespace IntArray
                 array[i + arrayIndex] = myArray[i];
             }
         }
-
+            
         IEnumerator IEnumerable.GetEnumerator()
+        {
+            return myArray.GetEnumerator();
+        }
+
+        public IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
                 yield return myArray[i];
             }
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return ((IEnumerable<T>)myArray).GetEnumerator();
         }
     }
 }
