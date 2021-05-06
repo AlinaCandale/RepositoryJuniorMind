@@ -106,7 +106,7 @@ namespace IntArray
             
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return myArray.GetEnumerator();
+            return GetEnumerator();
         }
 
         public IEnumerator<T> GetEnumerator()
