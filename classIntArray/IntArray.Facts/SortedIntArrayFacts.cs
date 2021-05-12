@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace Arrays.Facts
+namespace IntArray.Facts
 
 {
     public class SortedIntArrayFacts

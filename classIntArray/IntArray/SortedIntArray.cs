@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Arrays
+namespace IntArray
 {
     public class SortedIntArray : IntArray
     {

@@ -3,7 +3,7 @@ using System;
 using Xunit;
 using System.Collections.Generic;
 
-namespace Arrays.Facts
+namespace IntArray.Facts
 {
     public class ObjectArrayFacts
     {
