@@ -23,7 +23,14 @@ namespace IntArray
         public T this[int index] //Element() + SetElement()
         {
             get => Count > 0 && index < Count ? myArray[index] : throw new ArgumentOutOfRangeException();
-            set => myArray[index] = (T)value;
+            //set => myArray[index] = value;
+            set
+            {
+                if (Count < 0 || index > Count)
+                    throw new ArgumentOutOfRangeException();
+
+                myArray[index] = value;
+            }
         }
 
         public void Add(T element)
@@ -98,11 +105,11 @@ namespace IntArray
         public void CopyTo(T[] array, int arrayIndex)
         {
             if (array == null)
-                throw new ArgumentNullException("The array cannot be null.");
+                throw new ArgumentNullException("IntArray.List.CopyTo: The array cannot be null.", nameof(array));
             if (arrayIndex < 0)
-                throw new ArgumentOutOfRangeException("The starting array index cannot be negative.");
+                throw new ArgumentOutOfRangeException(nameof(array), "IntArray.List.CopyTo: The starting array index cannot be negative.");
             if (Count > array.Length - arrayIndex + 1)
-                throw new ArgumentException("The destination array has fewer elements than the collection.");
+                throw new ArgumentException("IntArray.List.CopyTo: The destination array has fewer elements than the collection.", nameof(array));
 
             for (int i = 0; i < Count; i++)
             {
