@@ -23,5 +23,13 @@ namespace IntArray.Facts
             }
             Assert.Equal(0, result);
         }
+
+        [Fact]
+        public void CheckDivisionByZero()
+        {
+            double a = 98, b = 0;
+            double result;
+            Assert.Throws<DivideByZeroException>(() => result = ExceptionTestClass.Division(a, b));
+        }
     }
 }
