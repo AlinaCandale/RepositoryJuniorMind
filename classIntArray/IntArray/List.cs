@@ -45,6 +45,9 @@ namespace IntArray
 
         public void Insert(int index, T element)
         {
+            if (index > Count || index < 0)
+                throw new ArgumentOutOfRangeException();
+            
             ResizeArray();
             MoveElementsToRight(index, element);
             myArray[index] = element;
@@ -75,18 +78,16 @@ namespace IntArray
 
         public bool Remove(T element)
         {
-            int index = IndexOf(element);
-            if (index == -1)
-            {
-                throw new ArgumentOutOfRangeException("The element is not in the array.");
-            }
-            
+            int index = IndexOf(element);                       
             RemoveAt(index);
             return IndexOf(element) >= 0;
         }
 
         public void RemoveAt(int index)
         {
+            if (index >= Count || index < 0)
+                throw new ArgumentOutOfRangeException();
+
             for (int i = index; i < Count - 1; i++)
             {
                 myArray[i] = myArray[i + 1];
