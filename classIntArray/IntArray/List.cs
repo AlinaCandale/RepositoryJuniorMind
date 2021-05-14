@@ -76,6 +76,11 @@ namespace IntArray
         public bool Remove(T element)
         {
             int index = IndexOf(element);
+            if (index == -1)
+            {
+                throw new ArgumentOutOfRangeException("The element is not in the array.");
+            }
+            
             RemoveAt(index);
             return IndexOf(element) >= 0;
         }
