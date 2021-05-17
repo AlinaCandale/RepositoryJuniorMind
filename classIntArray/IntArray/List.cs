@@ -8,6 +8,7 @@ namespace IntArray
     public class List<T> : IList<T>
     {
         protected T[] myArray;
+        string command;
 
         public List()
         {
@@ -22,11 +23,11 @@ namespace IntArray
 
         public T this[int index] //Element() + SetElement()
         {
-            get => Count > 0 && index < Count ? myArray[index] : throw new ArgumentOutOfRangeException();
+            get => Count > 0 && IndexValidation(index, command) ? myArray[index] : throw new ArgumentOutOfRangeException();
             //set => myArray[index] = value;
             set
             {
-                if (Count < 0 || index > Count)
+                if (Count < 0 || !IndexValidation(index, command))
                     throw new ArgumentOutOfRangeException();
 
                 myArray[index] = value;
@@ -52,7 +53,10 @@ namespace IntArray
 
         public void Insert(int index, T element)
         {
-            MethodForArgumentOutOfRangeException(index);
+            command = "insert";
+            if(IndexValidation(index, command))
+                throw new ArgumentOutOfRangeException();
+            
             ResizeArray();
             MoveElementsToRight(index, element);
             myArray[index] = element;
@@ -90,9 +94,10 @@ namespace IntArray
 
         public void RemoveAt(int index)
         {
-            if (index == Count)
+            command = "removeAt";
+            if (IndexValidation(index, command))
                 throw new ArgumentOutOfRangeException();
-            MethodForArgumentOutOfRangeException(index);
+
             for (int i = index; i < Count - 1; i++)
             {
                 myArray[i] = myArray[i + 1];
@@ -100,10 +105,17 @@ namespace IntArray
             Count--;
         }
 
-        public void MethodForArgumentOutOfRangeException(int index)
+        public bool IndexValidation(int index, string command)
         {
-            if (index > Count || index < 0)
-                throw new ArgumentOutOfRangeException();
+            if (command == "removeAt")
+            {
+                return index >= Count || index < 0;
+            }
+            if (command == "insert")
+            {
+                return index > Count || index < 0;
+            }
+            return index < Count;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
