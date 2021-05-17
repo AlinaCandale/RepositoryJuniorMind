@@ -8,7 +8,6 @@ namespace IntArray
     public class List<T> : IList<T>
     {
         protected T[] myArray;
-        string command;
 
         public List()
         {
@@ -23,11 +22,11 @@ namespace IntArray
 
         public T this[int index] //Element() + SetElement()
         {
-            get => Count > 0 && !IndexValidation(index) ? myArray[index] : throw new ArgumentOutOfRangeException();
+            get => Count < 0 || ValidateIndex(index, Count) ? throw new ArgumentOutOfRangeException() : myArray[index];
             //set => myArray[index] = value;
             set
             {
-                if (Count < 0 || IndexValidation(index))
+                if (Count < 0 || ValidateIndex(index, Count))
                     throw new ArgumentOutOfRangeException();
 
                 myArray[index] = value;
@@ -53,7 +52,7 @@ namespace IntArray
 
         public void Insert(int index, T element)
         {
-            if(!IndexValidation(index))
+            if(ValidateIndex(index, Count - 1))
                 throw new ArgumentOutOfRangeException();
             
             ResizeArray();
@@ -93,7 +92,7 @@ namespace IntArray
 
         public void RemoveAt(int index)
         {
-            if (!IndexValidation(index))
+            if (ValidateIndex(index, Count))
                 throw new ArgumentOutOfRangeException();
 
             for (int i = index; i < Count - 1; i++)
@@ -103,9 +102,9 @@ namespace IntArray
             Count--;
         }
 
-        public bool IndexValidation(int index)
+        public bool ValidateIndex(int index, int Count)
         {    
-            return index < Count || index < 0;
+            return index >= Count || index < 0;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
