@@ -23,11 +23,11 @@ namespace IntArray
 
         public T this[int index] //Element() + SetElement()
         {
-            get => Count > 0 && IndexValidation(index, command) ? myArray[index] : throw new ArgumentOutOfRangeException();
+            get => Count > 0 && !IndexValidation(index) ? myArray[index] : throw new ArgumentOutOfRangeException();
             //set => myArray[index] = value;
             set
             {
-                if (Count < 0 || !IndexValidation(index, command))
+                if (Count < 0 || IndexValidation(index))
                     throw new ArgumentOutOfRangeException();
 
                 myArray[index] = value;
@@ -53,8 +53,7 @@ namespace IntArray
 
         public void Insert(int index, T element)
         {
-            command = "insert";
-            if(IndexValidation(index, command))
+            if(!IndexValidation(index))
                 throw new ArgumentOutOfRangeException();
             
             ResizeArray();
@@ -94,8 +93,7 @@ namespace IntArray
 
         public void RemoveAt(int index)
         {
-            command = "removeAt";
-            if (IndexValidation(index, command))
+            if (!IndexValidation(index))
                 throw new ArgumentOutOfRangeException();
 
             for (int i = index; i < Count - 1; i++)
@@ -105,17 +103,9 @@ namespace IntArray
             Count--;
         }
 
-        public bool IndexValidation(int index, string command)
-        {
-            if (command == "removeAt")
-            {
-                return index >= Count || index < 0;
-            }
-            if (command == "insert")
-            {
-                return index > Count || index < 0;
-            }
-            return index < Count;
+        public bool IndexValidation(int index)
+        {    
+            return index < Count || index < 0;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
