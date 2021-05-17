@@ -52,9 +52,7 @@ namespace IntArray
 
         public void Insert(int index, T element)
         {
-            if (index > Count || index < 0)
-                throw new ArgumentOutOfRangeException();
-            
+            MethodForArgumentOutOfRangeException(index);
             ResizeArray();
             MoveElementsToRight(index, element);
             myArray[index] = element;
@@ -92,14 +90,20 @@ namespace IntArray
 
         public void RemoveAt(int index)
         {
-            if (index >= Count || index < 0)
+            if (index == Count)
                 throw new ArgumentOutOfRangeException();
-
+            MethodForArgumentOutOfRangeException(index);
             for (int i = index; i < Count - 1; i++)
             {
                 myArray[i] = myArray[i + 1];
             }
             Count--;
+        }
+
+        public void MethodForArgumentOutOfRangeException(int index)
+        {
+            if (index > Count || index < 0)
+                throw new ArgumentOutOfRangeException();
         }
 
         public void CopyTo(T[] array, int arrayIndex)
