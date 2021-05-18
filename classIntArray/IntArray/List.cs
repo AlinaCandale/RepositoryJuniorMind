@@ -15,20 +15,22 @@ namespace IntArray
         }
 
         public int Count { get; private set; } = 0;
+
         public bool IsReadOnly
         {
             get { return false; }
         }
 
-        public T this[int index] //Element() + SetElement()
+        public T this[int index] 
         {
-            get => Count < 0 || ValidateIndex(index, Count) ? throw new ArgumentOutOfRangeException() : myArray[index];
-            //set => myArray[index] = value;
+            get
+            {
+                ValidateIndex(index, Count);
+                return _= myArray[index];
+            }
             set
             {
-                if (Count < 0 || ValidateIndex(index, Count))
-                    throw new ArgumentOutOfRangeException();
-
+                ValidateIndex(index, Count);               
                 myArray[index] = value;
             }
         }
@@ -52,9 +54,7 @@ namespace IntArray
 
         public void Insert(int index, T element)
         {
-            if(ValidateIndex(index, Count - 1))
-                throw new ArgumentOutOfRangeException();
-            
+            ValidateIndex(index, Count - 1);
             ResizeArray();
             MoveElementsToRight(index, element);
             myArray[index] = element;
@@ -85,15 +85,14 @@ namespace IntArray
 
         public bool Remove(T element)
         {
-            int index = IndexOf(element);                       
+            int index = IndexOf(element);
             RemoveAt(index);
             return IndexOf(element) >= 0;
         }
 
         public void RemoveAt(int index)
         {
-            if (ValidateIndex(index, Count))
-                throw new ArgumentOutOfRangeException();
+            ValidateIndex(index, Count);
 
             for (int i = index; i < Count - 1; i++)
             {
@@ -102,26 +101,35 @@ namespace IntArray
             Count--;
         }
 
-        public bool ValidateIndex(int index, int Count)
-        {    
-            return index >= Count || index < 0;
+        public void ValidateIndex(int index, int count)
+        {
+            if (index >= count || index < 0 || count < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
             if (array == null)
+            {
                 throw new ArgumentNullException("IntArray.List.CopyTo: The array cannot be null.", nameof(array));
+            }
             if (arrayIndex < 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(array), "IntArray.List.CopyTo: The starting array index cannot be negative.");
+            }
             if (Count > array.Length - arrayIndex + 1)
+            {
                 throw new ArgumentException("IntArray.List.CopyTo: The destination array has fewer elements than the collection.", nameof(array));
+            }
 
             for (int i = 0; i < Count; i++)
             {
                 array[i + arrayIndex] = myArray[i];
             }
         }
-            
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
