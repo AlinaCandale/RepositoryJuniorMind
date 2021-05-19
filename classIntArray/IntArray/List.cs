@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace IntArray
@@ -16,22 +17,26 @@ namespace IntArray
 
         public int Count { get; private set; } = 0;
 
-        public bool IsReadOnly
+        public virtual bool IsReadOnly
         {
             get { return false; }
         }
 
-        public T this[int index] 
+        public T this[int index]
         {
             get
             {
                 ValidateIndex(index, Count);
-                return _= myArray[index];
+                return _ = myArray[index];
             }
             set
             {
-                ValidateIndex(index, Count);               
-                myArray[index] = value;
+                ValidateIndex(index, Count);
+                if (!IsReadOnly)
+                {
+                    myArray[index] = value;
+                }
+                else throw new NotSupportedException("List is read-only.");
             }
         }
 
@@ -103,7 +108,7 @@ namespace IntArray
 
         public void ValidateIndex(int index, int count)
         {
-            if (index >= count || index < 0 || count < 0)
+            if (index >= count || index < 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -142,5 +147,23 @@ namespace IntArray
                 yield return myArray[i];
             }
         }
+
+        public ReadOnlyList AsReadOnly()
+        {
+            return new ReadOnlyList(this);
+        }
+
+        public class ReadOnlyList : List<T>
+        {
+            private List<T> _myReadOnlyList;
+            public override bool IsReadOnly { get { return true; } }
+
+            public ReadOnlyList(List<T> myReadOnlyList) 
+            {
+                this._myReadOnlyList = myReadOnlyList;
+            }
+        }
+
     }
+
 }
