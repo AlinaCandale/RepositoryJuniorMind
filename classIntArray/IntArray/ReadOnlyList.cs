@@ -6,11 +6,11 @@ namespace IntArray
 {
     public class ReadOnlyList<T> : IList<T>
     {
-        readonly IList<T> _list = new List<T>();
+        readonly IList<T> readOnlyList = new List<T>();
 
-        public T this[int index] { get => _list[index]; set => throw new NotSupportedException("List is read-only"); }
+        public T this[int index] { get => readOnlyList[index]; set => throw new NotSupportedException("List is read-only"); }
 
-        public int Count => _list.Count;
+        public int Count => readOnlyList.Count;
 
         public bool IsReadOnly
         {
@@ -29,22 +29,22 @@ namespace IntArray
 
         public bool Contains(T item)
         {
-            return _list.Contains(item);
+            return readOnlyList.Contains(item);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            _list.CopyTo(array, arrayIndex);
+            readOnlyList.CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return _list.GetEnumerator();
+            return readOnlyList.GetEnumerator();
         }
 
         public int IndexOf(T item)
         {
-            return _list.IndexOf(item);
+            return readOnlyList.IndexOf(item);
         }
 
         public void Insert(int index, T item)
@@ -64,7 +64,7 @@ namespace IntArray
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)_list).GetEnumerator();
+            return ((IEnumerable)readOnlyList).GetEnumerator();
         }
     }
 }
