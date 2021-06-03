@@ -15,5 +15,8 @@ namespace LinkedList
         {
             this.Value = item;
         }
+        public Node()
+        {
+        }
     }
 }
