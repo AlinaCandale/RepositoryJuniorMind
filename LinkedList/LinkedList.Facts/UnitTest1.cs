@@ -14,8 +14,8 @@ namespace LinkedList.Facts
             MyList.RemoveFirst();
             MyList.Add(20);
             MyList.AddFirst(30);
-            MyList.AddAtPosition(40, 2);
-            MyList.Find(20);
+            MyList.AddBefore(20, 15);
+            MyList.AddAfter(15, 35);
             MyList.RemoveLast();
 
         }

@@ -6,10 +6,7 @@ namespace LinkedList
 {
     public class CircularLinkedList<T> : ICollection<T>
     {
-        public int Count { get; private set; } = 0;
-        public bool IsReadOnly => false;
-
-        public Node<T> head;
+        private Node<T> head;
 
         public CircularLinkedList()
         {
@@ -18,60 +15,124 @@ namespace LinkedList
             head.Previous = head;
         }
 
-        public void AddFirst(T newElement)
+        public int Count { get; private set; } = 0;
+        public bool IsReadOnly => false;
+
+        void AddFirstElement(T newElement)
         {
             Node<T> newNode = new Node<T>(newElement);
             newNode.Value = newElement;
 
-            newNode.Next = head.Next;
-            newNode.Previous = head;
-            head.Next.Previous = newNode;
             head.Next = newNode;
+            head.Previous = newNode;
+            newNode.Next = head;
+            newNode.Previous = head;
+        }
 
+        public void AddFirst(T newElement)
+        {
+            if (head.Next == null)
+            {
+                AddFirstElement(newElement);
+            }
+            else
+            {
+                Node<T> newNode = new Node<T>(newElement);
+                newNode.Value = newElement;
+
+                newNode.Next = head.Next;
+                newNode.Previous = head;
+                head.Next.Previous = newNode;
+                head.Next = newNode;
+            }
+            Count++;
+        }
+
+        public void AddLast(T newElement)
+        {
+            if (head.Previous == null)
+            {
+                AddFirstElement(newElement);
+            }
+            else
+            {
+                Node<T> newNode = new Node<T>(newElement);
+                newNode.Value = newElement;
+
+                newNode.Next = head;
+                newNode.Previous = head.Previous;
+                head.Previous.Next = newNode;
+                head.Previous = newNode;
+            }
             Count++;
         }
 
         public void Add(T newElement)
         {
-            Node<T> newNode = new Node<T>(newElement);
-            newNode.Value = newElement;
+            AddLast(newElement);    
+        }
+        
+        void AddAfter(Node<T> node, T newElement)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException();
+            }
 
-            newNode.Next = head;
-            newNode.Previous = head.Previous;
-            head.Previous.Next = newNode;
-            head.Previous = newNode;
+            Node<T> temp = FindNode(head, node.Value);
+            if (temp != node)
+            {
+                throw new InvalidOperationException("Node is not in the current list");
+            }
+
+            Node<T> newNode = new Node<T>(newElement);
+            newNode.Next = node.Next;
+            node.Next.Previous = newNode;
+            newNode.Previous = node;
+            node.Next = newNode;
 
             Count++;
         }
 
-        public void AddAtPosition(T newElement, int position)
+        public void AddAfter(T existingElement, T newElement)
         {
-            Node<T> newNode = new Node<T>(newElement);
-            newNode.Value = newElement;
-            Node<T> temp;
+            Node<T> node = Find(existingElement);
+            if (node == null)
+            {
+                throw new ArgumentException("existingElement is not in the current list");
+            }
+            AddAfter(node, newElement);
+        }
 
-            if (position < 1 || position > (Count + 1))
+        void AddBefore(Node<T> node, T newElement)
+        {
+            if (node == null)
             {
-                Console.Write("\nInvalid position.");
+                throw new ArgumentNullException();
             }
-            else if (position == 1)
+            Node<T> temp = FindNode(head, node.Value);
+            if (temp != node)
             {
-                AddFirst(newElement);
+                throw new InvalidOperationException("Node is not in the current list");
             }
-            else
-            {
-                temp = head;
-                for (int i = 1; i < position; i++)
-                {
-                    temp = temp.Next;
-                }
-                newNode.Next = temp.Next;
-                newNode.Previous = temp;
-                temp.Next.Previous = newNode;
-                temp.Next = newNode;
-            }
-            
+
+            Node<T> newNode = new Node<T>(newElement);
+            node.Previous.Next = newNode;
+            newNode.Previous = node.Previous;
+            newNode.Next = node;
+            node.Previous = newNode;
+
             Count++;
+        }
+
+        public void AddBefore(T existingElement, T newElement)
+        {
+            Node<T> node = Find(existingElement);
+            if (node == null)
+            {
+                throw new ArgumentException("existingElement is not in the current list");
+            }
+            AddBefore(node, newElement);
         }
 
         public void Clear()
@@ -79,24 +140,8 @@ namespace LinkedList
             while (true && Count != 0)
             {
                 Count--;
-                //Remove(head.Next.Value);
                 RemoveFirst();
             }
-        }
-        
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
         }
 
         public bool Contains(T item)
@@ -154,16 +199,6 @@ namespace LinkedList
             return true;
         }
 
-        //public void RemoveAll(T item)
-        //{
-        //    bool removed = false;
-        //    do
-        //    {
-        //        removed = this.Remove(item);
-        //    } while (removed);
-        //}
-
-
         public bool RemoveFirst()
         {
             return RemoveNode(head.Next);
@@ -172,6 +207,49 @@ namespace LinkedList
         public bool RemoveLast()
         {
             return RemoveNode(head.Previous);
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array is null");
+            }
+            if (arrayIndex < 0 || arrayIndex > Count)
+            {
+                throw new ArgumentOutOfRangeException("arrayIndex is out of range");
+            }
+            //if ()
+            //{
+            //    throw new ArgumentException();
+            //}
+
+            Node<T> node = head.Next;
+            do
+            {
+                array[arrayIndex++] = node.Value;
+                node = node.Next;
+            } 
+            while (node != head);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            Node<T> current = head.Next;
+            if (current != null)
+            {
+                do
+                {
+                    yield return current.Value;
+                    current = current.Next;
+                }
+                while (current != head);
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
