@@ -104,26 +104,26 @@ namespace LinkedList
             AddAfter(node, newElement);
         }
 
-        void AddBefore(Node<T> node, T newElement)
-        {
-            if (node == null)
-            {
-                throw new ArgumentNullException();
-            }
-            Node<T> temp = FindNode(head, node.Value);
-            if (temp != node)
-            {
-                throw new InvalidOperationException("Node is not in the current list");
-            }
+        //void AddBefore(Node<T> node, T newElement)
+        //{
+        //    if (node == null)
+        //    {
+        //        throw new ArgumentNullException();
+        //    }
+        //    Node<T> temp = FindNode(head, node.Value);
+        //    if (temp != node)
+        //    {
+        //        throw new InvalidOperationException("Node is not in the current list");
+        //    }
 
-            Node<T> newNode = new Node<T>(newElement);
-            node.Previous.Next = newNode;
-            newNode.Previous = node.Previous;
-            newNode.Next = node;
-            node.Previous = newNode;
+        //    Node<T> newNode = new Node<T>(newElement);
+        //    node.Previous.Next = newNode;
+        //    newNode.Previous = node.Previous;
+        //    newNode.Next = node;
+        //    node.Previous = newNode;
 
-            Count++;
-        }
+        //    Count++;
+        //}
 
         public void AddBefore(T existingElement, T newElement)
         {
@@ -132,7 +132,7 @@ namespace LinkedList
             {
                 throw new ArgumentException("existingElement is not in the current list");
             }
-            AddBefore(node, newElement);
+            AddAfter(node.Previous , newElement);
         }
 
         public void Clear()
@@ -219,10 +219,10 @@ namespace LinkedList
             {
                 throw new ArgumentOutOfRangeException("arrayIndex is out of range");
             }
-            //if ()
-            //{
-            //    throw new ArgumentException();
-            //}
+            if (Count > array.Length - arrayIndex + 1)
+            {
+                throw new ArgumentException();
+            }
 
             Node<T> node = head.Next;
             do
