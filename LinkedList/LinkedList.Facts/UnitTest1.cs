@@ -9,14 +9,16 @@ namespace LinkedList.Facts
         public void CheckAdd()
         {
             CircularLinkedList<int> MyList = new CircularLinkedList<int>();
-
+            
+            MyList.AddFirst(11);
             MyList.Add(10);
-            MyList.RemoveFirst();
-            MyList.Add(20);
+            MyList.AddLast(20);
             MyList.AddFirst(30);
-            MyList.AddBefore(20, 15);
-            MyList.AddAfter(15, 35);
+            MyList.AddBefore(MyList.Find(20), 15);
+            MyList.AddAfter(MyList.Find(15), 35);
+            MyList.RemoveFirst();
             MyList.RemoveLast();
+            MyList.Find(30);
 
         }
     }

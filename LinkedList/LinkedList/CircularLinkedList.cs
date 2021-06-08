@@ -18,130 +18,73 @@ namespace LinkedList
         public int Count { get; private set; } = 0;
         public bool IsReadOnly => false;
 
-        void AddFirstElement(T newElement)
+        void AddNode(Node<T> temp, Node<T> next, T valueForNodeToAdd)
         {
-            Node<T> newNode = new Node<T>(newElement);
-            newNode.Value = newElement;
+            Node<T> newNode = new Node<T>(valueForNodeToAdd);
+            newNode.Value = valueForNodeToAdd;
 
-            head.Next = newNode;
-            head.Previous = newNode;
-            newNode.Next = head;
-            newNode.Previous = head;
-        }
+            temp.Next = newNode;
+            newNode.Previous = temp;
+            newNode.Next = next;
+            next.Previous = newNode;
 
-        public void AddFirst(T newElement)
-        {
-            if (head.Next == null)
-            {
-                AddFirstElement(newElement);
-            }
-            else
-            {
-                Node<T> newNode = new Node<T>(newElement);
-                newNode.Value = newElement;
-
-                newNode.Next = head.Next;
-                newNode.Previous = head;
-                head.Next.Previous = newNode;
-                head.Next = newNode;
-            }
             Count++;
         }
 
-        public void AddLast(T newElement)
+        public void AddFirst(T nodeToAdd)
         {
-            if (head.Previous == null)
+            if (head.Next == head)
             {
-                AddFirstElement(newElement);
+                AddNode(head, head, nodeToAdd);
             }
             else
             {
-                Node<T> newNode = new Node<T>(newElement);
-                newNode.Value = newElement;
-
-                newNode.Next = head;
-                newNode.Previous = head.Previous;
-                head.Previous.Next = newNode;
-                head.Previous = newNode;
+                AddNode(head, head.Next, nodeToAdd);
             }
-            Count++;
         }
 
-        public void Add(T newElement)
+        public void AddLast(T nodeToAdd)
         {
-            AddLast(newElement);    
+            if (head.Previous == head)
+            {
+                AddNode(head, head, nodeToAdd); 
+            }
+            else
+            {
+                AddNode(head.Previous, head, nodeToAdd);
+            }
+        }
+
+        public void Add(T nodeToAdd)
+        {
+            AddLast(nodeToAdd);    
         }
         
-        void AddAfter(Node<T> node, T newElement)
+        public void AddAfter(Node<T> existingNode, T valueForNodeToAdd)
         {
-            if (node == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            Node<T> temp = FindNode(head, node.Value);
-            if (temp != node)
-            {
-                throw new InvalidOperationException("Node is not in the current list");
-            }
-
-            Node<T> newNode = new Node<T>(newElement);
-            newNode.Next = node.Next;
-            node.Next.Previous = newNode;
-            newNode.Previous = node;
-            node.Next = newNode;
-
-            Count++;
+            AddNode(existingNode, existingNode.Next, valueForNodeToAdd);
         }
 
-        public void AddAfter(T existingElement, T newElement)
+        public void AddAfter(Node<T> existingNode, Node<T> nodeToAdd)
         {
-            Node<T> node = Find(existingElement);
-            if (node == null)
-            {
-                throw new ArgumentException("existingElement is not in the current list");
-            }
-            AddAfter(node, newElement);
+            AddNode(existingNode, existingNode.Next, nodeToAdd.Value);
         }
 
-        //void AddBefore(Node<T> node, T newElement)
-        //{
-        //    if (node == null)
-        //    {
-        //        throw new ArgumentNullException();
-        //    }
-        //    Node<T> temp = FindNode(head, node.Value);
-        //    if (temp != node)
-        //    {
-        //        throw new InvalidOperationException("Node is not in the current list");
-        //    }
-
-        //    Node<T> newNode = new Node<T>(newElement);
-        //    node.Previous.Next = newNode;
-        //    newNode.Previous = node.Previous;
-        //    newNode.Next = node;
-        //    node.Previous = newNode;
-
-        //    Count++;
-        //}
-
-        public void AddBefore(T existingElement, T newElement)
+        public void AddBefore(Node<T> existingNode, Node<T> nodeToAdd)
         {
-            Node<T> node = Find(existingElement);
-            if (node == null)
-            {
-                throw new ArgumentException("existingElement is not in the current list");
-            }
-            AddAfter(node.Previous , newElement);
+            AddNode(existingNode.Previous, existingNode, nodeToAdd.Value);
+        }
+
+        public void AddBefore(Node<T> existingNode, T valueForNodeToAdd)
+        {
+            AddNode(existingNode.Previous, existingNode, valueForNodeToAdd);
         }
 
         public void Clear()
         {
-            while (true && Count != 0)
-            {
-                Count--;
-                RemoveFirst();
-            }
+            head.Next = head;
+            head.Previous = head;
+            Count = 0;
         }
 
         public bool Contains(T item)
@@ -157,16 +100,19 @@ namespace LinkedList
 
         Node<T> FindNode(Node<T> node, T valueToCompare)
         {
-            Node<T> searchNode = null;
-            if (Comparer.Equals(node.Value, valueToCompare))
+            Node<T> searchNode = head;
+            for (int i = 0; i <= Count; i++)
             {
-                searchNode = node;
+                if (Comparer.Equals(node.Value, valueToCompare))
+                {
+                    searchNode = node;
+                }
+                else 
+                {
+                    node = node.Next;
+                }
             }
-            else if (searchNode == null && node.Next != head)
-            {
-                searchNode = FindNode(node.Next, valueToCompare);
-            }
-            
+
             return searchNode;
         }
 
@@ -185,12 +131,9 @@ namespace LinkedList
         {
             if (head == nodeToRemove)
             {
-                head = nodeToRemove.Next;
+                nodeToRemove = head.Next;
             }
-            else if (head.Previous == nodeToRemove)
-            {
-                head.Previous = head.Previous.Previous;
-            }
+            
             Node<T> node = nodeToRemove.Previous;
             node.Next = nodeToRemove.Next;
             nodeToRemove.Next.Previous = nodeToRemove.Previous;
@@ -236,14 +179,10 @@ namespace LinkedList
         public IEnumerator<T> GetEnumerator()
         {
             Node<T> current = head.Next;
-            if (current != null)
+            for (int i = 0; i < Count; i++)
             {
-                do
-                {
-                    yield return current.Value;
-                    current = current.Next;
-                }
-                while (current != head);
+                yield return current.Value;
+                current = current.Next;
             }
         }
 
