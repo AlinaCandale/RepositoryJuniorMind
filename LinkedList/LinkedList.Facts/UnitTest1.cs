@@ -16,6 +16,7 @@ namespace LinkedList.Facts
             MyList.AddFirst(30);
             MyList.AddBefore(MyList.Find(20), 15);
             MyList.AddAfter(MyList.Find(15), 35);
+            MyList.AddAfter(MyList.Find(15), new Node<int>(8));
             MyList.RemoveFirst();
             MyList.RemoveLast();
             MyList.Find(30);

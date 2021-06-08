@@ -23,33 +23,17 @@ namespace LinkedList
             Node<T> nodeToAdd = new Node<T>(valueForNodeToAdd);
             nodeToAdd.Value = valueForNodeToAdd;
 
-            nodeToAdd.Next = node.Next;
-            nodeToAdd.Previous = node;
-            node.Next.Previous = nodeToAdd;
-            node.Next = nodeToAdd;
-
-            Count++;
-        }
-
-        void AddNode(Node<T> node, Node<T> nodeToAdd)
-        {
-            nodeToAdd.Next = node.Next;
-            nodeToAdd.Previous = node;
-            node.Next.Previous = nodeToAdd;
-            node.Next = nodeToAdd;
-
-            Count++;
+            AddAfter(node, nodeToAdd);
         }
 
         public void AddFirst(T nodeToAdd)
         {
             AddNode(head, nodeToAdd);
-            
         }
 
         public void AddLast(T nodeToAdd)
         {
-                AddNode(head.Previous, nodeToAdd);
+            AddNode(head.Previous, nodeToAdd);
         }
 
         public void Add(T nodeToAdd)
@@ -64,12 +48,17 @@ namespace LinkedList
 
         public void AddAfter(Node<T> existingNode, Node<T> nodeToAdd)
         {
-            AddNode(existingNode, nodeToAdd);
+            nodeToAdd.Next = existingNode.Next;
+            nodeToAdd.Previous = existingNode;
+            existingNode.Next.Previous = nodeToAdd;
+            existingNode.Next = nodeToAdd;
+
+            Count++;
         }
 
         public void AddBefore(Node<T> existingNode, Node<T> nodeToAdd)
         {
-            AddNode(existingNode.Previous, nodeToAdd);
+            AddAfter(existingNode.Previous, nodeToAdd);
         }
 
         public void AddBefore(Node<T> existingNode, T valueForNodeToAdd)
@@ -97,20 +86,15 @@ namespace LinkedList
 
         Node<T> FindNode(Node<T> node, T valueToCompare)
         {
-            Node<T> searchNode = head;
-            for (int i = 0; i <= Count; i++)
+            for (node = head.Next; node != head; node = node.Next)
             {
                 if (Comparer.Equals(node.Value, valueToCompare))
                 {
-                    searchNode = node;
-                }
-                else 
-                {
-                    node = node.Next;
+                    return node;
                 }
             }
 
-            return searchNode;
+            return node;
         }
 
         public bool Remove(T item)
