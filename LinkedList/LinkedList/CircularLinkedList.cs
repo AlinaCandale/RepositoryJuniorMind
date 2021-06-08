@@ -18,41 +18,38 @@ namespace LinkedList
         public int Count { get; private set; } = 0;
         public bool IsReadOnly => false;
 
-        void AddNode(Node<T> temp, Node<T> next, T valueForNodeToAdd)
+        void AddNode(Node<T> node, T valueForNodeToAdd)
         {
-            Node<T> newNode = new Node<T>(valueForNodeToAdd);
-            newNode.Value = valueForNodeToAdd;
+            Node<T> nodeToAdd = new Node<T>(valueForNodeToAdd);
+            nodeToAdd.Value = valueForNodeToAdd;
 
-            temp.Next = newNode;
-            newNode.Previous = temp;
-            newNode.Next = next;
-            next.Previous = newNode;
+            nodeToAdd.Next = node.Next;
+            nodeToAdd.Previous = node;
+            node.Next.Previous = nodeToAdd;
+            node.Next = nodeToAdd;
+
+            Count++;
+        }
+
+        void AddNode(Node<T> node, Node<T> nodeToAdd)
+        {
+            nodeToAdd.Next = node.Next;
+            nodeToAdd.Previous = node;
+            node.Next.Previous = nodeToAdd;
+            node.Next = nodeToAdd;
 
             Count++;
         }
 
         public void AddFirst(T nodeToAdd)
         {
-            if (head.Next == head)
-            {
-                AddNode(head, head, nodeToAdd);
-            }
-            else
-            {
-                AddNode(head, head.Next, nodeToAdd);
-            }
+            AddNode(head, nodeToAdd);
+            
         }
 
         public void AddLast(T nodeToAdd)
         {
-            if (head.Previous == head)
-            {
-                AddNode(head, head, nodeToAdd); 
-            }
-            else
-            {
-                AddNode(head.Previous, head, nodeToAdd);
-            }
+                AddNode(head.Previous, nodeToAdd);
         }
 
         public void Add(T nodeToAdd)
@@ -62,22 +59,22 @@ namespace LinkedList
         
         public void AddAfter(Node<T> existingNode, T valueForNodeToAdd)
         {
-            AddNode(existingNode, existingNode.Next, valueForNodeToAdd);
+            AddNode(existingNode, valueForNodeToAdd);
         }
 
         public void AddAfter(Node<T> existingNode, Node<T> nodeToAdd)
         {
-            AddNode(existingNode, existingNode.Next, nodeToAdd.Value);
+            AddNode(existingNode, nodeToAdd);
         }
 
         public void AddBefore(Node<T> existingNode, Node<T> nodeToAdd)
         {
-            AddNode(existingNode.Previous, existingNode, nodeToAdd.Value);
+            AddNode(existingNode.Previous, nodeToAdd);
         }
 
         public void AddBefore(Node<T> existingNode, T valueForNodeToAdd)
         {
-            AddNode(existingNode.Previous, existingNode, valueForNodeToAdd);
+            AddNode(existingNode.Previous, valueForNodeToAdd);
         }
 
         public void Clear()
