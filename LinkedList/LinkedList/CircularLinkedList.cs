@@ -33,37 +33,41 @@ namespace LinkedList
 
         public void AddFirst(T valueForNodeToAdd)
         {
-            AddAfter(head, new Node<T>(valueForNodeToAdd));
+            this.AddAfter(head, new Node<T>(valueForNodeToAdd));
         }
 
         public void AddFirst(Node<T> nodeToAdd)
         {
-            AddAfter(head, nodeToAdd);
+            this.AddAfter(head, nodeToAdd);
         }
 
         public void AddLast(Node<T> nodeToAdd)
         {
-            AddAfter(head.Previous, nodeToAdd);
+            this.AddAfter(head.Previous, nodeToAdd);
         }
 
         public void Add(T valueForNodeToAdd)
         {
-            AddAfter(head.Previous, valueForNodeToAdd);    
+            AddLast(new Node<T>(valueForNodeToAdd));
         }
         
         public void AddAfter(Node<T> existingNode, T valueForNodeToAdd)
         {
-            AddAfter(existingNode, new Node<T>(valueForNodeToAdd));
+            this.AddAfter(existingNode, new Node<T>(valueForNodeToAdd));
         }
         
         public void AddBefore(Node<T> existingNode, Node<T> nodeToAdd)
         {
-            AddAfter(existingNode.Previous, nodeToAdd);
+            if (existingNode == null)
+            {
+                throw new ArgumentNullException();
+            }
+            this.AddAfter(existingNode.Previous, nodeToAdd);
         }
 
         public void AddBefore(Node<T> existingNode, T valueForNodeToAdd)
         {
-            AddAfter(existingNode.Previous, new Node<T>(valueForNodeToAdd));
+            AddBefore(existingNode, new Node<T>(valueForNodeToAdd));
         }
 
         public void Clear()
@@ -75,17 +79,12 @@ namespace LinkedList
 
         public bool Contains(T item)
         {
-            return Find(item) != null;
+            return this.Find(item) != null;
         }
 
-        public Node<T> Find(T item)
+        public Node<T> Find(T valueToCompare)
         {
-            Node<T> node = FindNode(head, item);
-            return node;
-        }
-
-        Node<T> FindNode(Node<T> node, T valueToCompare)
-        {
+            Node<T> node = new Node<T>();
             for (node = head.Next; node != head; node = node.Next)
             {
                 if (Comparer.Equals(node.Value, valueToCompare))
@@ -97,14 +96,9 @@ namespace LinkedList
             return node;
         }
 
-        public Node<T> FindLast(T item)
+        public Node<T> FindLast(T valueToCompare)
         {
-            Node<T> node = FindNode(head, item);
-            return node;
-        }
-
-        Node<T> FindLastNode(Node<T> node, T valueToCompare)
-        {
+            Node<T> node = new Node<T>();
             for (node = head.Previous; node != head; node = node.Previous)
             {
                 if (Comparer.Equals(node.Value, valueToCompare))
@@ -118,7 +112,7 @@ namespace LinkedList
 
         public bool Remove(T item)
         {
-            Node<T> nodeToRemove = Find(item);
+            Node<T> nodeToRemove = this.Find(item);
             if (nodeToRemove != null)
             {
                 return RemoveNode(nodeToRemove);
@@ -167,8 +161,7 @@ namespace LinkedList
 
         void ThrowInvalidOperationException(Node<T> existingNode, Node<T> nodeToAdd)
         {
-            Node<T> node = FindNode(head, existingNode.Value);
-            if (node != existingNode)
+            if (existingNode == null)
             {
                 throw new InvalidOperationException("Node doesn't belongs to this list");
             }
@@ -201,11 +194,9 @@ namespace LinkedList
 
         public IEnumerator<T> GetEnumerator()
         {
-            Node<T> current = head.Next;
-            for (int i = 0; i < Count; i++)
+            for (Node<T> node = head.Next; node != head; node = node.Next)
             {
-                yield return current.Value;
-                current = current.Next;
+                yield return node.Value;
             }
         }
 

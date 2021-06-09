@@ -14,6 +14,8 @@ namespace LinkedList
         public Node(T item)
         {
             this.Value = item;
+            this.Next = null;
+            this.Previous = null;
         }
         public Node()
         {
