@@ -5,20 +5,24 @@ namespace LinkedList
 {
     public class Node<T>
     {
-        public T Value { get; set; }
+        public CircularLinkedList<T> list;
 
-        public Node<T> Next { get; set; }
-
-        public Node<T> Previous { get; set; }
+        public Node()
+        {
+        }
 
         public Node(T item)
         {
             this.Value = item;
             this.Next = null;
             this.Previous = null;
+            this.list = null;
         }
-        public Node()
-        {
-        }
+
+        public T Value { get; set; }
+
+        public Node<T> Next { get; set; }
+
+        public Node<T> Previous { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace LinkedList
             head = new Node<T>();
             head.Next = head;
             head.Previous = head;
+            head.list = this;
         }
 
         public int Count { get; private set; } = 0;
