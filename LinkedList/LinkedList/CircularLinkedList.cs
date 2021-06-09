@@ -18,36 +18,11 @@ namespace LinkedList
         public int Count { get; private set; } = 0;
         public bool IsReadOnly => false;
 
-        void AddNode(Node<T> node, T valueForNodeToAdd)
-        {
-            Node<T> nodeToAdd = new Node<T>(valueForNodeToAdd);
-            nodeToAdd.Value = valueForNodeToAdd;
-
-            AddAfter(node, nodeToAdd);
-        }
-
-        public void AddFirst(T nodeToAdd)
-        {
-            AddNode(head, nodeToAdd);
-        }
-
-        public void AddLast(T nodeToAdd)
-        {
-            AddNode(head.Previous, nodeToAdd);
-        }
-
-        public void Add(T nodeToAdd)
-        {
-            AddLast(nodeToAdd);    
-        }
-        
-        public void AddAfter(Node<T> existingNode, T valueForNodeToAdd)
-        {
-            AddNode(existingNode, valueForNodeToAdd);
-        }
-
         public void AddAfter(Node<T> existingNode, Node<T> nodeToAdd)
         {
+            ThrowArgumentNullException(existingNode, nodeToAdd);
+            ThrowInvalidOperationException(existingNode, nodeToAdd);
+
             nodeToAdd.Next = existingNode.Next;
             nodeToAdd.Previous = existingNode;
             existingNode.Next.Previous = nodeToAdd;
@@ -56,6 +31,31 @@ namespace LinkedList
             Count++;
         }
 
+        public void AddFirst(T valueForNodeToAdd)
+        {
+            AddAfter(head, new Node<T>(valueForNodeToAdd));
+        }
+
+        public void AddFirst(Node<T> nodeToAdd)
+        {
+            AddAfter(head, nodeToAdd);
+        }
+
+        public void AddLast(Node<T> nodeToAdd)
+        {
+            AddAfter(head.Previous, nodeToAdd);
+        }
+
+        public void Add(T valueForNodeToAdd)
+        {
+            AddAfter(head.Previous, valueForNodeToAdd);    
+        }
+        
+        public void AddAfter(Node<T> existingNode, T valueForNodeToAdd)
+        {
+            AddAfter(existingNode, new Node<T>(valueForNodeToAdd));
+        }
+        
         public void AddBefore(Node<T> existingNode, Node<T> nodeToAdd)
         {
             AddAfter(existingNode.Previous, nodeToAdd);
@@ -63,7 +63,7 @@ namespace LinkedList
 
         public void AddBefore(Node<T> existingNode, T valueForNodeToAdd)
         {
-            AddNode(existingNode.Previous, valueForNodeToAdd);
+            AddAfter(existingNode.Previous, new Node<T>(valueForNodeToAdd));
         }
 
         public void Clear()
@@ -97,6 +97,25 @@ namespace LinkedList
             return node;
         }
 
+        public Node<T> FindLast(T item)
+        {
+            Node<T> node = FindNode(head, item);
+            return node;
+        }
+
+        Node<T> FindLastNode(Node<T> node, T valueToCompare)
+        {
+            for (node = head.Previous; node != head; node = node.Previous)
+            {
+                if (Comparer.Equals(node.Value, valueToCompare))
+                {
+                    return node;
+                }
+            }
+
+            return node;
+        }
+
         public bool Remove(T item)
         {
             Node<T> nodeToRemove = Find(item);
@@ -110,11 +129,6 @@ namespace LinkedList
 
         bool RemoveNode(Node<T> nodeToRemove)
         {
-            if (head == nodeToRemove)
-            {
-                nodeToRemove = head.Next;
-            }
-            
             Node<T> node = nodeToRemove.Previous;
             node.Next = nodeToRemove.Next;
             nodeToRemove.Next.Previous = nodeToRemove.Previous;
@@ -123,15 +137,43 @@ namespace LinkedList
             return true;
         }
 
-        public bool RemoveFirst()
+        public void RemoveFirst()
         {
-            return RemoveNode(head.Next);
+            ThrowInvalidOperationException();
+            RemoveNode(head.Next);
         }
 
-        public bool RemoveLast()
+        public void RemoveLast()
         {
-            return RemoveNode(head.Previous);
+            ThrowInvalidOperationException();
+            RemoveNode(head.Previous);
         }
+
+        void ThrowInvalidOperationException()
+        {
+            if (head.Next == head)
+            {
+                throw new InvalidOperationException("The linked list is empty.");
+            }
+        }
+
+        void ThrowArgumentNullException(Node<T> existingNode, Node<T> nodeToAdd)
+        {
+            if (existingNode == null || nodeToAdd == null)
+            {
+                throw new ArgumentNullException();
+            }
+        }
+
+        void ThrowInvalidOperationException(Node<T> existingNode, Node<T> nodeToAdd)
+        {
+            Node<T> node = FindNode(head, existingNode.Value);
+            if (node != existingNode)
+            {
+                throw new InvalidOperationException("Node doesn't belongs to this list");
+            }
+        }
+
 
         public void CopyTo(T[] array, int arrayIndex)
         {
