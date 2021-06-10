@@ -13,7 +13,7 @@ namespace LinkedList
             head = new Node<T>();
             head.Next = head;
             head.Previous = head;
-            head.list = this;
+            head.List = this;
         }
 
         public int Count { get; private set; } = 0;
@@ -23,28 +23,32 @@ namespace LinkedList
         {
             ThrowArgumentNullException(existingNode, nodeToAdd);
             ThrowInvalidOperationException(existingNode, nodeToAdd);
+            
+            if (existingNode.List == this)
+            {
+                nodeToAdd.Next = existingNode.Next;
+                nodeToAdd.Previous = existingNode;
+                existingNode.Next.Previous = nodeToAdd;
+                existingNode.Next = nodeToAdd;
+                nodeToAdd.List = this;
 
-            nodeToAdd.Next = existingNode.Next;
-            nodeToAdd.Previous = existingNode;
-            existingNode.Next.Previous = nodeToAdd;
-            existingNode.Next = nodeToAdd;
-
-            Count++;
+                Count++;
+            }
         }
 
         public void AddFirst(T valueForNodeToAdd)
         {
-            this.AddAfter(head, new Node<T>(valueForNodeToAdd));
+            AddAfter(head, new Node<T>(valueForNodeToAdd));
         }
 
         public void AddFirst(Node<T> nodeToAdd)
         {
-            this.AddAfter(head, nodeToAdd);
+            AddAfter(head, nodeToAdd);
         }
 
         public void AddLast(Node<T> nodeToAdd)
         {
-            this.AddAfter(head.Previous, nodeToAdd);
+            AddAfter(head.Previous, nodeToAdd);
         }
 
         public void Add(T valueForNodeToAdd)
@@ -54,7 +58,7 @@ namespace LinkedList
         
         public void AddAfter(Node<T> existingNode, T valueForNodeToAdd)
         {
-            this.AddAfter(existingNode, new Node<T>(valueForNodeToAdd));
+            AddAfter(existingNode, new Node<T>(valueForNodeToAdd));
         }
         
         public void AddBefore(Node<T> existingNode, Node<T> nodeToAdd)
@@ -63,7 +67,7 @@ namespace LinkedList
             {
                 throw new ArgumentNullException();
             }
-            this.AddAfter(existingNode.Previous, nodeToAdd);
+            AddAfter(existingNode.Previous, nodeToAdd);
         }
 
         public void AddBefore(Node<T> existingNode, T valueForNodeToAdd)
@@ -113,7 +117,7 @@ namespace LinkedList
 
         public bool Remove(T item)
         {
-            Node<T> nodeToRemove = this.Find(item);
+            Node<T> nodeToRemove = Find(item);
             if (nodeToRemove != null)
             {
                 return RemoveNode(nodeToRemove);
@@ -127,6 +131,7 @@ namespace LinkedList
             Node<T> node = nodeToRemove.Previous;
             node.Next = nodeToRemove.Next;
             nodeToRemove.Next.Previous = nodeToRemove.Previous;
+            nodeToRemove.List = null;
 
             Count--;
             return true;
