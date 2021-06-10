@@ -23,17 +23,14 @@ namespace LinkedList
         {
             ThrowArgumentNullException(existingNode, nodeToAdd);
             ThrowInvalidOperationException(existingNode, nodeToAdd);
-            
-            if (existingNode.List == this)
-            {
-                nodeToAdd.Next = existingNode.Next;
-                nodeToAdd.Previous = existingNode;
-                existingNode.Next.Previous = nodeToAdd;
-                existingNode.Next = nodeToAdd;
-                nodeToAdd.List = this;
 
-                Count++;
-            }
+            nodeToAdd.Next = existingNode.Next;
+            nodeToAdd.Previous = existingNode;
+            existingNode.Next.Previous = nodeToAdd;
+            existingNode.Next = nodeToAdd;
+            nodeToAdd.List = this;
+
+            Count++;
         }
 
         public void AddFirst(T valueForNodeToAdd)
@@ -167,12 +164,12 @@ namespace LinkedList
 
         void ThrowInvalidOperationException(Node<T> existingNode, Node<T> nodeToAdd)
         {
-            if (existingNode == null)
+
+            if (existingNode == null || existingNode.List == this || nodeToAdd.List != null)
             {
                 throw new InvalidOperationException("Node doesn't belongs to this list");
             }
         }
-
 
         public void CopyTo(T[] array, int arrayIndex)
         {
@@ -189,13 +186,10 @@ namespace LinkedList
                 throw new ArgumentException();
             }
 
-            Node<T> node = head.Next;
-            do
+            for (Node<T> node = head.Next; node != head; node = node.Next)
             {
                 array[arrayIndex++] = node.Value;
-                node = node.Next;
-            } 
-            while (node != head);
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
