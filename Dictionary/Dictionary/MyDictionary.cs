@@ -25,7 +25,32 @@ namespace Dictionary
             Array.Fill<int>(buckets, -1); 
         }
 
-        public TValue this[TKey key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public TValue this[TKey key] 
+        {
+            get
+            {
+                if (TryGetValue(key, out TValue value))
+                {
+                    return elements[FindEntry(key)].value;
+                }
+                else
+                {
+                    throw new KeyNotFoundException();
+                }
+            }
+
+            set
+            {
+                if (TryGetValue(key, out TValue Value))
+                {
+                    elements[FindEntry(key)].value = Value;
+                }
+                else
+                {
+                    Add(key, value);
+                }
+            }
+        }
 
         public ICollection<TKey> Keys { get; private set; }
 
@@ -50,6 +75,11 @@ namespace Dictionary
             if (key == null)
             {
                 throw new ArgumentNullException("key is null");
+            }
+
+            if (ContainsKey(key))
+            {
+                throw new ArgumentException("An element with the same key already exists");
             }
 
             if (buckets[bucketIndex] == -1)
@@ -111,7 +141,7 @@ namespace Dictionary
         {
             if (key == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("key is null");
             }
 
             int bucketIndex = CalculateBucketIndex(key);
@@ -155,11 +185,6 @@ namespace Dictionary
 
         public bool Remove(TKey key)
         {
-            if (key == null)
-            {
-                throw new ArgumentNullException();
-            }
-            
             int position = FindEntry(key);
             if (position > -1)
             {
@@ -194,7 +219,7 @@ namespace Dictionary
             return Remove(item.Key); 
         }
 
-        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
+        public bool TryGetValue(TKey key, out TValue value)
         {
             int i = FindEntry(key);
             if (i >= 0)
