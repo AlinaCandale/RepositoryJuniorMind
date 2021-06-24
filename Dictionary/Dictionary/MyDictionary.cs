@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Dictionary
 {
@@ -9,11 +8,12 @@ namespace Dictionary
     {
         public struct Entry
         {
-            public int next;
             public TKey key;
             public TValue value;
+            public int next;
         }
 
+        TKey, TValue> dictionary;
         private Entry[] elements;
         private int[] buckets;
         private int freeIndex = -1;
@@ -31,7 +31,7 @@ namespace Dictionary
             {
                 if (TryGetValue(key, out TValue value))
                 {
-                    return elements[FindEntry(key)].value;
+                    return value;
                 }
                 else
                 {
@@ -43,7 +43,7 @@ namespace Dictionary
             {
                 if (TryGetValue(key, out TValue Value))
                 {
-                    elements[FindEntry(key)].value = Value;
+                    value = Value;
                 }
                 else
                 {
@@ -52,9 +52,33 @@ namespace Dictionary
             }
         }
 
-        public ICollection<TKey> Keys { get; private set; }
+        public ICollection<TKey> Keys 
+        {
+            get
+            {
+                TKey[] keys = new TKey[elements.Length];
+                for (int n = 0; n < elements.Length; n++)
+                {
+                    keys[n] = elements[n].key;
+                }
 
-        public ICollection<TValue> Values { get; private set; }
+                return keys;
+            }
+        }
+
+        public ICollection<TValue> Values 
+        {
+            get
+            {
+                TValue[] values = new TValue[elements.Length];
+                for (int n = 0; n < elements.Length; n++)
+                {
+                    values[n] = elements[n].value;
+                }
+                
+                return values;
+            }
+        }
 
         public int Count { get; private set; } = 0;
 
@@ -67,11 +91,6 @@ namespace Dictionary
 
         public void Add(TKey key, TValue value)
         {
-            Entry newItem = new Entry();
-            newItem.key = key;
-            newItem.value = value;
-            int bucketIndex = CalculateBucketIndex(key);
-
             if (key == null)
             {
                 throw new ArgumentNullException("key is null");
@@ -82,19 +101,18 @@ namespace Dictionary
                 throw new ArgumentException("An element with the same key already exists");
             }
 
-            if (buckets[bucketIndex] == -1)
-            {
-                newItem.next = -1;
-                elements[Count] = newItem;
-                buckets[bucketIndex] = Count;
-            }
-            else if (buckets[bucketIndex] != -1 && freeIndex == -1)
+            Entry newItem = new Entry();
+            newItem.key = key;
+            newItem.value = value;
+            int bucketIndex = CalculateBucketIndex(key);
+
+            if (freeIndex == -1)
             {
                 newItem.next = buckets[bucketIndex];
                 elements[Count] = newItem;
                 buckets[bucketIndex] = Count;
             }
-            else  //freeIndex > -1
+            else  
             {
                 int temp = elements[freeIndex].next;
                 elements[freeIndex].key = newItem.key;
@@ -123,7 +141,7 @@ namespace Dictionary
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            int index = FindEntry(item.Key);
+            int index = FindEntry(item.Key).Item1;
             if (index > -1 && elements[index].value.Equals(item.Value))
             {
                 return true;
@@ -134,10 +152,10 @@ namespace Dictionary
 
         public bool ContainsKey(TKey key)
         {
-            return FindEntry(key) > -1;
+            return FindEntry(key).Item1 > -1;
         }
 
-        private int FindEntry(TKey key)
+        private (int, int) FindEntry(TKey key)
         {
             if (key == null)
             {
@@ -145,16 +163,17 @@ namespace Dictionary
             }
 
             int bucketIndex = CalculateBucketIndex(key);
-
+            int previous = -1;
             for (int i = buckets[bucketIndex]; i != -1; i = elements[i].next)
             {
                 if (elements[i].key.Equals(key))
                 {
-                    return i;
+                    return (i, previous);
                 }
+                previous = i;
             }
 
-            return -1;
+            return (-1, -1);
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
@@ -174,9 +193,9 @@ namespace Dictionary
                 throw new ArgumentException();
             }
 
-            for (int i = arrayIndex; i < Count; i++)
+            for (int i = 0 ; i < Count; i++)
             {
-                if (FindEntry(elements[i].key) >= 0)
+                if (elements[i].value != null)
                 {
                     array[arrayIndex++] = new KeyValuePair<TKey, TValue>(elements[i].key, elements[i].value);
                 }
@@ -185,7 +204,9 @@ namespace Dictionary
 
         public bool Remove(TKey key)
         {
-            int position = FindEntry(key);
+            int position, previous;
+            (position, previous) = FindEntry(key);
+
             if (position > -1)
             {
                 elements[position].key = default(TKey);
@@ -197,13 +218,7 @@ namespace Dictionary
                 }
                 else
                 {
-                    for (int i = buckets[bucketIndex]; i != -1; i = elements[i].next)
-                    {
-                        if (elements[i].next == position)
-                        {
-                            elements[i].next = elements[position].next;
-                        }
-                    }
+                    elements[previous].next = elements[position].next;
                 }
                 elements[position].next = freeIndex;
                 freeIndex = position;
@@ -216,12 +231,17 @@ namespace Dictionary
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            return Remove(item.Key); 
+            if (elements[FindEntry(item.Key).Item1].value.Equals(item.Value))
+            {
+                return Remove(item.Key); 
+            }
+            
+            return false;
         }
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            int i = FindEntry(key);
+            int i = FindEntry(key).Item1;
             if (i >= 0)
             {
                 value = elements[i].value;
