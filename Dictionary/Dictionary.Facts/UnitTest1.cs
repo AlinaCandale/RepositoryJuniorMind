@@ -15,9 +15,14 @@ namespace Dictionary.Facts
             openWith.Add(10, "c");
             openWith.Add(7, "d");
             openWith.Add(12, "e");
-            openWith.Remove(12);
-            //openWith.Add(2, "b");
-            //openWith.Add(2, "b");
+            openWith.Remove(7);
+            openWith.Remove(1);
+            openWith.Add(17, "f");
+
+            foreach (var item in openWith)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }

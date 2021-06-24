@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace Dictionary
 {
@@ -10,44 +9,43 @@ namespace Dictionary
     {
         public struct Entry
         {
-            public int hashCode;
-            public int posInElements;
             public int next;
             public TKey key;
             public TValue value;
-
-            public TValue Value { get; internal set; }
         }
 
         private Entry[] elements;
         private int[] buckets;
         private int freeIndex = -1;
-        private readonly IEqualityComparer<TKey> comparer;
 
         public MyDictionary(int numItems, int numBuckets)
         {
             elements = new Entry[numItems];
-            buckets = Enumerable.Repeat(-1, numBuckets).ToArray(); 
+            buckets = new int[numBuckets];
+            Array.Fill<int>(buckets, -1); 
         }
 
         public TValue this[TKey key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public ICollection<TKey> Keys { get; internal set; }
+        public ICollection<TKey> Keys { get; private set; }
 
-        public ICollection<TValue> Values { get; internal set; }
+        public ICollection<TValue> Values { get; private set; }
 
         public int Count { get; private set; } = 0;
 
         public bool IsReadOnly => false;
+
+        private int CalculateBucketIndex(TKey key)
+        {
+            return Math.Abs(key.GetHashCode()) % buckets.Length;
+        }
 
         public void Add(TKey key, TValue value)
         {
             Entry newItem = new Entry();
             newItem.key = key;
             newItem.value = value;
-            int bucketIndex = Math.Abs(key.GetHashCode()) % buckets.Length;
-            newItem.hashCode = bucketIndex;
-            newItem.posInElements = Count;
+            int bucketIndex = CalculateBucketIndex(key);
 
             if (key == null)
             {
@@ -82,15 +80,12 @@ namespace Dictionary
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            Add(item.Key, item.Value);
         }
 
         public void Clear()
         {
-            if (Count > 0)
-            {
-                buckets = Enumerable.Repeat(-1, buckets.Length).ToArray();
-            }
+            Array.Fill<int>(buckets, -1);
             Array.Clear(elements, 0, Count);
             Count = 0;
             freeIndex = -1;
@@ -98,8 +93,13 @@ namespace Dictionary
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            //Determines whether the ICollection<T> contains a specific value.
-            throw new NotImplementedException();
+            int index = FindEntry(item.Key);
+            if (index > -1 && elements[index].value.Equals(item.Value))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool ContainsKey(TKey key)
@@ -114,27 +114,15 @@ namespace Dictionary
                 throw new ArgumentNullException();
             }
 
-            int hashCode = Math.Abs(key.GetHashCode()) % buckets.Length;
+            int bucketIndex = CalculateBucketIndex(key);
 
-            if (buckets[hashCode] == -1)
+            for (int i = buckets[bucketIndex]; i != -1; i = elements[i].next)
             {
-                return -1;
-            }
-
-            Entry temp = elements[buckets[hashCode]];
-
-            do
-            {
-                if (comparer.Equals(temp.key, key))
+                if (elements[i].key.Equals(key))
                 {
-                    return temp.posInElements;
-                }
-                else
-                {
-                    temp = elements[temp.next];
+                    return i;
                 }
             }
-            while (temp.next != -1);
 
             return -1;
         }
@@ -158,7 +146,7 @@ namespace Dictionary
 
             for (int i = arrayIndex; i < Count; i++)
             {
-                if (elements[i].hashCode >= 0)
+                if (FindEntry(elements[i].key) >= 0)
                 {
                     array[arrayIndex++] = new KeyValuePair<TKey, TValue>(elements[i].key, elements[i].value);
                 }
@@ -175,49 +163,35 @@ namespace Dictionary
             int position = FindEntry(key);
             if (position > -1)
             {
-
-                //freeIndex = elements[position].posInElements;
-                
                 elements[position].key = default(TKey);
                 elements[position].value = default(TValue);
-                int hashCode = Math.Abs(key.GetHashCode()) % buckets.Length;
-                if (elements[position].posInElements == buckets[hashCode])
+                int bucketIndex = CalculateBucketIndex(key);
+                if (position == buckets[bucketIndex])
                 {
-                    buckets[hashCode] = elements[position].next;
-                    elements[position].next = -1;
-                    _ = freeIndex == -1 ? freeIndex == elements[position].posInElements : elements[position].next == freeIndex && freeIndex == elements[position].posInElements;
+                    buckets[bucketIndex] = elements[position].next;
                 }
                 else
                 {
-                    Entry temp = elements[buckets[hashCode]];
-
-                    do
+                    for (int i = buckets[bucketIndex]; i != -1; i = elements[i].next)
                     {
-                        if (temp.next == position)
+                        if (elements[i].next == position)
                         {
-                            temp.next = elements[position].next;
-                            elements[position].next = -1;
-                        }
-                        else
-                        {
-                            temp = elements[temp.next];
+                            elements[i].next = elements[position].next;
                         }
                     }
-                    while (temp.next != -1);
-
-                    _ = freeIndex == -1 ? freeIndex == elements[position].posInElements : elements[position].next == freeIndex && freeIndex == elements[position].posInElements;
                 }
-
+                elements[position].next = freeIndex;
+                freeIndex = position;
+                Count--;
+                return true;
             }
-
-            Count--;
 
             return false;
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            return Remove(item.Key); 
         }
 
         public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
@@ -225,7 +199,7 @@ namespace Dictionary
             int i = FindEntry(key);
             if (i >= 0)
             {
-                value = elements[i].Value;
+                value = elements[i].value;
                 return true;
             }
             value = default(TValue);
@@ -235,12 +209,18 @@ namespace Dictionary
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < buckets.Length; i++)
+            {
+                for (int j = buckets[i]; j != -1; j = elements[j].next)
+                {
+                    yield return new KeyValuePair<TKey, TValue>(elements[j].key, elements[j].value);
+                }
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }
