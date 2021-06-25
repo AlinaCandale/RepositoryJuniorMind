@@ -13,7 +13,6 @@ namespace Dictionary
             public int next;
         }
 
-        TKey, TValue> dictionary;
         private Entry[] elements;
         private int[] buckets;
         private int freeIndex = -1;
@@ -41,14 +40,8 @@ namespace Dictionary
 
             set
             {
-                if (TryGetValue(key, out TValue Value))
-                {
-                    value = Value;
-                }
-                else
-                {
-                    Add(key, value);
-                }
+                    int idx = FindEntry(key).Item1;
+                    elements[idx].value = value;
             }
         }
 
@@ -56,10 +49,12 @@ namespace Dictionary
         {
             get
             {
-                TKey[] keys = new TKey[elements.Length];
-                for (int n = 0; n < elements.Length; n++)
+                int index = 0;
+                TKey[] keys = new TKey[Count];
+                foreach (var x in this)
                 {
-                    keys[n] = elements[n].key;
+                    keys[index] = x.Key;
+                    index++;
                 }
 
                 return keys;
@@ -70,12 +65,14 @@ namespace Dictionary
         {
             get
             {
-                TValue[] values = new TValue[elements.Length];
-                for (int n = 0; n < elements.Length; n++)
+                int index = 0;
+                TValue[] values = new TValue[Count];
+                foreach (var x in this)
                 {
-                    values[n] = elements[n].value;
+                    values[index] = x.Value;
+                    index++;
                 }
-                
+
                 return values;
             }
         }
@@ -105,24 +102,24 @@ namespace Dictionary
             newItem.key = key;
             newItem.value = value;
             int bucketIndex = CalculateBucketIndex(key);
+            int elementIndex;
 
             if (freeIndex == -1)
             {
-                newItem.next = buckets[bucketIndex];
-                elements[Count] = newItem;
-                buckets[bucketIndex] = Count;
+                elementIndex = Count;
+                elements[elementIndex] = newItem;
             }
             else  
             {
-                int temp = elements[freeIndex].next;
-                elements[freeIndex].key = newItem.key;
-                elements[freeIndex].value = newItem.value;
-                elements[freeIndex].next = buckets[bucketIndex];
-                buckets[bucketIndex] = freeIndex;
-
-                freeIndex = temp;
+                elementIndex = freeIndex;
+                freeIndex = elements[freeIndex].next;
             }
-            
+
+            elements[elementIndex].key = key;
+            elements[elementIndex].value = value;
+            elements[elementIndex].next = buckets[bucketIndex];
+            buckets[bucketIndex] = elementIndex;
+
             Count++;
         }
 
@@ -231,7 +228,8 @@ namespace Dictionary
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            if (elements[FindEntry(item.Key).Item1].value.Equals(item.Value))
+            int elementKey = FindEntry(item.Key).Item1;
+            if (elementKey >= 0 && elements[elementKey].value.Equals(item.Value))
             {
                 return Remove(item.Key); 
             }
