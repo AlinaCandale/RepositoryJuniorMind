@@ -33,7 +33,7 @@ namespace Dictionary.Facts
 
             string test = openWith[17];
         }
-        
+
         [Fact]
         public void CheckIndexerSet()
         {
@@ -63,7 +63,7 @@ namespace Dictionary.Facts
         public void CheckAddItem()
         {
             MyDictionary<int, string> openWith = new MyDictionary<int, string>(5, 5);
-            KeyValuePair<int, string> a = new KeyValuePair<int, string> ( 1, "a");
+            KeyValuePair<int, string> a = new KeyValuePair<int, string>(1, "a");
             KeyValuePair<int, string> b = new KeyValuePair<int, string>(2, "b");
             KeyValuePair<int, string> c = new KeyValuePair<int, string>(10, "c");
             KeyValuePair<int, string> d = new KeyValuePair<int, string>(7, "d");
@@ -134,7 +134,54 @@ namespace Dictionary.Facts
             Assert.False(openWith.Remove(g));
         }
 
+        [Fact]
+        public void CheckContains()
+        {
+            MyDictionary<string, string> openWith = new MyDictionary<string, string>(5, 5);
+            openWith.Add("a", "b");
+            openWith.Add("b", "a");
+            KeyValuePair<string, string> f = new KeyValuePair<string, string>("17", "f");
+            openWith.Add(f);
+            KeyValuePair<string, string> g = new KeyValuePair<string, string>("18", "f");
 
+            Assert.True(openWith.ContainsKey("a"));
+            Assert.True(openWith.Contains(f));
+            Assert.False(openWith.Contains(g));
+            Assert.DoesNotContain(g, openWith);
+        }
 
+        [Fact]
+        public void CheckTryGetValue()
+        {
+            MyDictionary<string, string> openWith = new MyDictionary<string, string>(5, 5);
+            openWith.Add("a", "b");
+            openWith.Add("b", "a");
+            KeyValuePair<string, string> f = new KeyValuePair<string, string>("17", "f");
+            openWith.Add(f);
+
+            Assert.True(openWith.TryGetValue("a", out _));
+            Assert.False(openWith.TryGetValue("i", out _));
+        }
+
+        [Fact]
+        public void CheckCopyTo()
+        {
+            KeyValuePair<int, string>[] array = new KeyValuePair<int, string>[10];
+
+            MyDictionary<int, string> openWith = new MyDictionary<int, string>(5, 5);
+            openWith.Add(1, "a");
+            openWith.Add(2, "b");
+            openWith.Add(10, "c");
+            openWith.Add(7, "d");
+            openWith.Add(12, "e");
+            openWith.Remove(7);
+            openWith.Remove(1);
+            openWith.Add(17, "f");
+
+            openWith.CopyTo(array, 1);
+
+            Assert.Equal(17, array[1].Key);
+            Assert.Null(array[0].Value);
+        }
     }
 }
