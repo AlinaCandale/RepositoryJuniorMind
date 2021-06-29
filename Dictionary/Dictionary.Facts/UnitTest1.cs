@@ -182,6 +182,10 @@ namespace Dictionary.Facts
 
             Assert.Equal(17, array[1].Key);
             Assert.Null(array[0].Value);
+
+            ICollection<int> xx = openWith.Keys;
+            ICollection<string> yy = openWith.Values;
+
         }
     }
 }
