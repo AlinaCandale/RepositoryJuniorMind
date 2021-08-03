@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Xunit;
 
@@ -30,8 +31,13 @@ namespace Dictionary.Facts
         {
             MyDictionary<int, string> openWith = new MyDictionary<int, string>(5, 5);
             openWith.Add(17, "f");
-
             string test = openWith[17];
+            Assert.Throws<KeyNotFoundException>(() => openWith[18]);
+
+            MyDictionary<string, string> myDictionary = new MyDictionary<string, string>(5, 5);
+            KeyValuePair<string, string> a = new KeyValuePair<string, string>(null, null);
+            Assert.Throws<ArgumentNullException>(() => myDictionary.Add(a));
+            Assert.Throws<ArgumentNullException>(() => myDictionary.ContainsKey(a.Key));
         }
 
         [Fact]
@@ -57,6 +63,8 @@ namespace Dictionary.Facts
             Assert.True(openWith.ContainsKey(1));
             Assert.False(openWith.ContainsKey(11));
             Assert.Throws<ArgumentException>(() => openWith.Add(1, "b"));
+
+            KeyValuePair<int, string> a = new KeyValuePair<int, string>();
         }
 
         [Fact]
@@ -94,6 +102,7 @@ namespace Dictionary.Facts
 
             Assert.False(openWith.ContainsKey(1));
             Assert.True(openWith.ContainsKey(2));
+            Assert.False(openWith.Remove(3));
         }
 
         [Fact]
@@ -167,8 +176,8 @@ namespace Dictionary.Facts
         public void CheckCopyTo()
         {
             KeyValuePair<int, string>[] array = new KeyValuePair<int, string>[10];
-
             MyDictionary<int, string> openWith = new MyDictionary<int, string>(5, 5);
+
             openWith.Add(1, "a");
             openWith.Add(2, "b");
             openWith.Add(10, "c");
@@ -185,7 +194,40 @@ namespace Dictionary.Facts
 
             ICollection<int> xx = openWith.Keys;
             ICollection<string> yy = openWith.Values;
-
         }
+
+        [Fact]
+        public void CheckCopyToExceptions()
+        {
+            KeyValuePair<int, string>[] array = null;
+
+            MyDictionary<int, string> openWith = new MyDictionary<int, string>(5, 5);
+            openWith.Add(1, "a");
+            openWith.Add(2, "b");
+            openWith.Add(10, "c");
+            openWith.Add(7, "d");
+            openWith.Add(12, "e");
+
+            Assert.Throws<ArgumentNullException>(() => openWith.CopyTo(array, 1));
+            array = new KeyValuePair<int, string>[10];
+            Assert.Throws<ArgumentOutOfRangeException>(() => openWith.CopyTo(array, -1));
+            Assert.Throws<ArgumentException>(() => openWith.CopyTo(array, 9));
+        }
+
+        [Fact]
+        public void CheckGetEnumerator()
+        {
+            MyDictionary<int, string> openWith = new MyDictionary<int, string>(5, 5);
+            openWith.Add(1, "a");
+            openWith.Add(2, "b");
+
+            Assert.False(openWith.IsReadOnly);
+
+            IEnumerator t = openWith.GetEnumerator();
+            
+
+            //IEnumerator<KeyValuePair<int, string>> x = openWith.GetEnumerator();
+        }
+
     }
 }
