@@ -72,21 +72,13 @@ namespace DelegteLambdaExtensionMethods.Facts
         }
 
         [Fact]
-        public void NullSourceThrowsNullArgumentException()
-        {
-            IEnumerable<int> source = null;
-            source.Where(x => x < 4);
-            Assert.Throws<ArgumentNullException>(() => source.Where(x => x < 4));
-        }
-
-        [Fact]
         public void NullPredicateThrowsNullArgumentException()
         {
-            IEnumerable<int> source=null;
+            IEnumerable<int> source = null;
             Func<int, bool> predicate = null;
-            var result = Class1.Where<int>(source, predicate);
+            IEnumerable<int> result = Class1.Where<int>(source, predicate);
             
-            Assert.Throws<ArgumentNullException>(() => source.Where(predicate));
+            Assert.Throws<ArgumentNullException>(() => result.GetEnumerator().MoveNext());
         }
 
         [Fact]
