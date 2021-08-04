@@ -71,20 +71,23 @@ namespace DelegteLambdaExtensionMethods.Facts
             Assert.Equal(result, expectedResult);
         }
 
-        //[Fact]
-        //public void NullSourceThrowsNullArgumentException()
-        //{
-        //    IEnumerable<int> source = null;
-        //    Assert.Throws<ArgumentNullException>(() => source.Where(x => x < 4));
-        //}
+        [Fact]
+        public void NullSourceThrowsNullArgumentException()
+        {
+            IEnumerable<int> source = null;
+            source.Where(x => x < 4);
+            Assert.Throws<ArgumentNullException>(() => source.Where(x => x < 4));
+        }
 
-        //[Fact]
-        //public void NullPredicateThrowsNullArgumentException()
-        //{
-        //    int[] source = { 1, 3, 7, 9, 10 };
-        //    Func<int, bool> predicate = null;
-        //    Assert.Throws<ArgumentNullException>(() => source.Where(predicate));
-        //}
+        [Fact]
+        public void NullPredicateThrowsNullArgumentException()
+        {
+            IEnumerable<int> source=null;
+            Func<int, bool> predicate = null;
+            var result = Class1.Where<int>(source, predicate);
+            
+            Assert.Throws<ArgumentNullException>(() => source.Where(predicate));
+        }
 
         [Fact]
         public void CheckSelect()
@@ -206,17 +209,17 @@ namespace DelegteLambdaExtensionMethods.Facts
             Assert.Equal(result, expectedResult);
         }
 
-        [Fact]
-        public void CheckGroupBy()
-        {
-            string[] source = { "abc", "hello", "def", "there", "four" };
-            var result = source.GroupBy(x => x.Length,
-                                x => x[0],
-                                (key, values) => key + ":" + string.Join(";", values), 
-                                StringComparer.CurrentCultureIgnoreCase).ToString;
-            string[] expectedResult = { "3:a;d", "5:h;t", "4:f" };
-            Assert.Equal(result, expectedResult);
+        //[Fact]
+        //public void CheckGroupBy()
+        //{
+        //    string[] source = { "abc", "hello", "def", "there", "four" };
+        //    var result = source.GroupBy(x => x.Length,
+        //                        x => x[0],
+        //                        (key, values) => key + ":" + string.Join(";", values), 
+        //                        StringComparer.CurrentCultureIgnoreCase).ToString;
+        //    string[] expectedResult = { "3:a;d", "5:h;t", "4:f" };
+        //    Assert.Equal(result, expectedResult);
 
-        }
+        //}
     }
 }
