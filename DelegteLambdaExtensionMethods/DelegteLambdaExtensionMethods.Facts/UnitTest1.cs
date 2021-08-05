@@ -213,5 +213,16 @@ namespace DelegteLambdaExtensionMethods.Facts
         //    Assert.Equal(result, expectedResult);
 
         //}
+
+
+        [Fact]
+        public void CheckGroupBy()
+        {
+            List<string> strings = new List<string> { "first", "then", "and then", "finally" };
+            IEnumerable<string> result = strings.OrderBy(str => str, Comparer<string>.Default);
+            IEnumerable<string> expectedResult = new List<string> { "and then", "finally", "first", "then" };
+            
+            Assert.Equal(result, expectedResult);
+        }
     }
 }
