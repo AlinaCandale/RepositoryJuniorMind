@@ -1,9 +1,16 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Xunit;
 
 namespace DelegteLambdaExtensionMethods.Facts
 {
+    class Student
+    {
+        public string Teacher { get; set; }
+        public double Id { get; set; }
+    }
+
     public class UnitTest1
     {
         [Fact]
@@ -137,13 +144,26 @@ namespace DelegteLambdaExtensionMethods.Facts
         [Fact]
         public void CheckJoin()
         {
-            int[] outer = { 5, 3, 7 };
-            string[] inner = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
+            IList<int> outer = new List<int>() { 5, 3, 7 };
+            IList<string> inner = new List<string>() { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
             var result = outer.Join(inner,
                                    outerElement => outerElement,
                                    innerElement => innerElement.Length,
                                    (outerElement, innerElement) => outerElement + ":" + innerElement);
             string[] expectedResult = { "5:tiger", "3:bee", "3:cat", "3:dog", "7:giraffe" };
+            Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public void CheckJoin2()
+        {
+            IList<string> strList1 = new List<string>() { "One", "Two", "Three", "Four"};
+            IList<string> strList2 = new List<string>() { "One", "Two", "Five", "Six"};
+            var result = strList1.Join(strList2,
+                                  str1 => str1,
+                                  str2 => str2,
+                                  (str1, str2) => str1);
+            string[] expectedResult = { "One", "Two" };
             Assert.Equal(result, expectedResult);
         }
 
@@ -201,28 +221,74 @@ namespace DelegteLambdaExtensionMethods.Facts
             Assert.Equal(result, expectedResult);
         }
 
-        //[Fact]
-        //public void CheckGroupBy()
-        //{
-        //    string[] source = { "abc", "hello", "def", "there", "four" };
-        //    var result = source.GroupBy(x => x.Length,
-        //                        x => x[0],
-        //                        (key, values) => key + ":" + string.Join(";", values), 
-        //                        StringComparer.CurrentCultureIgnoreCase).ToString;
-        //    string[] expectedResult = { "3:a;d", "5:h;t", "4:f" };
-        //    Assert.Equal(result, expectedResult);
-
-        //}
-
-
         [Fact]
         public void CheckGroupBy()
+        {
+            List<Student> stuentsList = new List<Student>{
+                       new Student { Teacher="Barley", Id=8 },
+                       new Student { Teacher="Boots", Id=4 },
+                       new Student { Teacher="Barley", Id=1 },
+                       new Student { Teacher="Barley", Id=3 } };
+
+            var results = stuentsList.GroupBy(
+                                    s => s.Teacher,
+                                    s => s.Id,
+                                    (teacher, ids) => new { t = teacher, id = ids },
+                                    EqualityComparer<string>.Default);
+
+            List<List<double>> res = new List<List<double>>();
+            foreach (var result in results)
+            {
+                List<double> tmp = new List<double>();
+                foreach (var i in result.id)
+                {
+                    tmp.Add(i);
+                }
+                res.Add(tmp);
+            }
+
+            List<double> exp1 = new List<double>();
+            exp1.Add(8);
+            exp1.Add(1);
+            exp1.Add(3);
+            List<double> exp2 = new List<double>();
+            exp2.Add(4);
+            List<List<double>> exp = new List<List<double>>();
+            exp.Add(exp1);
+            exp.Add(exp2);
+
+            Assert.Equal(res, exp);
+        }
+
+        [Fact]
+        public void CheckOrderBy()
+        {
+            List<string> fruits = new List<string> { "apricot", "orange", "banana", "mango", "apple", "grape", "strawberry" };
+            IEnumerable<string> result = fruits.OrderBy(fruit => fruit.Length, Comparer<int>.Default).ThenBy(fruit => fruit, Comparer<string>.Default);
+            IEnumerable<string> expectedResult = new List<string> { "apple", "grape", "mango", "banana", "orange", "apricot", "strawberry" };
+
+            Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public void CheckOrderBy2()
         {
             List<string> strings = new List<string> { "first", "then", "and then", "finally" };
             IEnumerable<string> result = strings.OrderBy(str => str, Comparer<string>.Default);
             IEnumerable<string> expectedResult = new List<string> { "and then", "finally", "first", "then" };
-            
+
+            Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public void CheckOrderBy3()
+        {
+            List<string> strings = new List<string> { "final", "then", "and then", "finally" };
+            IEnumerable<string> result = strings.OrderBy(str => str, Comparer<string>.Default).ThenBy(str => str.Length, Comparer<int>.Default);
+            IEnumerable<string> expectedResult = new List<string> { "and then", "final", "finally", "then" };
+
             Assert.Equal(result, expectedResult);
         }
     }
 }
+

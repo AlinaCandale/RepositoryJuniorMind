@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -144,12 +145,12 @@ namespace DelegteLambdaExtensionMethods
             EnsureIsNotNull(first, nameof(first));
             EnsureIsNotNull(second, nameof(second));
 
-            using (IEnumerator<TFirst> iterator1 = first.GetEnumerator())
-            using (IEnumerator<TSecond> iterator2 = second.GetEnumerator())
+            using (IEnumerator<TFirst> firstInterator = first.GetEnumerator())
+            using (IEnumerator<TSecond> secondInterator = second.GetEnumerator())
             {
-                while (iterator1.MoveNext() && iterator2.MoveNext())
+                while (firstInterator.MoveNext() && secondInterator.MoveNext())
                 {
-                    yield return resultSelector(iterator1.Current, iterator2.Current);
+                    yield return resultSelector(firstInterator.Current, secondInterator.Current);
                 }
             }
         }
@@ -163,12 +164,13 @@ namespace DelegteLambdaExtensionMethods
             EnsureIsNotNull(seed, nameof(seed));
             EnsureIsNotNull(func, nameof(func));
 
+            TAccumulate result = seed;
             foreach (TSource item in source)
             {
-                seed = func(seed, item);
+                result = func(result, item);
             }
-            
-            return seed;
+
+            return result; 
         }
 
         public static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
@@ -184,13 +186,16 @@ namespace DelegteLambdaExtensionMethods
             EnsureIsNotNull(innerKeySelector, nameof(innerKeySelector));
             EnsureIsNotNull(resultSelector, nameof(resultSelector));
 
-            var lookup = inner.ToLookup(innerKeySelector);
-            foreach (var outerElement in outer)
+            foreach (TOuter outerElement in outer)
             {
-                var key = outerKeySelector(outerElement);
-                foreach (var innerElement in lookup[key])
+                TKey outerKey = outerKeySelector(outerElement);
+                foreach (TInner innerElement in inner)
                 {
-                    yield return resultSelector(outerElement, innerElement);
+                    TKey innerKey = innerKeySelector(innerElement);
+                    if (Equals(outerKey, innerKey))
+                    {
+                        yield return resultSelector(outerElement, innerElement);
+                    }
                 }
             }
         }
@@ -284,10 +289,22 @@ namespace DelegteLambdaExtensionMethods
             EnsureIsNotNull(elementSelector, nameof(elementSelector));
             EnsureIsNotNull(resultSelector, nameof(resultSelector));
 
-            ILookup<TKey, TElement> lookup = source.ToLookup(keySelector, elementSelector, comparer);
-            foreach (IGrouping<TKey, TElement> group in lookup)
+            var dictionary = new Dictionary<TKey, List<TElement>>(comparer);
+            foreach (var item in source)
             {
-                yield return resultSelector(group.Key, group); 
+                if (dictionary.Keys.Contains(keySelector(item)))
+                {
+                    dictionary[keySelector(item)].Add(elementSelector(item));
+                }
+                else
+                {
+                    dictionary.Add(keySelector(item), new List<TElement> { elementSelector(item) });
+                }
+            }
+
+            foreach (var element in dictionary)
+            {
+                yield return resultSelector(element.Key, element.Value);
             }
         }
 
@@ -299,19 +316,95 @@ namespace DelegteLambdaExtensionMethods
             EnsureIsNotNull(source, nameof(source));
             EnsureIsNotNull(keySelector, nameof(keySelector));
 
-            return source.OrderBy(keySelector);
+            return new OrderedEnumerable<TSource>(source, new ProjectionComparer<TSource, TKey>(keySelector, comparer));
         }
 
-        //public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(
-        //this IOrderedEnumerable<TSource> source,
-        //Func<TSource, TKey> keySelector,
-        //IComparer<TKey> comparer)
-        //{
-        //    EnsureIsNotNull(source, nameof(source));
-        //    EnsureIsNotNull(keySelector, nameof(keySelector));
-        //    
-        //}
+        public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(
+        this IOrderedEnumerable<TSource> source,
+        Func<TSource, TKey> keySelector,
+        IComparer<TKey> comparer)
+        {
+            EnsureIsNotNull(source, nameof(source));
+            EnsureIsNotNull(keySelector, nameof(keySelector));
 
+            return source.CreateOrderedEnumerable(keySelector, comparer, false);
+        }
 
+        internal class OrderedEnumerable<TSource> : IOrderedEnumerable<TSource>
+        {
+            private readonly IEnumerable<TSource> source;
+            private readonly IComparer<TSource> currentComparer;
+
+            public OrderedEnumerable(IEnumerable<TSource> source, IComparer<TSource> comparer)
+            {
+                this.source = source;
+                this.currentComparer = comparer;
+            }
+
+            public IOrderedEnumerable<TSource> CreateOrderedEnumerable<TKey>(
+                Func<TSource, TKey> keySelector, IComparer<TKey> comparer, bool descending)
+            {
+                IComparer<TSource> secondaryComparer = new ProjectionComparer<TSource, TKey>(keySelector, comparer);
+
+                return new OrderedEnumerable<TSource>(
+                    source,
+                    new CompoundComparer<TSource>(currentComparer, secondaryComparer));
+            }
+
+            public IEnumerator<TSource> GetEnumerator()
+            {
+                List<TSource> elements = source.ToList();
+                elements.Sort(currentComparer);
+                foreach (var element in elements)
+                {
+                    yield return element;
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+        }
+
+        internal class ProjectionComparer<TSource, TKey> : IComparer<TSource>
+        {
+            private readonly Func<TSource, TKey> keySelector;
+            private readonly IComparer<TKey> comparer;
+
+            internal ProjectionComparer(Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+            {
+                this.keySelector = keySelector;
+                this.comparer = comparer ?? Comparer<TKey>.Default;
+            }
+
+            public int Compare(TSource x, TSource y)
+            {
+                return comparer.Compare(keySelector(x), keySelector(y));
+            }
+        }
+
+        internal class CompoundComparer<T> : IComparer<T>
+        {
+            private readonly IComparer<T> primary;
+            private readonly IComparer<T> secondary;
+
+            internal CompoundComparer(IComparer<T> primary, IComparer<T> secondary)
+            {
+                this.primary = primary;
+                this.secondary = secondary;
+            }
+
+            public int Compare(T x, T y)
+            {
+                int primaryResult = primary.Compare(x, y);
+                if (primaryResult != 0)
+                {
+                    return primaryResult;
+                }
+
+                return secondary.Compare(x, y);
+            }
+        }
     }
 }
