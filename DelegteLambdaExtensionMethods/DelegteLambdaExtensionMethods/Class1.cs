@@ -219,10 +219,7 @@ namespace DelegteLambdaExtensionMethods
 
             HashSet<TSource> allUniqueElements = new HashSet<TSource>(first, comparer);
             allUniqueElements.UnionWith(second);
-            foreach (TSource item in allUniqueElements)
-            {
-                yield return item;
-            }
+            return allUniqueElements;
         }
 
         public static IEnumerable<TSource> Intersect<TSource>(
@@ -235,10 +232,7 @@ namespace DelegteLambdaExtensionMethods
 
             HashSet<TSource> intersectedElements = new HashSet<TSource>(first, comparer);
             intersectedElements.IntersectWith(second);
-            foreach (TSource item in intersectedElements)
-            {
-                yield return item;
-            }
+            return intersectedElements;
         }
 
         public static IEnumerable<TSource> Except<TSource>(
@@ -251,10 +245,7 @@ namespace DelegteLambdaExtensionMethods
 
             HashSet<TSource> bannedElements = new HashSet<TSource>(first, comparer);
             bannedElements.ExceptWith(second);
-            foreach (TSource item in bannedElements)
-            {
-                yield return item;
-            }
+            return bannedElements;
         }
 
         public static IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(
