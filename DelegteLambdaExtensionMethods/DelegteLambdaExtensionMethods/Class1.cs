@@ -206,13 +206,10 @@ namespace DelegteLambdaExtensionMethods
         {
             EnsureIsNotNull(source, nameof(source));
 
-            HashSet<TSource> seenElements = new HashSet<TSource>(comparer);
-            foreach (TSource item in source)
+            HashSet<TSource> elements = new HashSet<TSource>(source, comparer);
+            foreach (TSource item in elements)
             {
-                if (seenElements.Add(item))
-                {
-                    yield return item;
-                }
+                yield return item;
             }
         }
 
@@ -224,20 +221,11 @@ namespace DelegteLambdaExtensionMethods
             EnsureIsNotNull(first, nameof(first));
             EnsureIsNotNull(second, nameof(second));
 
-            HashSet<TSource> seenElements = new HashSet<TSource>(comparer);
-            foreach (TSource item in first)
+            HashSet<TSource> allUniqueElements = new HashSet<TSource>(first, comparer);
+            allUniqueElements.UnionWith(second);
+            foreach (TSource item in allUniqueElements)
             {
-                if (seenElements.Add(item))
-                {
-                    yield return item;
-                }
-            }
-            foreach (TSource item in second)
-            {
-                if (seenElements.Add(item))
-                {
-                    yield return item;
-                }
+                yield return item;
             }
         }
 
@@ -249,13 +237,11 @@ namespace DelegteLambdaExtensionMethods
             EnsureIsNotNull(first, nameof(first));
             EnsureIsNotNull(second, nameof(second));
 
-            HashSet<TSource> intersectedElements = new HashSet<TSource>(second, comparer);
-            foreach (TSource item in first)
+            HashSet<TSource> intersectedElements = new HashSet<TSource>(first, comparer);
+            intersectedElements.IntersectWith(second);
+            foreach (TSource item in intersectedElements)
             {
-                if (intersectedElements.Remove(item))
-                {
-                    yield return item;
-                }
+                yield return item;
             }
         }
 
@@ -267,13 +253,11 @@ namespace DelegteLambdaExtensionMethods
             EnsureIsNotNull(first, nameof(first));
             EnsureIsNotNull(second, nameof(second));
 
-            HashSet<TSource> bannedElements = new HashSet<TSource>(second, comparer);
-            foreach (TSource item in first)
+            HashSet<TSource> bannedElements = new HashSet<TSource>(first, comparer);
+            bannedElements.ExceptWith(second);
+            foreach (TSource item in bannedElements)
             {
-                if (bannedElements.Add(item))
-                {
-                    yield return item;
-                }
+                yield return item;
             }
         }
 

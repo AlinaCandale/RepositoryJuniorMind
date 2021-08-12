@@ -189,6 +189,17 @@ namespace DelegteLambdaExtensionMethods.Facts
         }
 
         [Fact]
+        public void CheckUnion2()
+        {
+            IList<int> numbers2 = new List<int>() { 1, 1, 1, 3, 4, 4 };
+            IList<int> numbers1 = new List<int>() { 1, 1, 1, 2, 2, 2, 3, 3, 3 };
+
+            var result = numbers2.Union(numbers1, EqualityComparer<int>.Default);
+            int[] expectedResult = { 1, 3, 4, 2 };
+            Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
         public void CheckIntersect()
         {
             IList<int> listA = new List<int>() { 1, 2, 3, 4, 5 };
