@@ -206,11 +206,7 @@ namespace DelegteLambdaExtensionMethods
         {
             EnsureIsNotNull(source, nameof(source));
 
-            HashSet<TSource> elements = new HashSet<TSource>(source, comparer);
-            foreach (TSource item in elements)
-            {
-                yield return item;
-            }
+            return new HashSet<TSource>(source, comparer);
         }
 
         public static IEnumerable<TSource> Union<TSource>(
