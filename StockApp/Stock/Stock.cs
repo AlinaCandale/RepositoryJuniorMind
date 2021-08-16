@@ -18,50 +18,52 @@ namespace Stock
         }
     }
 
+    public delegate void Dell();
     public class Stock
     {
-        List<Product> store = new List<Product>();
-        
+        public List<Product> itemsList = new List<Product>();
+
+        public Dell callback;
+        public void CheckQuantity(int n, string m)
+        {
+            if (n < 10)
+            {
+                Console.WriteLine($"We have left only {n} {m}");
+                callback();
+            }
+        }
+ 
         public void Add(Product product)
         {
             ProductComparer prdcomp = new ProductComparer();
- 
-            if (!store.Contains(product, prdcomp))
+
+            if (!itemsList.Contains(product, prdcomp))
             {
-                store.Add(product);
+                itemsList.Add(product);
                 CheckQuantity(product.Quantity, product.Name);
             }
-            
             else
             {
-                int index = store.FindIndex(x => x.Name == product.Name);
+                int index = itemsList.FindIndex(x => x.Name == product.Name);
                 if (index != -1)
                 {
-                    store[index].Quantity += product.Quantity;
-                    CheckQuantity(store[index].Quantity, store[index].Name);
+                    itemsList[index].Quantity += product.Quantity;
+                    CheckQuantity(itemsList[index].Quantity, itemsList[index].Name);
                 }
             }
          }
 
         public void Subtract(Product product)
         {
-            int index = store.FindIndex(x => x.Name == product.Name);
+            int index = itemsList.FindIndex(x => x.Name == product.Name);
             if (index != -1)
             {
-                _ = store[index].Quantity < product.Quantity ? throw new Exception() : store[index].Quantity -= product.Quantity;
-                CheckQuantity(store[index].Quantity, store[index].Name);
+                _ = itemsList[index].Quantity < product.Quantity ? throw new Exception() : itemsList[index].Quantity -= product.Quantity;
+                CheckQuantity(itemsList[index].Quantity, itemsList[index].Name);
             }
             else
             {
                 Console.WriteLine("We don't have any {0} in store", product.Name);
-            }
-        }
-
-        void CheckQuantity(int n, string name)
-        {
-            if (n < 10)
-            {
-                Console.WriteLine("We have left only {0} {1} ", n, name);
             }
         }
     }
@@ -76,5 +78,5 @@ namespace Stock
             Name = name;
             Quantity = quantity;
         }
-     }
+    }
 }
