@@ -15,7 +15,7 @@ namespace Stock.Facts
         public void TestAddition()
         {
             Stock store = new Stock();
-            store.callback = CheckIfQuantityIsLessThanTen;
+            store.callBack = CheckIfQuantityIsLessThanTen;
             Product apple = new Product("apple", 10);
             store.Add(apple);
             Assert.Equal("apple", store.itemsList[0].Name);
@@ -39,7 +39,7 @@ namespace Stock.Facts
         public void TestSubstraction()
         {
             Stock store = new Stock();
-            store.callback = CheckIfQuantityIsLessThanTen;
+            store.callBack = CheckIfQuantityIsLessThanTen;
             Product apple = new Product("apple", 10);
             Product apple1 = new Product("apple", 1);
             store.Add(apple);
@@ -51,7 +51,7 @@ namespace Stock.Facts
         public void TestCallMethod()
         {
             Stock store = new Stock();
-            store.callback = CheckIfQuantityIsLessThanTen;
+            store.callBack = CheckIfQuantityIsLessThanTen;
 
             Product apple = new Product("apple", 9);
             store.Add(apple);

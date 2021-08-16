@@ -17,19 +17,17 @@ namespace Stock
             return obj.Name == null ? 0 : obj.Name.GetHashCode();
         }
     }
-
-    public delegate void Dell();
-    public class Stock
+     public class Stock
     {
         public List<Product> itemsList = new List<Product>();
 
-        public Dell callback;
-        public void CheckQuantity(int n, string m)
+        public Action callBack;
+        public void CheckQuantity(int quantity, string productName)
         {
-            if (n < 10)
+            if (quantity < 10)
             {
-                Console.WriteLine($"We have left only {n} {m}");
-                callback();
+                Console.WriteLine($"We have left only {quantity} {productName}");
+                callBack();
             }
         }
  
