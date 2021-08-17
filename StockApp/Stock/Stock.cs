@@ -17,33 +17,48 @@ namespace Stock
             return obj.Name == null ? 0 : obj.Name.GetHashCode();
         }
     }
+
+    struct Threshold
+    {
+        public int two;
+        public int five;
+        public int ten;
+
+        public Threshold(int two, int five, int ten)
+        {
+            this.two = two;
+            this.five = five;
+            this.ten = ten;
+        }
+    }
+
      public class Stock
     {
         public List<Product> itemsList = new List<Product>();
 
-        public Action<Product> callBackLessTen;
-        public Action<Product> callBackLessFive;
-        public Action<Product> callBackLessTwo;
-        public Action<Product> callBackIsZero;
+        public Action<Product,int> callBack;
+
+        Threshold threshold = new Threshold(2, 5, 10);
 
         public void CheckQuantity(int initialQuantity, int substractedQuantity, Product product)
         {
-            if (initialQuantity >= 2 && initialQuantity - substractedQuantity < 2)
+            if (initialQuantity >= threshold.two && initialQuantity - substractedQuantity < threshold.two)
             {
-                callBackLessTwo(product);
+                callBack(product, initialQuantity - substractedQuantity);
             }
-            else if (initialQuantity >= 5 && initialQuantity - substractedQuantity < 5)
+            else if (initialQuantity >= threshold.five && initialQuantity - substractedQuantity < threshold.five)
             {
-                callBackLessFive(product);
+                callBack(product, initialQuantity - substractedQuantity);
             }
-            else if (initialQuantity >= 10 && initialQuantity - substractedQuantity < 10)
+            else if (initialQuantity >= threshold.ten && initialQuantity - substractedQuantity < threshold.ten)
             {
-                callBackLessTen(product);
+                callBack(product, initialQuantity - substractedQuantity);
             }
 
             if (initialQuantity == substractedQuantity)
             {
-                callBackIsZero(product);
+                callBack(product, 0);
+                
             }
         }
 
