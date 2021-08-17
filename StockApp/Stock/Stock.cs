@@ -21,21 +21,29 @@ namespace Stock
     {
         public List<Product> itemsList = new List<Product>();
 
-        public Action callBack;
-        
-        public void CheckQuantity(int initialQuantity, int substractedQuantity, string productName)
+        public Action<Product> callBackLessTen;
+        public Action<Product> callBackLessFive;
+        public Action<Product> callBackLessTwo;
+        public Action<Product> callBackIsZero;
+
+        public void CheckQuantity(int initialQuantity, int substractedQuantity, Product product)
         {
             if (initialQuantity >= 2 && initialQuantity - substractedQuantity < 2)
             {
-                callBack();
+                callBackLessTwo(product);
             }
             else if (initialQuantity >= 5 && initialQuantity - substractedQuantity < 5)
             {
-                callBack();
+                callBackLessFive(product);
             }
             else if (initialQuantity >= 10 && initialQuantity - substractedQuantity < 10)
             {
-                callBack();
+                callBackLessTen(product);
+            }
+
+            if (initialQuantity == substractedQuantity)
+            {
+                callBackIsZero(product);
             }
         }
 
@@ -62,7 +70,7 @@ namespace Stock
             int index = itemsList.FindIndex(x => x.Name == product.Name);
             if (index != -1)
             {
-                CheckQuantity(itemsList[index].Quantity, product.Quantity, itemsList[index].Name);
+                CheckQuantity(itemsList[index].Quantity, product.Quantity, itemsList[index]);
                 _ = itemsList[index].Quantity < product.Quantity ? throw new Exception() : itemsList[index].Quantity -= product.Quantity;
             }
             else

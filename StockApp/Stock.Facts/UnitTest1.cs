@@ -8,14 +8,7 @@ namespace Stock.Facts
         [Fact]
         public void TestAddition()
         {
-            bool isLessThenTen = false;
-            void CheckIfQuantityIsLessThanTen()
-            {
-                isLessThenTen = true;
-            }
-
             Stock store = new Stock();
-            store.callBack = CheckIfQuantityIsLessThanTen;
             Product apple = new Product("apple", 10);
             store.Add(apple);
             Assert.Equal("apple", store.itemsList[0].Name);
@@ -39,13 +32,34 @@ namespace Stock.Facts
         public void TestSubstraction()
         {
             bool isLessThenTen = false;
-            void CheckIfQuantityIsLessThanTen()
+            bool isLessThenFive = false;
+            bool isLessThenTwo = false;
+            bool isZero = false;
+
+            Product received = null;
+            void CheckIfQuantityIsLessThanTen(Product rec)
             {
                 isLessThenTen = true;
+                received = rec;
+            }
+            void CheckIfQuantityIsLessThanFive(Product rec)
+            {
+                isLessThenFive = true;
+                received = rec;
+            }
+            void CheckIfQuantityIsLessThanTwo(Product rec)
+            {
+                isLessThenTwo = true;
+                received = rec;
+            }
+            void CheckIfQuantityIsZero(Product rec)
+            {
+                isZero = true;
+                received = rec;
             }
 
             Stock store = new Stock();
-            store.callBack = CheckIfQuantityIsLessThanTen;
+            store.callBackLessTen = CheckIfQuantityIsLessThanTen;
             Product apple = new Product("apple", 10);
             Product apple1 = new Product("apple", 1);
             store.Add(apple);
@@ -57,13 +71,37 @@ namespace Stock.Facts
         public void TestCallMethod()
         {
             bool isLessThenTen = false;
-            void CheckIfQuantityIsLessThanTen()
+            bool isLessThenFive = false;
+            bool isLessThenTwo = false;
+            bool isZero = false;
+
+            Product received = null;
+            void CheckIfQuantityIsLessThanTen(Product rec)
             {
                 isLessThenTen = true;
+                received = rec;
+            }
+            void CheckIfQuantityIsLessThanFive(Product rec)
+            {
+                isLessThenFive = true;
+                received = rec;
+            }
+            void CheckIfQuantityIsLessThanTwo(Product rec)
+            {
+                isLessThenTwo = true;
+                received = rec;
+            }
+            void CheckIfQuantityIsZero(Product rec)
+            {
+                isZero = true;
+                received = rec;
             }
 
             Stock store = new Stock();
-            store.callBack = CheckIfQuantityIsLessThanTen;
+            store.callBackLessTen = CheckIfQuantityIsLessThanTen;
+            store.callBackLessFive = CheckIfQuantityIsLessThanFive;
+            store.callBackLessTwo = CheckIfQuantityIsLessThanTwo;
+            store.callBackIsZero = CheckIfQuantityIsZero;
 
             Product apple = new Product("apple", 9);
             store.Add(apple);
@@ -76,11 +114,13 @@ namespace Stock.Facts
             Product apple2 = new Product("apple", 9);
             store.Subtract(apple2);
             Assert.True(isLessThenTen);
-            
             isLessThenTen = false;
+            Assert.False(isZero);
+            
             Product apple3 = new Product("apple", 1);
             store.Subtract(apple3);
             Assert.False(isLessThenTen);
+            Assert.False(isLessThenTwo);
 
             Product apple4 = new Product("apple", 1);
             store.Subtract(apple4);
@@ -88,20 +128,27 @@ namespace Stock.Facts
 
             Product apple5 = new Product("apple", 3);
             store.Subtract(apple5);
-            Assert.True(isLessThenTen);
+            Assert.True(isLessThenFive);
+            isLessThenFive = false;
 
             Product apple6 = new Product("apple", 3);
-            isLessThenTen = false;
             store.Subtract(apple6);
-            Assert.True(isLessThenTen);
+            Assert.False(isLessThenTen);
+            Assert.False(isLessThenFive);
+            Assert.True(isLessThenTwo);
+            isLessThenTwo = false;
 
             Product apple7 = new Product("apple", 3);
             store.Add(apple7);
-            isLessThenTen = false;
 
             Product apple8 = new Product("apple", 2);
             store.Subtract(apple8);
-            Assert.True(isLessThenTen);
+            Assert.False(isLessThenTen);
+            Assert.False(isLessThenTwo);
+
+            Product apple9 = new Product("apple", 2);
+            store.Subtract(apple9);
+            Assert.True(isZero);
         }
     }
 }
