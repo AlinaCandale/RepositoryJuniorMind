@@ -22,15 +22,23 @@ namespace Stock
         public List<Product> itemsList = new List<Product>();
 
         public Action callBack;
-        public void CheckQuantity(int quantity, string productName)
+        
+        public void CheckQuantity(int initialQuantity, int substractedQuantity, string productName)
         {
-            if (quantity < 10)
+            if (initialQuantity >= 2 && initialQuantity - substractedQuantity < 2)
             {
-                Console.WriteLine($"We have left only {quantity} {productName}");
+                callBack();
+            }
+            else if (initialQuantity >= 5 && initialQuantity - substractedQuantity < 5)
+            {
+                callBack();
+            }
+            else if (initialQuantity >= 10 && initialQuantity - substractedQuantity < 10)
+            {
                 callBack();
             }
         }
- 
+
         public void Add(Product product)
         {
             ProductComparer prdcomp = new ProductComparer();
@@ -38,7 +46,6 @@ namespace Stock
             if (!itemsList.Contains(product, prdcomp))
             {
                 itemsList.Add(product);
-                CheckQuantity(product.Quantity, product.Name);
             }
             else
             {
@@ -46,7 +53,6 @@ namespace Stock
                 if (index != -1)
                 {
                     itemsList[index].Quantity += product.Quantity;
-                    CheckQuantity(itemsList[index].Quantity, itemsList[index].Name);
                 }
             }
          }
@@ -56,8 +62,8 @@ namespace Stock
             int index = itemsList.FindIndex(x => x.Name == product.Name);
             if (index != -1)
             {
+                CheckQuantity(itemsList[index].Quantity, product.Quantity, itemsList[index].Name);
                 _ = itemsList[index].Quantity < product.Quantity ? throw new Exception() : itemsList[index].Quantity -= product.Quantity;
-                CheckQuantity(itemsList[index].Quantity, itemsList[index].Name);
             }
             else
             {
