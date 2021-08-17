@@ -18,47 +18,27 @@ namespace Stock
         }
     }
 
-    struct Threshold
-    {
-        public int two;
-        public int five;
-        public int ten;
-
-        public Threshold(int two, int five, int ten)
-        {
-            this.two = two;
-            this.five = five;
-            this.ten = ten;
-        }
-    }
-
      public class Stock
     {
         public List<Product> itemsList = new List<Product>();
 
         public Action<Product,int> callBack;
 
-        Threshold threshold = new Threshold(2, 5, 10);
+        List<int> thresholds = new List<int>() { 2, 5, 10 };
 
         public void CheckQuantity(int initialQuantity, int substractedQuantity, Product product)
         {
-            if (initialQuantity >= threshold.two && initialQuantity - substractedQuantity < threshold.two)
+            foreach (var threshold in thresholds)
             {
-                callBack(product, initialQuantity - substractedQuantity);
-            }
-            else if (initialQuantity >= threshold.five && initialQuantity - substractedQuantity < threshold.five)
-            {
-                callBack(product, initialQuantity - substractedQuantity);
-            }
-            else if (initialQuantity >= threshold.ten && initialQuantity - substractedQuantity < threshold.ten)
-            {
-                callBack(product, initialQuantity - substractedQuantity);
+                if (initialQuantity >= threshold && initialQuantity - substractedQuantity < threshold)
+                {
+                    callBack(product, initialQuantity - substractedQuantity);
+                }
             }
 
             if (initialQuantity == substractedQuantity)
             {
                 callBack(product, 0);
-                
             }
         }
 
