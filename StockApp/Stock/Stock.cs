@@ -28,17 +28,10 @@ namespace Stock
 
         public void CheckQuantity(int initialQuantity, int substractedQuantity, Product product)
         {
-            foreach (var threshold in thresholds)
+            var filteredResult = thresholds.Where(threshold => initialQuantity >= threshold && initialQuantity - substractedQuantity < threshold);
+            if (filteredResult.Count() != 0)
             {
-                if (initialQuantity >= threshold && initialQuantity - substractedQuantity < threshold)
-                {
-                    callBack(product, initialQuantity - substractedQuantity);
-                }
-            }
-
-            if (initialQuantity == substractedQuantity)
-            {
-                callBack(product, 0);
+                callBack(product, initialQuantity - substractedQuantity);
             }
         }
 
