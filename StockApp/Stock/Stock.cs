@@ -28,8 +28,7 @@ namespace Stock
 
         public void CheckQuantity(int initialQuantity, int substractedQuantity, Product product)
         {
-            var filteredResult = thresholds.Where(threshold => initialQuantity >= threshold && initialQuantity - substractedQuantity < threshold);
-            if (filteredResult.Count() != 0)
+            if (thresholds.Any(threshold => initialQuantity >= threshold && initialQuantity - substractedQuantity < threshold))
             {
                 callBack(product, initialQuantity - substractedQuantity);
             }
