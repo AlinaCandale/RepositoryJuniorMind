@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountVowelsConsonants", "CountVowelsConsonants.csproj", "{276CCE8C-AA48-4F99-9F9B-BF490A68983E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountVowelsConsonants.Facts", "..\CountVowelsConsonants.Facts\CountVowelsConsonants.Facts.csproj", "{1F868363-7AF0-4CD4-994C-62289F5FF0D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{276CCE8C-AA48-4F99-9F9B-BF490A68983E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{276CCE8C-AA48-4F99-9F9B-BF490A68983E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{276CCE8C-AA48-4F99-9F9B-BF490A68983E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{276CCE8C-AA48-4F99-9F9B-BF490A68983E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F868363-7AF0-4CD4-994C-62289F5FF0D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F868363-7AF0-4CD4-994C-62289F5FF0D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F868363-7AF0-4CD4-994C-62289F5FF0D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F868363-7AF0-4CD4-994C-62289F5FF0D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CFA145E1-9D28-4D89-B7D2-B7134C2E638E}
+	EndGlobalSection
+EndGlobal
