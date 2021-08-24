@@ -11,9 +11,8 @@ namespace CountVowelsConsonants.Facts
             string text = "The quick brown fox jumps over the lazy dog.";
             CountLetters sentance = new CountLetters(text);
 
-            int vowelsNr = sentance.GetNrOfVowels();
-            int consonantNr = sentance.GetNrOfConsonant();
-
+            int vowelsNr, consonantNr;
+            (vowelsNr, consonantNr) = sentance.GetNrOfVowelsAndConsonant();
             Assert.Equal(11, vowelsNr);
             Assert.Equal(24, consonantNr);
         }
@@ -24,9 +23,11 @@ namespace CountVowelsConsonants.Facts
             string text = "Th qck brwng.";
             CountLetters sentance = new CountLetters(text);
 
-            int vowelsNr = sentance.GetNrOfVowels();
+            int vowelsNr, consonantNr;
+            (vowelsNr, consonantNr) = sentance.GetNrOfVowelsAndConsonant();
 
             Assert.Equal(0, vowelsNr);
+            Assert.Equal(10, consonantNr);
         }
 
         [Fact]
@@ -35,8 +36,10 @@ namespace CountVowelsConsonants.Facts
             string text = "    aaaa !";
             CountLetters sentance = new CountLetters(text);
 
-            int consonantNr = sentance.GetNrOfConsonant();
+            int vowelsNr, consonantNr;
+            (vowelsNr, consonantNr) = sentance.GetNrOfVowelsAndConsonant();
 
+            Assert.Equal(4, vowelsNr);
             Assert.Equal(0, consonantNr);
         }
     }

@@ -10,17 +10,13 @@ namespace CountVowelsConsonants
 
         public CountLetters(string sentence)
         {
-            this.sentence = sentence;
+            this.sentence = sentence.ToLower();
         }
 
-        public int GetNrOfVowels()
+        public Tuple<int, int> GetNrOfVowelsAndConsonant()
         {
-            return sentence.Count(c => "aeiou".Contains(Char.ToLower(c)));
-        }
-
-        public int GetNrOfConsonant()
-        {
-            return sentence.Where(c => Char.IsLetter(c)).Count(c => !"aeiou".Contains(Char.ToLower(c)));
+            return new Tuple<int, int>(sentence.Count(c => "aeiou".Contains(c)), 
+                sentence.Count(c => Char.IsLetter(c) && !"aeiou".Contains(c)));
         }
     }
 }
