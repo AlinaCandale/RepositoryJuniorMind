@@ -13,6 +13,7 @@ namespace CountVowelsConsonants.Facts
 
             int vowelsNr, consonantNr;
             (vowelsNr, consonantNr) = sentance.GetNrOfVowelsAndConsonant();
+            
             Assert.Equal(11, vowelsNr);
             Assert.Equal(24, consonantNr);
         }
