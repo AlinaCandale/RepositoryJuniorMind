@@ -16,8 +16,7 @@ namespace FirstUniqueChar
         public string SearhForFirstUniqueChar()
         {
             return sentence.GroupBy(c => c.ToString(), c => c, StringComparer.OrdinalIgnoreCase)
-                .Where(g => g.Count() == 1)
-                .Select(g => g.Key).First();
+                .First(g => g.Count() == 1).Key;
         }
     }
 }
