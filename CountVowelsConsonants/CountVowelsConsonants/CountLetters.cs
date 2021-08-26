@@ -13,11 +13,11 @@ namespace CountVowelsConsonants
             this.sentence = sentence.ToLower();
         }
 
-        public (int, int) GetNrOfVowelsAndConsonant()
+        public (int vowelsNr, int consonantNr) GetNrOfVowelsAndConsonant()
         {
-            return sentence.Aggregate((0, 0), (seed, c) => Char.IsLetter(c) ? 
-                                        "aeiou".Contains(c) ? (++seed.Item1, seed.Item2) : (seed.Item1, ++seed.Item2) : seed,
-                                        seed => seed);
+            return sentence.Aggregate((vowelNr : 0, consonantNr : 0), (seed, c) => Char.IsLetter(c) ? 
+                    "aeiou".Contains(c) ? (++seed.vowelNr, seed.consonantNr) : (seed.vowelNr, ++seed.consonantNr) : 
+                    seed, seed => seed);
         }
     }
 }
