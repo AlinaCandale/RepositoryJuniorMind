@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertStringToInteger", "ConvertStringToInteger.csproj", "{E2D59471-0E94-43FD-A9BF-917E8A114960}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertStringToInteger.Facts", "..\ConvertStringToInteger.Facts\ConvertStringToInteger.Facts.csproj", "{A03EDB7B-2620-459F-80A7-61CEF088EAFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2D59471-0E94-43FD-A9BF-917E8A114960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2D59471-0E94-43FD-A9BF-917E8A114960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2D59471-0E94-43FD-A9BF-917E8A114960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D59471-0E94-43FD-A9BF-917E8A114960}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A03EDB7B-2620-459F-80A7-61CEF088EAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A03EDB7B-2620-459F-80A7-61CEF088EAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A03EDB7B-2620-459F-80A7-61CEF088EAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A03EDB7B-2620-459F-80A7-61CEF088EAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {907E4810-0FF2-41FA-B559-83BE611C0C9E}
+	EndGlobalSection
+EndGlobal
