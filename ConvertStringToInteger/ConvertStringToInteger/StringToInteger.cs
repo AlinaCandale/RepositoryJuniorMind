@@ -1,25 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ConvertStringToInteger
 {
     public class StringToInteger
     {
-        string[] text;
+        string text;
 
-        public StringToInteger(string[] sentence)
+        public StringToInteger(string sentence)
         {
             this.text = sentence;
         }
 
-        public int[] GetIntFromString()
+        public int GetIntFromString()
         {
-            //return text.Split().Select(s => Convert.ToInt32(s)).ToArray();
-            //return text.Select(s => int.TryParse(s, out int result) ? result : 0);
-            
-            int i = 0;
-            var a = text.SelectMany(s => int.TryParse(s, out i) ? new[] { i } : new int[0]).ToArray();
-            return a;
+            int myVar = 0;
+            return text.Aggregate(myVar = 0, (seed, c) => Char.IsDigit(c) ? myVar = myVar * 10 + (c - '0') : throw new Exception());
         }
     }
 }
