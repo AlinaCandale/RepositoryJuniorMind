@@ -15,8 +15,7 @@ namespace ConvertStringToInteger
 
         public int GetIntFromString()
         {
-            int myVar = 0;
-            return text.Aggregate(myVar = 0, (seed, c) => Char.IsDigit(c) ? myVar = myVar * 10 + (c - '0') : throw new Exception());
+            return text.Aggregate<char,int>(0, (accumulator,c) => Char.IsDigit(c) ? accumulator = accumulator * 10 + (c - '0') : throw new Exception());
         }
     }
 }
