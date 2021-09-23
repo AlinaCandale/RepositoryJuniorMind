@@ -12,7 +12,7 @@ namespace MostFrequentlyAppearingChar.Facts
             CharWIthMaxAppearances sentance = new CharWIthMaxAppearances(text);
             char result = '1';
 
-            int expected = sentance.FindCharWIthMaxAppearances();
+            char expected = sentance.FindCharWIthMaxAppearances();
             Assert.Equal(result, expected);
         }
 
@@ -23,7 +23,7 @@ namespace MostFrequentlyAppearingChar.Facts
             CharWIthMaxAppearances sentance = new CharWIthMaxAppearances(text);
             char result = '1';
 
-            int expected = sentance.FindCharWIthMaxAppearances();
+            char expected = sentance.FindCharWIthMaxAppearances();
             Assert.Equal(result, expected);
         }
 
@@ -34,7 +34,7 @@ namespace MostFrequentlyAppearingChar.Facts
             CharWIthMaxAppearances sentance = new CharWIthMaxAppearances(text);
             char result = 'b';
 
-            int expected = sentance.FindCharWIthMaxAppearances();
+            char expected = sentance.FindCharWIthMaxAppearances();
             Assert.Equal(result, expected);
         }
 
@@ -45,7 +45,18 @@ namespace MostFrequentlyAppearingChar.Facts
             CharWIthMaxAppearances sentance = new CharWIthMaxAppearances(text);
             char result = '1';
 
-            int expected = sentance.FindCharWIthMaxAppearances();
+            char expected = sentance.FindCharWIthMaxAppearances();
+            Assert.Equal(result, expected);
+        }
+
+        [Fact]
+        public void Test5()
+        {
+            string text = "123111aaaaA";
+            CharWIthMaxAppearances sentance = new CharWIthMaxAppearances(text);
+            char result = '1';
+
+            char expected = sentance.FindCharWIthMaxAppearances();
             Assert.Equal(result, expected);
         }
     }
