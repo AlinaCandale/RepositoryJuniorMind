@@ -15,7 +15,7 @@ namespace MostFrequentlyAppearingChar
 
         public char FindCharWIthMaxAppearances()
         {
-            return text.GroupBy(x => x).Aggregate((first, next) => first.Count() < next.Count() ? first = next : first).Key;
+            return text.GroupBy(x => x).Aggregate((max, next) => max.Count() < next.Count() ? next : max).Key;
         }
     }
 }
