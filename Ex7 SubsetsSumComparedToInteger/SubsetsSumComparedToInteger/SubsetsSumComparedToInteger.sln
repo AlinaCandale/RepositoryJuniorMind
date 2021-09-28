@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubsetsSumComparedToInteger", "SubsetsSumComparedToInteger.csproj", "{2EBD03AB-24D2-4963-A5B8-D7D77DC17C0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubsetsSumComparedToInteger.Facts", "..\SubsetsSumComparedToInteger.Facts\SubsetsSumComparedToInteger.Facts.csproj", "{59E5E58E-AA5B-40DC-8F5C-95A7F8B6577D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EBD03AB-24D2-4963-A5B8-D7D77DC17C0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EBD03AB-24D2-4963-A5B8-D7D77DC17C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EBD03AB-24D2-4963-A5B8-D7D77DC17C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EBD03AB-24D2-4963-A5B8-D7D77DC17C0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59E5E58E-AA5B-40DC-8F5C-95A7F8B6577D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59E5E58E-AA5B-40DC-8F5C-95A7F8B6577D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59E5E58E-AA5B-40DC-8F5C-95A7F8B6577D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59E5E58E-AA5B-40DC-8F5C-95A7F8B6577D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4C5498C-86BF-46D2-9626-A5F329626D93}
+	EndGlobalSection
+EndGlobal
