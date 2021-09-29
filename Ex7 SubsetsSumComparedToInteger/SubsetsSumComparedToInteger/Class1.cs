@@ -15,20 +15,24 @@ namespace SubsetsSumComparedToInteger
             this.sum = sum;
         }
 
-        public static void GetRequiredSumSubArray(int[] set, int sum)
+        public List<List<int>> GetRequiredSumSubArray(int[] set, int sum)
         {
             List<int> subArray = new();
-            int temp = 0;
+            List<List<int>> result = new();
+
             for (int i = 0; i < set.Length; i++)
             {
-                for (int j = i, j < set.Length; j++)
+                int temp = 0;
+                subArray.Clear();
+
+                for (int j = i; j < set.Length; j++)
                 {
                     temp += set[j];
-                    subArray.Add(set[j]);
                     
-                    if (temp == sum)
+                    if (temp <= sum)
                     {
-                        Console.WriteLine(string.Join(", ", subArray));
+                        subArray.Add(set[j]);
+                        result.Add(new List<int>(subArray));
                     }
                     
                     if (temp > sum)
@@ -39,6 +43,8 @@ namespace SubsetsSumComparedToInteger
                     }
                 }
             }
+
+            return result;
         }
     }
 }
