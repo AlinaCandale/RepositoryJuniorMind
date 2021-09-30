@@ -13,19 +13,20 @@ namespace SubsetsSumComparedToInteger
             this.set = set;
         }
 
-        public List<List<int>> GetRequiredSumSubArray(int[] set)
+        public List<int[]> GetRequiredSumSubArray(int[] set)
         {
-            List<int> subArray = new();
-            List<List<int>> result = new();
+            //List<int> subArray = new();
+            List<int[]> result = new();
 
             for (int i = 0; i < set.Length; i++)
             {
-                subArray.Clear();
-
+                //subArray.Clear();
+                
                 for (int j = i; j < set.Length; j++)
                 {
-                    subArray.Add(set[j]);
-                    result.Add(new List<int>(subArray));
+                    result.Add(set[i..(j+1)]);
+                    //subArray.Add(set[j]);
+                    //result.Add(new List<int>(subArray));
                 }
             }
 
