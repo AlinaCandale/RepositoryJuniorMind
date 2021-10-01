@@ -7,30 +7,24 @@ namespace SubsetsSumComparedToInteger
     public class GetAllSubsets
     {
         int[] set;
+        int sum;
 
-        public GetAllSubsets(int[] set)//, int sum)
+        public GetAllSubsets(int[] set, int sum)
         {
             this.set = set;
+            this.sum = sum;
         }
 
-        public List<int[]> GetRequiredSumSubArray(int[] set)
+        public List<int[]> GetRequiredSumSubArray(int[] set, int sum)
         {
-            //List<int> subArray = new();
-            List<int[]> result = new();
+            //var a = Enumerable.Range(0, set.Length);
+            //var aa = a.SelectMany(i => Enumerable.Range(i, set.Length - i).Select(j => set[i..(j+1)]));
+            //var aaa = aa.Where(x => x.Sum() <= sum);
+            //var aaaa = aaa.ToList();
 
-            for (int i = 0; i < set.Length; i++)
-            {
-                //subArray.Clear();
-                
-                for (int j = i; j < set.Length; j++)
-                {
-                    result.Add(set[i..(j+1)]);
-                    //subArray.Add(set[j]);
-                    //result.Add(new List<int>(subArray));
-                }
-            }
-
-            return result;
+            return Enumerable.Range(0, set.Length)
+                .SelectMany(i => Enumerable.Range(i, set.Length - i).Select(j => set[i..(j + 1)]))
+                .Where(x => x.Sum() <= sum).ToList();
         }
     }
 }
