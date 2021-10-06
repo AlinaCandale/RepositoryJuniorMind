@@ -17,11 +17,6 @@ namespace SubsetsSumComparedToInteger
 
         public List<int[]> GetRequiredSumSubArray(int[] set, int sum)
         {
-            //var a = Enumerable.Range(0, set.Length);
-            //var aa = a.SelectMany(i => Enumerable.Range(i, set.Length - i).Select(j => set[i..(j+1)]));
-            //var aaa = aa.Where(x => x.Sum() <= sum);
-            //var aaaa = aaa.ToList();
-
             return Enumerable.Range(0, set.Length)
                 .SelectMany(i => Enumerable.Range(i, set.Length - i).Select(j => set[i..(j + 1)]))
                 .Where(x => x.Sum() <= sum).ToList();
